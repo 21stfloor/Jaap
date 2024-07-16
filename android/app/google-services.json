@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "559000904132",
+    "project_id": "jaap-h3fa31",
+    "storage_bucket": "jaap-h3fa31.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:559000904132:android:56f197697b71b122b60491",
+        "android_client_info": {
+          "package_name": "com.thesis.jaap"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgvyr7Lyiw9yh-g0xvDNFs4msM3FKwpgo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,77 @@
+// Export pages
+export '/web_app_template/simple_authentication/auth_welcome_screen/auth_welcome_screen_widget.dart'
+    show AuthWelcomeScreenWidget;
+export '/web_app_template/simple_authentication/auth_create_applicant/auth_create_applicant_widget.dart'
+    show AuthCreateApplicantWidget;
+export '/web_app_template/auth_login/auth_login_widget.dart'
+    show AuthLoginWidget;
+export '/web_app_template/simple_authentication/auth_forgot_password/auth_forgot_password_widget.dart'
+    show AuthForgotPasswordWidget;
+export '/web_app_template/admin/admin_videos/admin_videos_widget.dart'
+    show AdminVideosWidget;
+export '/web_app_template/admin/adminpayments/adminpayments_widget.dart'
+    show AdminpaymentsWidget;
+export '/web_app_template/agency/job_post_create/job_post_create_widget.dart'
+    show JobPostCreateWidget;
+export '/web_app_template/simple_authentication/auth_create_agency/auth_create_agency_widget.dart'
+    show AuthCreateAgencyWidget;
+export '/web_app_template/applicant/job_list/job_list_widget.dart'
+    show JobListWidget;
+export '/web_app_template/applicant/profile_applicant/profile_applicant_widget.dart'
+    show ProfileApplicantWidget;
+export '/web_app_template/agency/profile_agency/profile_agency_widget.dart'
+    show ProfileAgencyWidget;
+export '/web_app_template/agency/listof_applicants/listof_applicants_widget.dart'
+    show ListofApplicantsWidget;
+export '/web_app_template/agency/joblist_posted_by_agency/joblist_posted_by_agency_widget.dart'
+    show JoblistPostedByAgencyWidget;
+export '/web_app_template/redirection/redirection_widget.dart'
+    show RedirectionWidget;
+export '/web_app_template/applicant/editprofileapplicant/editprofileapplicant_widget.dart'
+    show EditprofileapplicantWidget;
+export '/web_app_template/applicant/job_post_preview_page/job_post_preview_page_widget.dart'
+    show JobPostPreviewPageWidget;
+export '/web_app_template/pages/video_page/video_page_widget.dart'
+    show VideoPageWidget;
+export '/web_app_template/pages/pending_page/pending_page_widget.dart'
+    show PendingPageWidget;
+export '/web_app_template/pages/community_page/community_page_widget.dart'
+    show CommunityPageWidget;
+export '/web_app_template/applicant/create_post/create_post_widget.dart'
+    show CreatePostWidget;
+export '/web_app_template/admin/admin_video_post_create/admin_video_post_create_widget.dart'
+    show AdminVideoPostCreateWidget;
+export '/web_app_template/agency/job_post_edit/job_post_edit_widget.dart'
+    show JobPostEditWidget;
+export '/chat_group_threads/chat_2_main_applicant/chat2_main_applicant_widget.dart'
+    show Chat2MainApplicantWidget;
+export '/chat_group_threads/image_details/image_details_widget.dart'
+    show ImageDetailsWidget;
+export '/web_app_template/agency/editprofile_agency/editprofile_agency_widget.dart'
+    show EditprofileAgencyWidget;
+export '/web_app_template/admin/admin_applicants/admin_applicants_widget.dart'
+    show AdminApplicantsWidget;
+export '/web_app_template/admin/admin_agencies/admin_agencies_widget.dart'
+    show AdminAgenciesWidget;
+export '/web_app_template/admin/admin_subscriptions/admin_subscriptions_widget.dart'
+    show AdminSubscriptionsWidget;
+export '/web_app_template/admin/admin_settings/admin_settings_widget.dart'
+    show AdminSettingsWidget;
+export '/web_app_template/applicant/edit_post/edit_post_widget.dart'
+    show EditPostWidget;
+export '/chat_group_threads/chat_2_main_agency/chat2_main_agency_widget.dart'
+    show Chat2MainAgencyWidget;
+export '/web_app_template/admin/admin_videos_post_edit/admin_videos_post_edit_widget.dart'
+    show AdminVideosPostEditWidget;
+export '/web_app_template/pages/community_page_agency/community_page_agency_widget.dart'
+    show CommunityPageAgencyWidget;
+export '/web_app_template/applicant/dashboard/dashboard_widget.dart'
+    show DashboardWidget;
+export '/chat_group_threads/chat_2_details_agency/chat2_details_agency_widget.dart'
+    show Chat2DetailsAgencyWidget;
+export '/chat_group_threads/chat_2_details_applicant/chat2_details_applicant_widget.dart'
+    show Chat2DetailsApplicantWidget;
+export '/notification_applicant_page/notification_applicant_page_widget.dart'
+    show NotificationApplicantPageWidget;
+export '/notification_agency_page/notification_agency_page_widget.dart'
+    show NotificationAgencyPageWidget;
