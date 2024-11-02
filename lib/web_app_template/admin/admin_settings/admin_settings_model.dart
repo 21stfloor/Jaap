@@ -21,7 +21,6 @@ class AdminSettingsModel extends FlutterFlowModel<AdminSettingsWidget> {
 
   ///  State fields for stateful widgets in this page.
 
-  final unfocusNode = FocusNode();
   // Stores action output result for [Firestore Query - Query a collection] action in adminSettings widget.
   PricesRecord? existingAgencyPriceCopy;
   // Stores action output result for [Firestore Query - Query a collection] action in adminSettings widget.
@@ -49,7 +48,6 @@ class AdminSettingsModel extends FlutterFlowModel<AdminSettingsWidget> {
 
   @override
   void dispose() {
-    unfocusNode.dispose();
     sidebarAdminModel.dispose();
     boostingPriceFocusNode?.dispose();
     boostingPriceTextController?.dispose();

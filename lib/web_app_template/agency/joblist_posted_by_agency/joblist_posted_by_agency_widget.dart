@@ -29,7 +29,7 @@ class _JoblistPostedByAgencyWidgetState
     super.initState();
     _model = createModel(context, () => JoblistPostedByAgencyModel());
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -42,9 +42,7 @@ class _JoblistPostedByAgencyWidgetState
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _model.unfocusNode.canRequestFocus
-          ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-          : FocusScope.of(context).unfocus(),
+      onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
@@ -52,7 +50,7 @@ class _JoblistPostedByAgencyWidgetState
           elevation: 16.0,
           child: wrapWithModel(
             model: _model.sideNavAgencyModel2,
-            updateCallback: () => setState(() {}),
+            updateCallback: () => safeSetState(() {}),
             child: SideNavAgencyWidget(),
           ),
         ),
@@ -68,7 +66,7 @@ class _JoblistPostedByAgencyWidgetState
               ))
                 wrapWithModel(
                   model: _model.sideNavAgencyModel1,
-                  updateCallback: () => setState(() {}),
+                  updateCallback: () => safeSetState(() {}),
                   child: SideNavAgencyWidget(),
                 ),
               Expanded(
@@ -94,11 +92,11 @@ class _JoblistPostedByAgencyWidgetState
                     }
                     List<AgencyPofileRecord> containerAgencyPofileRecordList =
                         snapshot.data!;
-
                     final containerAgencyPofileRecord =
                         containerAgencyPofileRecordList.isNotEmpty
                             ? containerAgencyPofileRecordList.first
                             : null;
+
                     return Container(
                       width: double.infinity,
                       height: MediaQuery.sizeOf(context).height * 1.0,
@@ -295,8 +293,8 @@ class _JoblistPostedByAgencyWidgetState
                                                                 listViewJobRecord
                                                                     .description
                                                                     .maybeHandleOverflow(
-                                                                        maxChars:
-                                                                            60),
+                                                                  maxChars: 60,
+                                                                ),
                                                                 style: FlutterFlowTheme.of(
                                                                         context)
                                                                     .labelSmall

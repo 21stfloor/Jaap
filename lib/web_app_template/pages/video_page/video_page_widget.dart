@@ -28,7 +28,7 @@ class _VideoPageWidgetState extends State<VideoPageWidget> {
     super.initState();
     _model = createModel(context, () => VideoPageModel());
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -41,9 +41,7 @@ class _VideoPageWidgetState extends State<VideoPageWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _model.unfocusNode.canRequestFocus
-          ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-          : FocusScope.of(context).unfocus(),
+      onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
@@ -51,7 +49,7 @@ class _VideoPageWidgetState extends State<VideoPageWidget> {
           elevation: 16.0,
           child: wrapWithModel(
             model: _model.sideNavAgencyModel,
-            updateCallback: () => setState(() {}),
+            updateCallback: () => safeSetState(() {}),
             child: SideNavAgencyWidget(),
           ),
         ),
@@ -67,7 +65,7 @@ class _VideoPageWidgetState extends State<VideoPageWidget> {
               ))
                 wrapWithModel(
                   model: _model.sideNavApplicantsModel,
-                  updateCallback: () => setState(() {}),
+                  updateCallback: () => safeSetState(() {}),
                   child: SideNavApplicantsWidget(),
                 ),
               Expanded(
@@ -143,7 +141,7 @@ class _VideoPageWidgetState extends State<VideoPageWidget> {
                                       wrapVideoPostRecord.reference.id,
                                       wrapIndex,
                                     ),
-                                    updateCallback: () => setState(() {}),
+                                    updateCallback: () => safeSetState(() {}),
                                     child: VideoComponentWidget(
                                       key: Key(
                                         'Key9gn_${wrapVideoPostRecord.reference.id}',

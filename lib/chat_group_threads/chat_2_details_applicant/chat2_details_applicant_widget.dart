@@ -1,13 +1,14 @@
+import '../../video_call_widget/video_call_widget_widget.dart';
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/chat_group_threads/chat_thread_component/chat_thread_component_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import '/web_app_template/agency/review_agency_component/review_agency_component_widget.dart';
 import '/web_app_template/applicant/side_nav_applicants/side_nav_applicants_widget.dart';
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -33,7 +34,7 @@ class Chat2DetailsApplicantWidget extends StatefulWidget {
 class _Chat2DetailsApplicantWidgetState
     extends State<Chat2DetailsApplicantWidget> {
   late Chat2DetailsApplicantModel _model;
-
+  late StreamSubscription<QuerySnapshot<Map<String, dynamic>>> _creationSubscription;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -55,24 +56,65 @@ class _Chat2DetailsApplicantWidgetState
           });
         }(),
       );
+      _model.existingSession = await queryCallSessionRecordOnce(
+        queryBuilder: (callSessionRecord) => callSessionRecord
+            .where(
+              'agency',
+              isEqualTo: widget!.chatRef?.userA,
+            )
+            .where(
+              'applicant',
+              isEqualTo: currentUserReference,
+            ),
+        singleRecord: true,
+      ).then((s) => s.firstOrNull);
+      _model.hasCall = _model.existingSession != null;
+      safeSetState(() {});
+
+
+
+      _creationSubscription = FirebaseFirestore.instance
+          .collection('CallSession')
+          .where('agency', isEqualTo: widget.chatRef!.userA)
+          .where('applicant', isEqualTo: currentUserReference)
+          .snapshots()
+          .listen((querySnapshot) {
+        for (var docChange in querySnapshot.docChanges) {
+          if (docChange.type == DocumentChangeType.added) {
+            // A new document was created and matches the criteria
+            print("New document created with ID: ${docChange.doc.id}");
+            print("Document data: ${docChange.doc.data()}");
+            setState((){
+              _model.hasCall = true;
+            });
+          }
+          else if (docChange.type == DocumentChangeType.removed) {
+            // Document deleted
+            print("Document deleted with ID: ${docChange.doc.id}");
+            setState((){
+              _model.hasCall = false;
+            });
+          }
+        }
+      }, onError: (error) {
+        print("Error listening for document creations: $error");
+      });
     });
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
   void dispose() {
     _model.dispose();
-
+    _creationSubscription.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _model.unfocusNode.canRequestFocus
-          ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-          : FocusScope.of(context).unfocus(),
+      onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
@@ -80,7 +122,7 @@ class _Chat2DetailsApplicantWidgetState
           elevation: 16.0,
           child: wrapWithModel(
             model: _model.sideNavApplicantsModel2,
-            updateCallback: () => setState(() {}),
+            updateCallback: () => safeSetState(() {}),
             child: SideNavApplicantsWidget(),
           ),
         ),
@@ -96,7 +138,7 @@ class _Chat2DetailsApplicantWidgetState
               ))
                 wrapWithModel(
                   model: _model.sideNavApplicantsModel1,
-                  updateCallback: () => setState(() {}),
+                  updateCallback: () => safeSetState(() {}),
                   child: SideNavApplicantsWidget(),
                 ),
               Expanded(
@@ -146,243 +188,73 @@ class _Chat2DetailsApplicantWidgetState
                           }
                           List<AgencyPofileRecord>
                               columnAgencyPofileRecordList = snapshot.data!;
-
                           final columnAgencyPofileRecord =
                               columnAgencyPofileRecordList.isNotEmpty
                                   ? columnAgencyPofileRecordList.first
                                   : null;
+
                           return Column(
                             mainAxisSize: MainAxisSize.max,
                             children: [
-                              StreamBuilder<List<RatingsRecord>>(
-                                stream: queryRatingsRecord(
-                                  queryBuilder: (ratingsRecord) =>
-                                      ratingsRecord.where(Filter.or(
-                                    Filter(
-                                      'author',
-                                      isEqualTo: currentUserReference,
+                              if (_model.hasCall)
+                                Flexible(
+                                  flex: 1,
+                                  child: Container(
+                                    width: double.infinity,
+                                    height: 100.0,
+                                    decoration: BoxDecoration(
+                                      color: FlutterFlowTheme.of(context)
+                                          .secondaryBackground,
                                     ),
-                                    Filter(
-                                      'user',
-                                      isEqualTo: containerUsersRecord.reference,
-                                    ),
-                                  )),
-                                  singleRecord: true,
-                                ),
-                                builder: (context, snapshot) {
-                                  // Customize what your widget looks like when it's loading.
-                                  if (!snapshot.hasData) {
-                                    return Center(
-                                      child: SizedBox(
-                                        width: 50.0,
-                                        height: 50.0,
-                                        child: CircularProgressIndicator(
-                                          valueColor:
-                                              AlwaysStoppedAnimation<Color>(
-                                            FlutterFlowTheme.of(context)
-                                                .primary,
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  }
-                                  List<RatingsRecord> wrapRatingsRecordList =
-                                      snapshot.data!;
-
-                                  final wrapRatingsRecord =
-                                      wrapRatingsRecordList.isNotEmpty
-                                          ? wrapRatingsRecordList.first
-                                          : null;
-                                  return Wrap(
-                                    spacing: 0.0,
-                                    runSpacing: 0.0,
-                                    alignment: WrapAlignment.start,
-                                    crossAxisAlignment:
-                                        WrapCrossAlignment.start,
-                                    direction: Axis.horizontal,
-                                    runAlignment: WrapAlignment.start,
-                                    verticalDirection: VerticalDirection.down,
-                                    clipBehavior: Clip.none,
-                                    children: [
-                                      Builder(
-                                        builder: (context) {
-                                          if (wrapRatingsRecord != null) {
-                                            return Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              children: [],
-                                            );
-                                          } else {
-                                            return StreamBuilder<
-                                                List<HiredApplicationsRecord>>(
-                                              stream:
-                                                  queryHiredApplicationsRecord(
-                                                parent: widget!.job?.reference,
-                                                queryBuilder:
-                                                    (hiredApplicationsRecord) =>
-                                                        hiredApplicationsRecord
-                                                            .where(
-                                                  'applicant',
-                                                  isEqualTo:
-                                                      currentUserReference,
-                                                ),
-                                                singleRecord: true,
-                                              ),
-                                              builder: (context, snapshot) {
-                                                // Customize what your widget looks like when it's loading.
-                                                if (!snapshot.hasData) {
-                                                  return Center(
-                                                    child: SizedBox(
-                                                      width: 50.0,
-                                                      height: 50.0,
-                                                      child:
-                                                          CircularProgressIndicator(
-                                                        valueColor:
-                                                            AlwaysStoppedAnimation<
-                                                                Color>(
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .primary,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  );
-                                                }
-                                                List<HiredApplicationsRecord>
-                                                    containerHiredApplicationsRecordList =
-                                                    snapshot.data!;
-
-                                                // Return an empty Container when the item does not exist.
-                                                if (snapshot.data!.isEmpty) {
-                                                  return Container();
-                                                }
-                                                final containerHiredApplicationsRecord =
-                                                    containerHiredApplicationsRecordList
-                                                            .isNotEmpty
-                                                        ? containerHiredApplicationsRecordList
-                                                            .first
-                                                        : null;
-                                                return Container(
-                                                  decoration: BoxDecoration(),
-                                                  child: Visibility(
-                                                    visible:
-                                                        containerHiredApplicationsRecord !=
-                                                            null,
-                                                    child: Builder(
-                                                      builder: (context) =>
-                                                          FFButtonWidget(
-                                                        onPressed: () async {
-                                                          await showDialog(
-                                                            context: context,
-                                                            builder:
-                                                                (dialogContext) {
-                                                              return Dialog(
-                                                                elevation: 0,
-                                                                insetPadding:
-                                                                    EdgeInsets
-                                                                        .zero,
-                                                                backgroundColor:
-                                                                    Colors
-                                                                        .transparent,
-                                                                alignment: AlignmentDirectional(
-                                                                        0.0,
-                                                                        0.0)
-                                                                    .resolve(
-                                                                        Directionality.of(
-                                                                            context)),
-                                                                child:
-                                                                    GestureDetector(
-                                                                  onTap: () => _model
-                                                                          .unfocusNode
-                                                                          .canRequestFocus
-                                                                      ? FocusScope.of(
-                                                                              context)
-                                                                          .requestFocus(_model
-                                                                              .unfocusNode)
-                                                                      : FocusScope.of(
-                                                                              context)
-                                                                          .unfocus(),
-                                                                  child:
-                                                                      ReviewAgencyComponentWidget(
-                                                                    userToReview:
-                                                                        containerUsersRecord,
-                                                                    agencyProfile:
-                                                                        columnAgencyPofileRecord!,
-                                                                  ),
-                                                                ),
-                                                              );
-                                                            },
-                                                          ).then((value) =>
-                                                              setState(() {}));
-                                                        },
-                                                        text:
-                                                            FFLocalizations.of(
-                                                                    context)
-                                                                .getText(
-                                                          'z4v7vku8' /* Rate this agency */,
-                                                        ),
-                                                        icon: Icon(
-                                                          Icons.star_border,
-                                                          size: 24.0,
-                                                        ),
-                                                        options:
-                                                            FFButtonOptions(
-                                                          height: 40.0,
-                                                          padding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      24.0,
-                                                                      0.0,
-                                                                      24.0,
-                                                                      0.0),
-                                                          iconPadding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      0.0,
-                                                                      0.0,
-                                                                      0.0,
-                                                                      0.0),
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .warning,
-                                                          textStyle:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .titleSmall
-                                                                  .override(
-                                                                    fontFamily:
-                                                                        'Inter',
-                                                                    color: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .alternate,
-                                                                    letterSpacing:
-                                                                        0.0,
-                                                                  ),
-                                                          elevation: 3.0,
-                                                          borderSide:
-                                                              BorderSide(
-                                                            color: Colors
-                                                                .transparent,
-                                                            width: 1.0,
-                                                          ),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      8.0),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                );
-                                              },
-                                            );
-                                          }
+                                    child: FFButtonWidget(
+                                      onPressed: () async{
+                                        await showDialog(
+                                        context: context,
+                                        builder: (dialogContext) {
+                                          return Dialog(
+                                            elevation: 0,
+                                            insetPadding: EdgeInsets.zero,
+                                            backgroundColor: Colors.transparent,
+                                            alignment: AlignmentDirectional(0.0, 0.0)
+                                                .resolve(Directionality.of(context)),
+                                            child: VideoCallWidgetWidget(chatRef: widget.chatRef,),
+                                          );
                                         },
+                                        );
+                                      },
+                                      text: FFLocalizations.of(context).getText(
+                                        '5xikrvqr' /* Answer Video Call */,
                                       ),
-                                    ],
-                                  );
-                                },
-                              ),
+                                      icon: Icon(
+                                        Icons.call_sharp,
+                                        size: 15.0,
+                                      ),
+                                      options: FFButtonOptions(
+                                        width: 128.0,
+                                        height: 40.0,
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            16.0, 0.0, 16.0, 0.0),
+                                        iconPadding:
+                                            EdgeInsetsDirectional.fromSTEB(
+                                                0.0, 0.0, 0.0, 0.0),
+                                        color: FlutterFlowTheme.of(context)
+                                            .success,
+                                        textStyle: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .override(
+                                              fontFamily: 'Inter',
+                                              color: Colors.white,
+                                              letterSpacing: 0.0,
+                                            ),
+                                        elevation: 0.0,
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               Expanded(
+                                flex: 19,
                                 child: Container(
                                   width: MediaQuery.sizeOf(context).width * 1.0,
                                   height:
@@ -390,7 +262,7 @@ class _Chat2DetailsApplicantWidgetState
                                   decoration: BoxDecoration(),
                                   child: wrapWithModel(
                                     model: _model.chatThreadComponentModel,
-                                    updateCallback: () => setState(() {}),
+                                    updateCallback: () => safeSetState(() {}),
                                     updateOnChange: true,
                                     child: ChatThreadComponentWidget(
                                       chatRef: widget!.chatRef,

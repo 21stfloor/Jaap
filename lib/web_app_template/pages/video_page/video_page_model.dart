@@ -13,7 +13,6 @@ import 'package:provider/provider.dart';
 class VideoPageModel extends FlutterFlowModel<VideoPageWidget> {
   ///  State fields for stateful widgets in this page.
 
-  final unfocusNode = FocusNode();
   // Model for sideNavApplicants component.
   late SideNavApplicantsModel sideNavApplicantsModel;
   // Models for videoComponent dynamic component.
@@ -32,7 +31,6 @@ class VideoPageModel extends FlutterFlowModel<VideoPageWidget> {
 
   @override
   void dispose() {
-    unfocusNode.dispose();
     sideNavApplicantsModel.dispose();
     videoComponentModels.dispose();
     sideNavAgencyModel.dispose();

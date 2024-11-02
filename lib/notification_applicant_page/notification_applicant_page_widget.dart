@@ -30,7 +30,7 @@ class _NotificationApplicantPageWidgetState
     super.initState();
     _model = createModel(context, () => NotificationApplicantPageModel());
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -43,9 +43,7 @@ class _NotificationApplicantPageWidgetState
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _model.unfocusNode.canRequestFocus
-          ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-          : FocusScope.of(context).unfocus(),
+      onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
@@ -53,7 +51,7 @@ class _NotificationApplicantPageWidgetState
           elevation: 16.0,
           child: wrapWithModel(
             model: _model.sideNavApplicantsModel2,
-            updateCallback: () => setState(() {}),
+            updateCallback: () => safeSetState(() {}),
             child: SideNavApplicantsWidget(),
           ),
         ),
@@ -67,7 +65,7 @@ class _NotificationApplicantPageWidgetState
             ))
               wrapWithModel(
                 model: _model.sideNavApplicantsModel1,
-                updateCallback: () => setState(() {}),
+                updateCallback: () => safeSetState(() {}),
                 child: SideNavApplicantsWidget(),
               ),
             Expanded(
@@ -226,7 +224,7 @@ class _NotificationApplicantPageWidgetState
                                                       12.0, 0.0, 0.0, 0.0),
                                               child: Text(
                                                 dateTimeFormat(
-                                                  'relative',
+                                                  "relative",
                                                   listViewNotificationsRecord
                                                       .time!,
                                                   locale: FFLocalizations.of(

@@ -13,7 +13,6 @@ class Chat2MainApplicantModel
     extends FlutterFlowModel<Chat2MainApplicantWidget> {
   ///  State fields for stateful widgets in this page.
 
-  final unfocusNode = FocusNode();
   // Model for sideNavApplicants component.
   late SideNavApplicantsModel sideNavApplicantsModel1;
   // Model for sideNavApplicants component.
@@ -29,7 +28,6 @@ class Chat2MainApplicantModel
 
   @override
   void dispose() {
-    unfocusNode.dispose();
     sideNavApplicantsModel1.dispose();
     sideNavApplicantsModel2.dispose();
   }

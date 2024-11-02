@@ -1,5 +1,6 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
+import '/components/comments_to_employer_widget.dart';
 import '/flutter_flow/flutter_flow_expanded_image_view.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -16,7 +17,6 @@ import 'package:provider/provider.dart';
 class AdminAgenciesModel extends FlutterFlowModel<AdminAgenciesWidget> {
   ///  State fields for stateful widgets in this page.
 
-  final unfocusNode = FocusNode();
   // Model for sidebarAdmin component.
   late SidebarAdminModel sidebarAdminModel;
 
@@ -27,7 +27,6 @@ class AdminAgenciesModel extends FlutterFlowModel<AdminAgenciesWidget> {
 
   @override
   void dispose() {
-    unfocusNode.dispose();
     sidebarAdminModel.dispose();
   }
 }

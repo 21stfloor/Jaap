@@ -36,7 +36,7 @@ class _VideoComponentWidgetState extends State<VideoComponentWidget> {
     super.initState();
     _model = createModel(context, () => VideoComponentModel());
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -113,7 +113,7 @@ class _VideoComponentWidgetState extends State<VideoComponentWidget> {
                                 alignment: AlignmentDirectional(0.0, 0.0),
                                 child: Text(
                                   dateTimeFormat(
-                                    'relative',
+                                    "relative",
                                     widget!.video!.timePosted!,
                                     locale: FFLocalizations.of(context)
                                         .languageCode,
@@ -186,7 +186,7 @@ class _VideoComponentWidgetState extends State<VideoComponentWidget> {
                           ),
                         );
                       },
-                    ).then((value) => setState(() {}));
+                    );
                   },
                   text: FFLocalizations.of(context).getText(
                     'm5uqc1n0' /* Play */,

@@ -3,7 +3,7 @@ export '/web_app_template/simple_authentication/auth_welcome_screen/auth_welcome
     show AuthWelcomeScreenWidget;
 export '/web_app_template/simple_authentication/auth_create_applicant/auth_create_applicant_widget.dart'
     show AuthCreateApplicantWidget;
-export '/web_app_template/auth_login/auth_login_widget.dart'
+export '/web_app_template/simple_authentication/auth_login/auth_login_widget.dart'
     show AuthLoginWidget;
 export '/web_app_template/simple_authentication/auth_forgot_password/auth_forgot_password_widget.dart'
     show AuthForgotPasswordWidget;
@@ -25,7 +25,7 @@ export '/web_app_template/agency/listof_applicants/listof_applicants_widget.dart
     show ListofApplicantsWidget;
 export '/web_app_template/agency/joblist_posted_by_agency/joblist_posted_by_agency_widget.dart'
     show JoblistPostedByAgencyWidget;
-export '/web_app_template/redirection/redirection_widget.dart'
+export '/web_app_template/simple_authentication/redirection/redirection_widget.dart'
     show RedirectionWidget;
 export '/web_app_template/applicant/editprofileapplicant/editprofileapplicant_widget.dart'
     show EditprofileapplicantWidget;
@@ -41,7 +41,7 @@ export '/web_app_template/applicant/create_post/create_post_widget.dart'
     show CreatePostWidget;
 export '/web_app_template/admin/admin_video_post_create/admin_video_post_create_widget.dart'
     show AdminVideoPostCreateWidget;
-export '/web_app_template/agency/job_post_edit/job_post_edit_widget.dart'
+export '/web_app_template/job_post_edit/job_post_edit_widget.dart'
     show JobPostEditWidget;
 export '/chat_group_threads/chat_2_main_applicant/chat2_main_applicant_widget.dart'
     show Chat2MainApplicantWidget;
@@ -75,3 +75,11 @@ export '/notification_applicant_page/notification_applicant_page_widget.dart'
     show NotificationApplicantPageWidget;
 export '/notification_agency_page/notification_agency_page_widget.dart'
     show NotificationAgencyPageWidget;
+export '/web_app_template/agency/deployedlist_by_agency/deployedlist_by_agency_widget.dart'
+    show DeployedlistByAgencyWidget;
+export '/web_app_template/applicant/job_history/job_history_widget.dart'
+    show JobHistoryWidget;
+export '/web_app_template/agency/employing_history/employing_history_widget.dart'
+    show EmployingHistoryWidget;
+export '/notification_admin/notification_admin_widget.dart'
+    show NotificationAdminWidget;

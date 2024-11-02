@@ -41,14 +41,16 @@ class _EditprofileapplicantWidgetState
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       _model.profilePic = currentUserPhoto;
       _model.birthday = _model.existingApplicantProfile?.birthday;
-      setState(() {});
+      safeSetState(() {});
       _model.existingApplicantProfile = await queryAppllicantProfileRecordOnce(
         parent: currentUserReference,
         singleRecord: true,
       ).then((s) => s.firstOrNull);
       _model.birthday = _model.existingApplicantProfile?.birthday;
       _model.uploadedResume = _model.existingApplicantProfile?.uploadResume;
-      setState(() {});
+      _model.uploadedCertification =
+          _model.existingApplicantProfile?.certificationFile;
+      safeSetState(() {});
     });
 
     _model.fullnameFieldTextController ??=
@@ -68,7 +70,10 @@ class _EditprofileapplicantWidgetState
         TextEditingController(text: currentPhoneNumber);
     _model.phoneFieldFocusNode ??= FocusNode();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    _model.certificationFieldTextController ??= TextEditingController();
+    _model.certificationFieldFocusNode ??= FocusNode();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -95,15 +100,13 @@ class _EditprofileapplicantWidgetState
             ))
               wrapWithModel(
                 model: _model.sideNavApplicantsModel,
-                updateCallback: () => setState(() {}),
+                updateCallback: () => safeSetState(() {}),
                 child: SideNavApplicantsWidget(),
               ),
             Expanded(
-              child: StreamBuilder<List<AppllicantProfileRecord>>(
-                stream: queryAppllicantProfileRecord(
-                  parent: currentUserReference,
-                  singleRecord: true,
-                ),
+              child: StreamBuilder<AppllicantProfileRecord>(
+                stream: AppllicantProfileRecord.getDocument(
+                    _model.existingApplicantProfile!.reference),
                 builder: (context, snapshot) {
                   // Customize what your widget looks like when it's loading.
                   if (!snapshot.hasData) {
@@ -119,13 +122,9 @@ class _EditprofileapplicantWidgetState
                       ),
                     );
                   }
-                  List<AppllicantProfileRecord>
-                      containerAppllicantProfileRecordList = snapshot.data!;
 
-                  final containerAppllicantProfileRecord =
-                      containerAppllicantProfileRecordList.isNotEmpty
-                          ? containerAppllicantProfileRecordList.first
-                          : null;
+                  final containerAppllicantProfileRecord = snapshot.data!;
+
                   return Container(
                     width: double.infinity,
                     height: MediaQuery.sizeOf(context).height * 1.0,
@@ -134,7 +133,7 @@ class _EditprofileapplicantWidgetState
                       width: double.infinity,
                       child: Form(
                         key: _model.formKey,
-                        autovalidateMode: AutovalidateMode.disabled,
+                        autovalidateMode: AutovalidateMode.always,
                         child: SingleChildScrollView(
                           child: Column(
                             mainAxisSize: MainAxisSize.max,
@@ -203,7 +202,7 @@ class _EditprofileapplicantWidgetState
                                           selectedMedia.every((m) =>
                                               validateFileFormat(
                                                   m.storagePath, context))) {
-                                        setState(() =>
+                                        safeSetState(() =>
                                             _model.isDataUploading1 = true);
                                         var selectedUploadedFiles =
                                             <FFUploadedFile>[];
@@ -239,14 +238,14 @@ class _EditprofileapplicantWidgetState
                                                 selectedMedia.length &&
                                             downloadUrls.length ==
                                                 selectedMedia.length) {
-                                          setState(() {
+                                          safeSetState(() {
                                             _model.uploadedLocalFile1 =
                                                 selectedUploadedFiles.first;
                                             _model.uploadedFileUrl1 =
                                                 downloadUrls.first;
                                           });
                                         } else {
-                                          setState(() {});
+                                          safeSetState(() {});
                                           return;
                                         }
                                       }
@@ -265,7 +264,7 @@ class _EditprofileapplicantWidgetState
                                         }
                                         _model.profilePic =
                                             _model.uploadedFileUrl1;
-                                        setState(() {});
+                                        safeSetState(() {});
                                       }
                                     },
                                     text: FFLocalizations.of(context).getText(
@@ -529,7 +528,7 @@ class _EditprofileapplicantWidgetState
                                       children: [
                                         Text(
                                           dateTimeFormat(
-                                            'yMMMd',
+                                            "yMMMd",
                                             _model.birthday,
                                             locale: FFLocalizations.of(context)
                                                 .languageCode,
@@ -617,7 +616,7 @@ class _EditprofileapplicantWidgetState
                                               }
                                               _model.birthday =
                                                   _model.datePicked;
-                                              setState(() {});
+                                              safeSetState(() {});
                                             },
                                             text: FFLocalizations.of(context)
                                                 .getText(
@@ -671,7 +670,7 @@ class _EditprofileapplicantWidgetState
                                                   TextEditingController(
                                                 text:
                                                     containerAppllicantProfileRecord
-                                                        ?.birthPlace,
+                                                        .birthPlace,
                                               ),
                                               focusNode: _model
                                                   .birthplaceFieldFocusNode,
@@ -786,7 +785,7 @@ class _EditprofileapplicantWidgetState
                                                   TextEditingController(
                                                 text:
                                                     containerAppllicantProfileRecord
-                                                        ?.address,
+                                                        .address,
                                               ),
                                               focusNode:
                                                   _model.addressFieldFocusNode,
@@ -904,17 +903,15 @@ class _EditprofileapplicantWidgetState
                                                   TextEditingController(
                                                 text:
                                                     containerAppllicantProfileRecord
-                                                        ?.bio,
+                                                        .bio,
                                               ),
                                               focusNode:
                                                   _model.bioFieldFocusNode,
                                               obscureText: false,
                                               decoration: InputDecoration(
-                                                labelText:
-                                                    FFLocalizations.of(context)
-                                                        .getText(
-                                                  'kmu504om' /* Bio */,
-                                                ),
+                                                labelText: _model
+                                                    .existingApplicantProfile
+                                                    ?.bio,
                                                 labelStyle:
                                                     FlutterFlowTheme.of(context)
                                                         .labelMedium
@@ -1143,7 +1140,7 @@ class _EditprofileapplicantWidgetState
                                                 multiFile: false,
                                               );
                                               if (selectedFiles != null) {
-                                                setState(() => _model
+                                                safeSetState(() => _model
                                                     .isDataUploading2 = true);
                                                 var selectedUploadedFiles =
                                                     <FFUploadedFile>[];
@@ -1184,7 +1181,7 @@ class _EditprofileapplicantWidgetState
                                                         selectedFiles.length &&
                                                     downloadUrls.length ==
                                                         selectedFiles.length) {
-                                                  setState(() {
+                                                  safeSetState(() {
                                                     _model.uploadedLocalFile2 =
                                                         selectedUploadedFiles
                                                             .first;
@@ -1192,35 +1189,37 @@ class _EditprofileapplicantWidgetState
                                                         downloadUrls.first;
                                                   });
                                                 } else {
-                                                  setState(() {});
+                                                  safeSetState(() {});
                                                   return;
                                                 }
                                               }
 
-                                              if (_model.existingApplicantProfile
-                                                          ?.uploadResume !=
+                                              if (_model.uploadedFileUrl2 !=
                                                       null &&
-                                                  _model.existingApplicantProfile
-                                                          ?.uploadResume !=
+                                                  _model.uploadedFileUrl2 !=
                                                       '') {
-                                                await FirebaseStorage.instance
-                                                    .refFromURL(_model
-                                                        .existingApplicantProfile!
-                                                        .uploadResume)
-                                                    .delete();
+                                                await _model
+                                                    .existingApplicantProfile!
+                                                    .reference
+                                                    .update(
+                                                        createAppllicantProfileRecordData(
+                                                  uploadResume:
+                                                      _model.uploadedFileUrl2,
+                                                ));
+                                                if (_model.uploadedResume !=
+                                                        null &&
+                                                    _model.uploadedResume !=
+                                                        '') {
+                                                  await FirebaseStorage.instance
+                                                      .refFromURL(_model
+                                                          .existingApplicantProfile!
+                                                          .uploadResume)
+                                                      .delete();
+                                                }
+                                                _model.uploadedResume =
+                                                    _model.uploadedFileUrl2;
+                                                safeSetState(() {});
                                               }
-
-                                              await _model
-                                                  .existingApplicantProfile!
-                                                  .reference
-                                                  .update(
-                                                      createAppllicantProfileRecordData(
-                                                uploadResume:
-                                                    _model.uploadedFileUrl2,
-                                              ));
-                                              _model.uploadedResume =
-                                                  _model.uploadedFileUrl2;
-                                              setState(() {});
                                             },
                                             text: FFLocalizations.of(context)
                                                 .getText(
@@ -1323,6 +1322,305 @@ class _EditprofileapplicantWidgetState
                                         ].divide(SizedBox(width: 8.0)),
                                       ),
                                     ),
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          0.0, 8.0, 0.0, 0.0),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: [
+                                          FFButtonWidget(
+                                            onPressed: () async {
+                                              final selectedFiles =
+                                                  await selectFiles(
+                                                multiFile: false,
+                                              );
+                                              if (selectedFiles != null) {
+                                                safeSetState(() => _model
+                                                    .isDataUploading3 = true);
+                                                var selectedUploadedFiles =
+                                                    <FFUploadedFile>[];
+
+                                                var downloadUrls = <String>[];
+                                                try {
+                                                  selectedUploadedFiles =
+                                                      selectedFiles
+                                                          .map((m) =>
+                                                              FFUploadedFile(
+                                                                name: m
+                                                                    .storagePath
+                                                                    .split('/')
+                                                                    .last,
+                                                                bytes: m.bytes,
+                                                              ))
+                                                          .toList();
+
+                                                  downloadUrls =
+                                                      (await Future.wait(
+                                                    selectedFiles.map(
+                                                      (f) async =>
+                                                          await uploadData(
+                                                              f.storagePath,
+                                                              f.bytes),
+                                                    ),
+                                                  ))
+                                                          .where(
+                                                              (u) => u != null)
+                                                          .map((u) => u!)
+                                                          .toList();
+                                                } finally {
+                                                  _model.isDataUploading3 =
+                                                      false;
+                                                }
+                                                if (selectedUploadedFiles
+                                                            .length ==
+                                                        selectedFiles.length &&
+                                                    downloadUrls.length ==
+                                                        selectedFiles.length) {
+                                                  safeSetState(() {
+                                                    _model.uploadedLocalFile3 =
+                                                        selectedUploadedFiles
+                                                            .first;
+                                                    _model.uploadedFileUrl3 =
+                                                        downloadUrls.first;
+                                                  });
+                                                } else {
+                                                  safeSetState(() {});
+                                                  return;
+                                                }
+                                              }
+
+                                              if (_model.uploadedFileUrl3 !=
+                                                      null &&
+                                                  _model.uploadedFileUrl3 !=
+                                                      '') {
+                                                await _model
+                                                    .existingApplicantProfile!
+                                                    .reference
+                                                    .update(
+                                                        createAppllicantProfileRecordData(
+                                                  certificationFile:
+                                                      _model.uploadedFileUrl3,
+                                                ));
+                                                if (_model.uploadedCertification !=
+                                                        null &&
+                                                    _model.uploadedCertification !=
+                                                        '') {
+                                                  await FirebaseStorage.instance
+                                                      .refFromURL(_model
+                                                          .uploadedCertification!)
+                                                      .delete();
+                                                }
+                                                _model.uploadedCertification =
+                                                    _model.uploadedFileUrl3;
+                                                safeSetState(() {});
+                                              }
+                                            },
+                                            text: FFLocalizations.of(context)
+                                                .getText(
+                                              '581bgzcq' /* Upload certification */,
+                                            ),
+                                            options: FFButtonOptions(
+                                              height: 40.0,
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(
+                                                      24.0, 0.0, 24.0, 0.0),
+                                              iconPadding: EdgeInsetsDirectional
+                                                  .fromSTEB(0.0, 0.0, 0.0, 0.0),
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primary,
+                                              textStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .titleSmall
+                                                      .override(
+                                                        fontFamily: 'Inter',
+                                                        color: Colors.white,
+                                                        letterSpacing: 0.0,
+                                                      ),
+                                              elevation: 3.0,
+                                              borderSide: BorderSide(
+                                                color: Colors.transparent,
+                                                width: 1.0,
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(8.0),
+                                            ),
+                                          ),
+                                          Builder(
+                                            builder: (context) {
+                                              if (_model.uploadedCertification !=
+                                                      null &&
+                                                  _model.uploadedCertification !=
+                                                      '') {
+                                                return Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  children: [
+                                                    Text(
+                                                      FFLocalizations.of(
+                                                              context)
+                                                          .getText(
+                                                        'ljqxyg84' /* resume uploaded */,
+                                                      ),
+                                                      style: FlutterFlowTheme
+                                                              .of(context)
+                                                          .bodyMedium
+                                                          .override(
+                                                            fontFamily: 'Inter',
+                                                            letterSpacing: 0.0,
+                                                          ),
+                                                    ),
+                                                    FlutterFlowIconButton(
+                                                      borderColor:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .primary,
+                                                      borderRadius: 20.0,
+                                                      borderWidth: 1.0,
+                                                      buttonSize: 40.0,
+                                                      fillColor:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .accent1,
+                                                      icon: Icon(
+                                                        Icons.download_sharp,
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .primaryText,
+                                                        size: 24.0,
+                                                      ),
+                                                      onPressed: () async {
+                                                        await launchURL(_model
+                                                            .uploadedResume!);
+                                                      },
+                                                    ),
+                                                  ],
+                                                );
+                                              } else {
+                                                return Text(
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                    '180t5idq' /* No resume */,
+                                                  ),
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .bodyMedium
+                                                      .override(
+                                                        fontFamily: 'Inter',
+                                                        letterSpacing: 0.0,
+                                                      ),
+                                                );
+                                              }
+                                            },
+                                          ),
+                                          Expanded(
+                                            child: Container(
+                                              width: 200.0,
+                                              child: TextFormField(
+                                                controller: _model
+                                                    .certificationFieldTextController,
+                                                focusNode: _model
+                                                    .certificationFieldFocusNode,
+                                                autofocus: false,
+                                                obscureText: false,
+                                                decoration: InputDecoration(
+                                                  isDense: true,
+                                                  labelText: FFLocalizations.of(
+                                                          context)
+                                                      .getText(
+                                                    'r7bfoewj' /* Certification/License/Title/et... */,
+                                                  ),
+                                                  labelStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .labelMedium
+                                                          .override(
+                                                            fontFamily: 'Inter',
+                                                            letterSpacing: 0.0,
+                                                          ),
+                                                  hintText:
+                                                      containerAppllicantProfileRecord
+                                                          .certification,
+                                                  hintStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .labelMedium
+                                                          .override(
+                                                            fontFamily: 'Inter',
+                                                            letterSpacing: 0.0,
+                                                          ),
+                                                  enabledBorder:
+                                                      OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                      color: Color(0x00000000),
+                                                      width: 1.0,
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8.0),
+                                                  ),
+                                                  focusedBorder:
+                                                      OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                      color: Color(0x00000000),
+                                                      width: 1.0,
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8.0),
+                                                  ),
+                                                  errorBorder:
+                                                      OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .error,
+                                                      width: 1.0,
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8.0),
+                                                  ),
+                                                  focusedErrorBorder:
+                                                      OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .error,
+                                                      width: 1.0,
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8.0),
+                                                  ),
+                                                  filled: true,
+                                                  fillColor:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .secondaryBackground,
+                                                ),
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          fontFamily: 'Inter',
+                                                          letterSpacing: 0.0,
+                                                        ),
+                                                cursorColor:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primaryText,
+                                                validator: _model
+                                                    .certificationFieldTextControllerValidator
+                                                    .asValidator(context),
+                                              ),
+                                            ),
+                                          ),
+                                        ].divide(SizedBox(width: 8.0)),
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
@@ -1331,54 +1629,118 @@ class _EditprofileapplicantWidgetState
                                   final firestoreBatch =
                                       FirebaseFirestore.instance.batch();
                                   try {
+                                    _model.isValid = true;
                                     if (_model.formKey.currentState == null ||
                                         !_model.formKey.currentState!
                                             .validate()) {
-                                      return;
+                                      _model.isValid = false;
                                     }
-
-                                    firestoreBatch.update(
-                                        currentUserReference!,
-                                        createUsersRecordData(
-                                          displayName: _model
-                                              .fullnameFieldTextController.text,
-                                          photoUrl: _model.profilePic,
-                                          phoneNumber: _model
-                                              .phoneFieldTextController.text,
-                                        ));
-
-                                    firestoreBatch.update(
-                                        _model.existingApplicantProfile!
-                                            .reference,
-                                        createAppllicantProfileRecordData(
-                                          address: _model
-                                              .addressFieldTextController.text,
-                                          birthPlace: _model
-                                              .birthplaceFieldTextController
-                                              .text,
-                                          birthday: _model.birthday,
-                                          bio: _model
-                                              .bioFieldTextController.text,
-                                        ));
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(
-                                          'Profiel was updated successfully',
-                                          style: TextStyle(
-                                            color: FlutterFlowTheme.of(context)
-                                                .primaryText,
+                                    if (_model.isValid!) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                            'Uploading changes...',
+                                            style: TextStyle(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryText,
+                                            ),
                                           ),
+                                          duration:
+                                              Duration(milliseconds: 4000),
+                                          backgroundColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .secondary,
                                         ),
-                                        duration: Duration(milliseconds: 4000),
-                                        backgroundColor:
-                                            FlutterFlowTheme.of(context)
-                                                .secondary,
-                                      ),
-                                    );
-                                    context.safePop();
+                                      );
+
+                                      firestoreBatch.update(
+                                          currentUserReference!,
+                                          createUsersRecordData(
+                                            displayName: _model
+                                                .fullnameFieldTextController
+                                                .text,
+                                            photoUrl: _model.profilePic,
+                                            phoneNumber: _model
+                                                .phoneFieldTextController.text,
+                                          ));
+
+                                      firestoreBatch.update(
+                                          _model.existingApplicantProfile!
+                                              .reference,
+                                          createAppllicantProfileRecordData(
+                                            address: _model
+                                                .addressFieldTextController
+                                                .text,
+                                            birthPlace: _model
+                                                .birthplaceFieldTextController
+                                                .text,
+                                            uploadResume: _model
+                                                            .uploadedFileUrl2 !=
+                                                        null &&
+                                                    _model.uploadedFileUrl2 !=
+                                                        ''
+                                                ? _model.uploadedFileUrl2
+                                                : _model.uploadedResume,
+                                            birthday: _model.datePicked,
+                                            bio: _model
+                                                .bioFieldTextController.text,
+                                            certification: _model
+                                                .certificationFieldTextController
+                                                .text,
+                                            certificationFile: _model
+                                                            .uploadedFileUrl3 !=
+                                                        null &&
+                                                    _model.uploadedFileUrl3 !=
+                                                        ''
+                                                ? _model.uploadedFileUrl3
+                                                : _model.uploadedCertification,
+                                          ));
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                            'Profile was updated successfully',
+                                            style: TextStyle(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryText,
+                                            ),
+                                          ),
+                                          duration:
+                                              Duration(milliseconds: 4000),
+                                          backgroundColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .secondary,
+                                        ),
+                                      );
+                                      context.safePop();
+                                    } else {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                            'Invalid Form',
+                                            style: TextStyle(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryText,
+                                            ),
+                                          ),
+                                          duration:
+                                              Duration(milliseconds: 4000),
+                                          backgroundColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .secondary,
+                                        ),
+                                      );
+                                    }
                                   } finally {
                                     await firestoreBatch.commit();
                                   }
+
+                                  safeSetState(() {});
                                 },
                                 text: FFLocalizations.of(context).getText(
                                   'p2qjui5k' /* Save Changes */,

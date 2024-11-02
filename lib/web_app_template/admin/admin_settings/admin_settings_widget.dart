@@ -41,7 +41,7 @@ class _AdminSettingsWidgetState extends State<AdminSettingsWidget> {
       ).then((s) => s.firstOrNull);
       if (_model.existingAgencyPriceCopy != null) {
         _model.boostingPrice = _model.existingAgencyPriceCopy!.price;
-        setState(() {});
+        safeSetState(() {});
       }
       _model.existingApplicantPriceCopy = await queryPricesRecordOnce(
         queryBuilder: (pricesRecord) => pricesRecord.where(
@@ -53,7 +53,7 @@ class _AdminSettingsWidgetState extends State<AdminSettingsWidget> {
       if (_model.existingApplicantPriceCopy != null) {
         _model.applicantSubscriptionPrice =
             _model.existingApplicantPriceCopy!.price;
-        setState(() {});
+        safeSetState(() {});
       }
     });
 
@@ -63,7 +63,7 @@ class _AdminSettingsWidgetState extends State<AdminSettingsWidget> {
         text: _model.applicantSubscriptionPrice.toString());
     _model.applicantPriceFocusNode ??= FocusNode();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -76,9 +76,7 @@ class _AdminSettingsWidgetState extends State<AdminSettingsWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _model.unfocusNode.canRequestFocus
-          ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-          : FocusScope.of(context).unfocus(),
+      onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
@@ -96,7 +94,7 @@ class _AdminSettingsWidgetState extends State<AdminSettingsWidget> {
                   decoration: BoxDecoration(),
                   child: wrapWithModel(
                     model: _model.sidebarAdminModel,
-                    updateCallback: () => setState(() {}),
+                    updateCallback: () => safeSetState(() {}),
                     child: SidebarAdminWidget(),
                   ),
                 ),
@@ -212,13 +210,13 @@ class _AdminSettingsWidgetState extends State<AdminSettingsWidget> {
                                           List<PricesRecord>
                                               containerPricesRecordList =
                                               snapshot.data!;
-
                                           final containerPricesRecord =
                                               containerPricesRecordList
                                                       .isNotEmpty
                                                   ? containerPricesRecordList
                                                       .first
                                                   : null;
+
                                           return Container(
                                             decoration: BoxDecoration(),
                                             child: Padding(
@@ -518,7 +516,7 @@ class _AdminSettingsWidgetState extends State<AdminSettingsWidget> {
                                               await firestoreBatch.commit();
                                             }
 
-                                            setState(() {});
+                                            safeSetState(() {});
                                           },
                                           text: FFLocalizations.of(context)
                                               .getText(

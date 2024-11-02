@@ -14,7 +14,6 @@ class CommunityPageAgencyModel
     extends FlutterFlowModel<CommunityPageAgencyWidget> {
   ///  State fields for stateful widgets in this page.
 
-  final unfocusNode = FocusNode();
   // Model for sideNavAgency component.
   late SideNavAgencyModel sideNavAgencyModel1;
   // Model for sideNavAgency component.
@@ -28,7 +27,6 @@ class CommunityPageAgencyModel
 
   @override
   void dispose() {
-    unfocusNode.dispose();
     sideNavAgencyModel1.dispose();
     sideNavAgencyModel2.dispose();
   }

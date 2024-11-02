@@ -1,6 +1,7 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/backend/firebase_storage/storage.dart';
+import '/components/terms_of_service_widget.dart';
 import '/flutter_flow/flutter_flow_expanded_image_view.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -47,13 +48,13 @@ class _AuthCreateAgencyWidgetState extends State<AuthCreateAgencyWidget> {
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       FFAppState().roleTypeSelected = FFAppConstants.userTypeAgency;
-      setState(() {});
+      safeSetState(() {});
     });
 
     if (!isWeb) {
       _keyboardVisibilitySubscription =
           KeyboardVisibilityController().onChange.listen((bool visible) {
-        setState(() {
+        safeSetState(() {
           _isKeyboardVisible = visible;
         });
       });
@@ -71,7 +72,7 @@ class _AuthCreateAgencyWidgetState extends State<AuthCreateAgencyWidget> {
     _model.confirmPasswordTextController ??= TextEditingController();
     _model.confirmPasswordFocusNode ??= FocusNode();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -89,9 +90,7 @@ class _AuthCreateAgencyWidgetState extends State<AuthCreateAgencyWidget> {
     context.watch<FFAppState>();
 
     return GestureDetector(
-      onTap: () => _model.unfocusNode.canRequestFocus
-          ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-          : FocusScope.of(context).unfocus(),
+      onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
@@ -223,7 +222,7 @@ class _AuthCreateAgencyWidgetState extends State<AuthCreateAgencyWidget> {
                                     () async {
                                       FFAppState().displayNameToRegister =
                                           _model.displayNameTextController.text;
-                                      setState(() {});
+                                      safeSetState(() {});
                                     },
                                   ),
                                   autofocus: false,
@@ -312,8 +311,8 @@ class _AuthCreateAgencyWidgetState extends State<AuthCreateAgencyWidget> {
                                                   _model
                                                       .displayNameTextController
                                                       .text;
-                                              setState(() {});
-                                              setState(() {});
+                                              safeSetState(() {});
+                                              safeSetState(() {});
                                             },
                                             child: Icon(
                                               Icons.clear,
@@ -348,7 +347,7 @@ class _AuthCreateAgencyWidgetState extends State<AuthCreateAgencyWidget> {
                                   onChanged: (_) => EasyDebounce.debounce(
                                     '_model.emailAddressTextController',
                                     Duration(milliseconds: 2000),
-                                    () => setState(() {}),
+                                    () => safeSetState(() {}),
                                   ),
                                   autofocus: false,
                                   obscureText: false,
@@ -430,7 +429,7 @@ class _AuthCreateAgencyWidgetState extends State<AuthCreateAgencyWidget> {
                                             onTap: () async {
                                               _model.emailAddressTextController
                                                   ?.clear();
-                                              setState(() {});
+                                              safeSetState(() {});
                                             },
                                             child: Icon(
                                               Icons.clear,
@@ -537,7 +536,7 @@ class _AuthCreateAgencyWidgetState extends State<AuthCreateAgencyWidget> {
                                         EdgeInsetsDirectional.fromSTEB(
                                             0.0, 16.0, 16.0, 8.0),
                                     suffixIcon: InkWell(
-                                      onTap: () => setState(
+                                      onTap: () => safeSetState(
                                         () => _model.passwordVisibility =
                                             !_model.passwordVisibility,
                                       ),
@@ -648,7 +647,7 @@ class _AuthCreateAgencyWidgetState extends State<AuthCreateAgencyWidget> {
                                         EdgeInsetsDirectional.fromSTEB(
                                             0.0, 16.0, 16.0, 8.0),
                                     suffixIcon: InkWell(
-                                      onTap: () => setState(
+                                      onTap: () => safeSetState(
                                         () => _model.confirmPasswordVisibility =
                                             !_model.confirmPasswordVisibility,
                                       ),
@@ -705,7 +704,7 @@ class _AuthCreateAgencyWidgetState extends State<AuthCreateAgencyWidget> {
                                             multiFile: true,
                                           );
                                           if (selectedFiles != null) {
-                                            setState(() =>
+                                            safeSetState(() =>
                                                 _model.isDataUploading1 = true);
                                             var selectedUploadedFiles =
                                                 <FFUploadedFile>[];
@@ -747,7 +746,7 @@ class _AuthCreateAgencyWidgetState extends State<AuthCreateAgencyWidget> {
                                                     selectedFiles.length &&
                                                 downloadUrls.length ==
                                                     selectedFiles.length) {
-                                              setState(() {
+                                              safeSetState(() {
                                                 _model.uploadedLocalFiles1 =
                                                     selectedUploadedFiles;
                                                 _model.uploadedFileUrls1 =
@@ -758,7 +757,7 @@ class _AuthCreateAgencyWidgetState extends State<AuthCreateAgencyWidget> {
                                                 'Success!',
                                               );
                                             } else {
-                                              setState(() {});
+                                              safeSetState(() {});
                                               showUploadMessage(
                                                 context,
                                                 'Failed to upload file',
@@ -837,7 +836,7 @@ class _AuthCreateAgencyWidgetState extends State<AuthCreateAgencyWidget> {
                                             selectedMedia.every((m) =>
                                                 validateFileFormat(
                                                     m.storagePath, context))) {
-                                          setState(() =>
+                                          safeSetState(() =>
                                               _model.isDataUploading2 = true);
                                           var selectedUploadedFiles =
                                               <FFUploadedFile>[];
@@ -882,7 +881,7 @@ class _AuthCreateAgencyWidgetState extends State<AuthCreateAgencyWidget> {
                                                   selectedMedia.length &&
                                               downloadUrls.length ==
                                                   selectedMedia.length) {
-                                            setState(() {
+                                            safeSetState(() {
                                               _model.uploadedLocalFile2 =
                                                   selectedUploadedFiles.first;
                                               _model.uploadedFileUrl2 =
@@ -891,7 +890,7 @@ class _AuthCreateAgencyWidgetState extends State<AuthCreateAgencyWidget> {
                                             showUploadMessage(
                                                 context, 'Success!');
                                           } else {
-                                            setState(() {});
+                                            safeSetState(() {});
                                             showUploadMessage(context,
                                                 'Failed to upload data');
                                             return;
@@ -977,6 +976,123 @@ class _AuthCreateAgencyWidgetState extends State<AuthCreateAgencyWidget> {
                                     ),
                                   ),
                                 ),
+                              Align(
+                                alignment: AlignmentDirectional(0.0, -1.0),
+                                child: Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0.0, 20.0, 0.0, 0.0),
+                                  child: FFButtonWidget(
+                                    onPressed: () async {
+                                      await showModalBottomSheet(
+                                        isScrollControlled: true,
+                                        backgroundColor: Colors.transparent,
+                                        enableDrag: false,
+                                        context: context,
+                                        builder: (context) {
+                                          return GestureDetector(
+                                            onTap: () => FocusScope.of(context)
+                                                .unfocus(),
+                                            child: Padding(
+                                              padding: MediaQuery.viewInsetsOf(
+                                                  context),
+                                              child: TermsOfServiceWidget(
+                                                content:
+                                                    'Terms of Service for AgenciesAccount Creation: You agree to provide accurate and complete information about your company and job postings. False or misleading information may result in account suspension.Job Posting Accuracy: All job postings must reflect genuine, open positions. Misrepresentation or fake job postings are strictly prohibited.Fair Hiring Practices: You agree to follow local labor laws and to treat all applicants fairly, without discrimination based on race, gender, religion, or other protected categories.Applicant Data: You agree to only use applicant information for recruitment purposes and not for marketing or other unauthorized activities.Prohibited Conduct: You agree not to post illegal, inappropriate, or misleading job listings or solicit any services outside the platform’s intended use.No Guarantees: We do not guarantee that your job posts will always attract applicants or be visible at all times. We are not liable for any loss of opportunities.Termination: We reserve the right to suspend or terminate your account if you violate these terms.By creating an account, you agree to these Terms of Service.',
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ).then((value) => safeSetState(() {}));
+                                    },
+                                    text: FFLocalizations.of(context).getText(
+                                      'dpbj7qz7' /* Read Terms and Conditions */,
+                                    ),
+                                    icon: Icon(
+                                      Icons.newspaper_sharp,
+                                      size: 15.0,
+                                    ),
+                                    options: FFButtonOptions(
+                                      height: 45.0,
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          24.0, 0.0, 24.0, 0.0),
+                                      iconPadding:
+                                          EdgeInsetsDirectional.fromSTEB(
+                                              0.0, 0.0, 0.0, 0.0),
+                                      color:
+                                          FlutterFlowTheme.of(context).primary,
+                                      textStyle: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .override(
+                                            fontFamily: 'Inter',
+                                            color: Colors.white,
+                                            letterSpacing: 0.0,
+                                          ),
+                                      elevation: 3.0,
+                                      borderSide: BorderSide(
+                                        color: Colors.transparent,
+                                        width: 1.0,
+                                      ),
+                                      borderRadius: BorderRadius.circular(24.0),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Theme(
+                                    data: ThemeData(
+                                      checkboxTheme: CheckboxThemeData(
+                                        visualDensity: VisualDensity.compact,
+                                        materialTapTargetSize:
+                                            MaterialTapTargetSize.shrinkWrap,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(4.0),
+                                        ),
+                                      ),
+                                      unselectedWidgetColor:
+                                          FlutterFlowTheme.of(context)
+                                              .secondary,
+                                    ),
+                                    child: Checkbox(
+                                      value: _model.checkboxValue ??= false,
+                                      onChanged: (newValue) async {
+                                        safeSetState(() =>
+                                            _model.checkboxValue = newValue!);
+                                        if (newValue!) {
+                                          _model.isAgreed = true;
+                                          safeSetState(() {});
+                                        } else {
+                                          _model.isAgreed = false;
+                                          safeSetState(() {});
+                                        }
+                                      },
+                                      side: BorderSide(
+                                        width: 2,
+                                        color: FlutterFlowTheme.of(context)
+                                            .secondary,
+                                      ),
+                                      activeColor:
+                                          FlutterFlowTheme.of(context).primary,
+                                      checkColor:
+                                          FlutterFlowTheme.of(context).info,
+                                    ),
+                                  ),
+                                  Text(
+                                    FFLocalizations.of(context).getText(
+                                      'hluspaj7' /* I have read and agreed to the ... */,
+                                    ),
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .override(
+                                          fontFamily: 'Inter',
+                                          letterSpacing: 0.0,
+                                        ),
+                                  ),
+                                ],
+                              ),
                               if (!(isWeb
                                   ? MediaQuery.viewInsetsOf(context).bottom > 0
                                   : _isKeyboardVisible))
@@ -985,20 +1101,102 @@ class _AuthCreateAgencyWidgetState extends State<AuthCreateAgencyWidget> {
                                       16.0, 12.0, 16.0, 24.0),
                                   child: FFButtonWidget(
                                     onPressed: () async {
-                                      if (_model.formKey.currentState == null ||
-                                          !_model.formKey.currentState!
-                                              .validate()) {
-                                        return;
-                                      }
-                                      if (_model.uploadedFileUrl2 == null ||
-                                          _model.uploadedFileUrl2.isEmpty) {
+                                      if (_model.isAgreed == true) {
+                                        if (_model.formKey.currentState ==
+                                                null ||
+                                            !_model.formKey.currentState!
+                                                .validate()) {
+                                          return;
+                                        }
+                                        if (_model.uploadedFileUrl2 == null ||
+                                            _model.uploadedFileUrl2.isEmpty) {
+                                          await showDialog(
+                                            context: context,
+                                            builder: (alertDialogContext) {
+                                              return AlertDialog(
+                                                title: Text('Invalid'),
+                                                content: Text(
+                                                    'Please upload a valid Certificate'),
+                                                actions: [
+                                                  TextButton(
+                                                    onPressed: () =>
+                                                        Navigator.pop(
+                                                            alertDialogContext),
+                                                    child: Text('Ok'),
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
+                                          return;
+                                        }
+                                        FFAppState().roleTypeSelected =
+                                            FFAppConstants.userTypeAgency;
+                                        safeSetState(() {});
+                                        GoRouter.of(context).prepareAuthEvent();
+                                        if (_model
+                                                .passwordTextController.text !=
+                                            _model.confirmPasswordTextController
+                                                .text) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                'Passwords don\'t match!',
+                                              ),
+                                            ),
+                                          );
+                                          return;
+                                        }
+
+                                        final user = await authManager
+                                            .createAccountWithEmail(
+                                          context,
+                                          _model
+                                              .emailAddressTextController.text,
+                                          _model.passwordTextController.text,
+                                        );
+                                        if (user == null) {
+                                          return;
+                                        }
+
+                                        await UsersRecord.collection
+                                            .doc(user.uid)
+                                            .update(createUsersRecordData(
+                                              role:
+                                                  FFAppState().roleTypeSelected,
+                                              displayName: FFAppState()
+                                                  .displayNameToRegister,
+                                              accountactivation: true,
+                                            ));
+
+                                        await AgencyPofileRecord.createDoc(
+                                                currentUserReference!)
+                                            .set({
+                                          ...createAgencyPofileRecordData(
+                                            companyProfile: _model
+                                                .displayNameTextController.text,
+                                            imageBuisnessCertificate:
+                                                _model.uploadedFileUrl2,
+                                            user: currentUserReference,
+                                          ),
+                                          ...mapToFirestore(
+                                            {
+                                              'uploadedDocuments':
+                                                  _model.uploadedFileUrls1,
+                                            },
+                                          ),
+                                        });
+                                        await authManager
+                                            .sendEmailVerification();
                                         await showDialog(
                                           context: context,
                                           builder: (alertDialogContext) {
                                             return AlertDialog(
-                                              title: Text('Invalid'),
+                                              title: Text(
+                                                  'Registration successful!'),
                                               content: Text(
-                                                  'Please upload a valid Certificate'),
+                                                  'Please check your email to verify your account'),
                                               actions: [
                                                 TextButton(
                                                   onPressed: () =>
@@ -1010,83 +1208,29 @@ class _AuthCreateAgencyWidgetState extends State<AuthCreateAgencyWidget> {
                                             );
                                           },
                                         );
-                                        return;
-                                      }
-                                      FFAppState().roleTypeSelected =
-                                          FFAppConstants.userTypeAgency;
-                                      setState(() {});
-                                      GoRouter.of(context).prepareAuthEvent();
-                                      if (_model.passwordTextController.text !=
-                                          _model.confirmPasswordTextController
-                                              .text) {
+
+                                        context.goNamedAuth(
+                                            'auth_Login', context.mounted);
+                                      } else {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
                                           SnackBar(
                                             content: Text(
-                                              'Passwords don\'t match!',
+                                              'You must accept the terms and conditions.',
+                                              style: TextStyle(
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primaryText,
+                                              ),
                                             ),
+                                            duration:
+                                                Duration(milliseconds: 4000),
+                                            backgroundColor:
+                                                FlutterFlowTheme.of(context)
+                                                    .secondary,
                                           ),
                                         );
-                                        return;
                                       }
-
-                                      final user = await authManager
-                                          .createAccountWithEmail(
-                                        context,
-                                        _model.emailAddressTextController.text,
-                                        _model.passwordTextController.text,
-                                      );
-                                      if (user == null) {
-                                        return;
-                                      }
-
-                                      await UsersRecord.collection
-                                          .doc(user.uid)
-                                          .update(createUsersRecordData(
-                                            role: FFAppState().roleTypeSelected,
-                                            displayName: FFAppState()
-                                                .displayNameToRegister,
-                                          ));
-
-                                      await AgencyPofileRecord.createDoc(
-                                              currentUserReference!)
-                                          .set({
-                                        ...createAgencyPofileRecordData(
-                                          companyProfile: _model
-                                              .displayNameTextController.text,
-                                          imageBuisnessCertificate:
-                                              _model.uploadedFileUrl2,
-                                          user: currentUserReference,
-                                        ),
-                                        ...mapToFirestore(
-                                          {
-                                            'uploadedDocuments':
-                                                _model.uploadedFileUrls1,
-                                          },
-                                        ),
-                                      });
-                                      await authManager.sendEmailVerification();
-                                      await showDialog(
-                                        context: context,
-                                        builder: (alertDialogContext) {
-                                          return AlertDialog(
-                                            title: Text(
-                                                'Registration successful!'),
-                                            content: Text(
-                                                'Please check your email to verify your account'),
-                                            actions: [
-                                              TextButton(
-                                                onPressed: () => Navigator.pop(
-                                                    alertDialogContext),
-                                                child: Text('Ok'),
-                                              ),
-                                            ],
-                                          );
-                                        },
-                                      );
-
-                                      context.goNamedAuth(
-                                          'auth_Login', context.mounted);
                                     },
                                     text: FFLocalizations.of(context).getText(
                                       '3jvol6h6' /* Create Account */,

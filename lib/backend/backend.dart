@@ -21,6 +21,7 @@ import 'schema/chats_record.dart';
 import 'schema/payments_record.dart';
 import 'schema/prices_record.dart';
 import 'schema/hired_applications_record.dart';
+import 'schema/call_session_record.dart';
 
 export 'dart:async' show StreamSubscription;
 export 'package:cloud_firestore/cloud_firestore.dart' hide Order;
@@ -45,6 +46,7 @@ export 'schema/chats_record.dart';
 export 'schema/payments_record.dart';
 export 'schema/prices_record.dart';
 export 'schema/hired_applications_record.dart';
+export 'schema/call_session_record.dart';
 
 /// Functions to query UsersRecords (as a Stream and as a Future).
 Future<int> queryUsersRecordCount({
@@ -651,6 +653,43 @@ Future<List<HiredApplicationsRecord>> queryHiredApplicationsRecordOnce({
     queryCollectionOnce(
       HiredApplicationsRecord.collection(parent),
       HiredApplicationsRecord.fromSnapshot,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+/// Functions to query CallSessionRecords (as a Stream and as a Future).
+Future<int> queryCallSessionRecordCount({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+}) =>
+    queryCollectionCount(
+      CallSessionRecord.collection,
+      queryBuilder: queryBuilder,
+      limit: limit,
+    );
+
+Stream<List<CallSessionRecord>> queryCallSessionRecord({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollection(
+      CallSessionRecord.collection,
+      CallSessionRecord.fromSnapshot,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+Future<List<CallSessionRecord>> queryCallSessionRecordOnce({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollectionOnce(
+      CallSessionRecord.collection,
+      CallSessionRecord.fromSnapshot,
       queryBuilder: queryBuilder,
       limit: limit,
       singleRecord: singleRecord,

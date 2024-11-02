@@ -12,7 +12,6 @@ import 'package:provider/provider.dart';
 class Chat2MainAgencyModel extends FlutterFlowModel<Chat2MainAgencyWidget> {
   ///  State fields for stateful widgets in this page.
 
-  final unfocusNode = FocusNode();
   // Model for sideNavAgency component.
   late SideNavAgencyModel sideNavAgencyModel1;
   // Model for sideNavAgency component.
@@ -26,7 +25,6 @@ class Chat2MainAgencyModel extends FlutterFlowModel<Chat2MainAgencyWidget> {
 
   @override
   void dispose() {
-    unfocusNode.dispose();
     sideNavAgencyModel1.dispose();
     sideNavAgencyModel2.dispose();
   }

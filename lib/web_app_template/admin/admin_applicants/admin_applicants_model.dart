@@ -14,7 +14,6 @@ import 'package:provider/provider.dart';
 class AdminApplicantsModel extends FlutterFlowModel<AdminApplicantsWidget> {
   ///  State fields for stateful widgets in this page.
 
-  final unfocusNode = FocusNode();
   // Model for sidebarAdmin component.
   late SidebarAdminModel sidebarAdminModel;
 
@@ -25,7 +24,6 @@ class AdminApplicantsModel extends FlutterFlowModel<AdminApplicantsWidget> {
 
   @override
   void dispose() {
-    unfocusNode.dispose();
     sidebarAdminModel.dispose();
   }
 }

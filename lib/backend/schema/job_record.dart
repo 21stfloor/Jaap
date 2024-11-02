@@ -56,6 +56,16 @@ class JobRecord extends FirestoreRecord {
   String get region => _region ?? '';
   bool hasRegion() => _region != null;
 
+  // "type" field.
+  String? _type;
+  String get type => _type ?? '';
+  bool hasType() => _type != null;
+
+  // "datePosted" field.
+  DateTime? _datePosted;
+  DateTime? get datePosted => _datePosted;
+  bool hasDatePosted() => _datePosted != null;
+
   void _initializeFields() {
     _title = snapshotData['title'] as String?;
     _description = snapshotData['description'] as String?;
@@ -65,6 +75,8 @@ class JobRecord extends FirestoreRecord {
     _skils = snapshotData['skils'] as String?;
     _visible = snapshotData['visible'] as bool?;
     _region = snapshotData['region'] as String?;
+    _type = snapshotData['type'] as String?;
+    _datePosted = snapshotData['datePosted'] as DateTime?;
   }
 
   static CollectionReference get collection =>
@@ -109,6 +121,8 @@ Map<String, dynamic> createJobRecordData({
   String? skils,
   bool? visible,
   String? region,
+  String? type,
+  DateTime? datePosted,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -120,6 +134,8 @@ Map<String, dynamic> createJobRecordData({
       'skils': skils,
       'visible': visible,
       'region': region,
+      'type': type,
+      'datePosted': datePosted,
     }.withoutNulls,
   );
 
@@ -138,7 +154,9 @@ class JobRecordDocumentEquality implements Equality<JobRecord> {
         e1?.agency == e2?.agency &&
         e1?.skils == e2?.skils &&
         e1?.visible == e2?.visible &&
-        e1?.region == e2?.region;
+        e1?.region == e2?.region &&
+        e1?.type == e2?.type &&
+        e1?.datePosted == e2?.datePosted;
   }
 
   @override
@@ -150,7 +168,9 @@ class JobRecordDocumentEquality implements Equality<JobRecord> {
         e?.agency,
         e?.skils,
         e?.visible,
-        e?.region
+        e?.region,
+        e?.type,
+        e?.datePosted
       ]);
 
   @override

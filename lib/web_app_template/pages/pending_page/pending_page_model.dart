@@ -10,7 +10,6 @@ import 'package:provider/provider.dart';
 class PendingPageModel extends FlutterFlowModel<PendingPageWidget> {
   ///  State fields for stateful widgets in this page.
 
-  final unfocusNode = FocusNode();
   // Model for pendingpage component.
   late PendingpageModel pendingpageModel;
 
@@ -21,7 +20,6 @@ class PendingPageModel extends FlutterFlowModel<PendingPageWidget> {
 
   @override
   void dispose() {
-    unfocusNode.dispose();
     pendingpageModel.dispose();
   }
 }

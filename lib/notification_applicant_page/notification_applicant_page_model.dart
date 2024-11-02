@@ -15,7 +15,6 @@ class NotificationApplicantPageModel
     extends FlutterFlowModel<NotificationApplicantPageWidget> {
   ///  State fields for stateful widgets in this page.
 
-  final unfocusNode = FocusNode();
   // Model for sideNavApplicants component.
   late SideNavApplicantsModel sideNavApplicantsModel1;
   // Model for sideNavApplicants component.
@@ -31,7 +30,6 @@ class NotificationApplicantPageModel
 
   @override
   void dispose() {
-    unfocusNode.dispose();
     sideNavApplicantsModel1.dispose();
     sideNavApplicantsModel2.dispose();
   }

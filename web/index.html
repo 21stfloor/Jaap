@@ -53,6 +53,8 @@
   </script>
   <!-- This script adds the flutter initialization JS code -->
   <script src="flutter.js" defer></script>
+
+  <script src="iris-web-rtc_n430_w4200_0.7.0.js"></script>
   
 </head>
 <body>
@@ -62,6 +64,7 @@
   
   
   <script>
+    {{flutter_bootstrap_js}}
     window.addEventListener('load', function (ev) {
       // Download main.dart.js
       _flutter.loader.loadEntrypoint({

@@ -48,7 +48,7 @@ class _ReviewAgencyComponentWidgetState
     _model.noteTextController ??= TextEditingController();
     _model.noteFocusNode ??= FocusNode();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -203,7 +203,7 @@ class _ReviewAgencyComponentWidgetState
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           RatingBar.builder(
-                            onRatingUpdate: (newValue) => setState(
+                            onRatingUpdate: (newValue) => safeSetState(
                                 () => _model.ratingBarValue = newValue),
                             itemBuilder: (context, index) => Icon(
                               Icons.star_rounded,
@@ -456,7 +456,7 @@ class _ReviewAgencyComponentWidgetState
                               await firestoreBatch.commit();
                             }
 
-                            setState(() {});
+                            safeSetState(() {});
                           },
                           text: FFLocalizations.of(context).getText(
                             'u9sn6pie' /* Rate Now */,

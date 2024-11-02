@@ -1,0 +1,8 @@
+[
+  {
+    "origin": ["https://jaaphub.site"],
+    "method": ["GET"],
+    "maxAgeSeconds": 3600,
+    "responseHeader": ["Content-Type", "Access-Control-Allow-Origin"]
+  }
+]

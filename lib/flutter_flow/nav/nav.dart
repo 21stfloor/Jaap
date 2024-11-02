@@ -157,7 +157,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: 'JobList',
           path: '/jobList',
-          requireAuth: true,
           builder: (context, params) => JobListWidget(),
         ),
         FFRoute(
@@ -199,7 +198,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: 'jobPostPreviewPage',
           path: '/jobPostPreviewPage',
-          requireAuth: true,
           asyncParams: {
             'jobPost': getDoc(['Job'], JobRecord.fromSnapshot),
           },
@@ -400,6 +398,30 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           path: '/notificationAgencyPage',
           requireAuth: true,
           builder: (context, params) => NotificationAgencyPageWidget(),
+        ),
+        FFRoute(
+          name: 'deployedlistByAgency',
+          path: '/deployedlistByAgency',
+          requireAuth: true,
+          builder: (context, params) => DeployedlistByAgencyWidget(),
+        ),
+        FFRoute(
+          name: 'jobHistory',
+          path: '/jobHistory',
+          requireAuth: true,
+          builder: (context, params) => JobHistoryWidget(),
+        ),
+        FFRoute(
+          name: 'employingHistory',
+          path: '/employingHistory',
+          requireAuth: true,
+          builder: (context, params) => EmployingHistoryWidget(),
+        ),
+        FFRoute(
+          name: 'notificationAdmin',
+          path: '/notificationAdmin',
+          requireAuth: true,
+          builder: (context, params) => NotificationAdminWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
       observers: [routeObserver],
@@ -668,10 +690,33 @@ class _RouteErrorBuilderState extends State<_RouteErrorBuilder> {
   @override
   void initState() {
     super.initState();
+
     // Handle erroneous links from Firebase Dynamic Links.
+
+    String? location;
+
+    /*
+    Handle `links` routes that have dynamic-link entangled with deep-link 
+    */
+    if (widget.state.uri.toString().startsWith('/link') &&
+        widget.state.uri.queryParameters.containsKey('deep_link_id')) {
+      final deepLinkId = widget.state.uri.queryParameters['deep_link_id'];
+      if (deepLinkId != null) {
+        final deepLinkUri = Uri.parse(deepLinkId);
+        final link = deepLinkUri.toString();
+        final host = deepLinkUri.host;
+        location = link.split(host).last;
+      }
+    }
+
     if (widget.state.uri.toString().startsWith('/link') &&
         widget.state.uri.toString().contains('request_ip_version')) {
-      SchedulerBinding.instance.addPostFrameCallback((_) => context.go('/'));
+      location = '/';
+    }
+
+    if (location != null) {
+      SchedulerBinding.instance
+          .addPostFrameCallback((_) => context.go(location!));
     }
   }
 

@@ -42,10 +42,10 @@ class _PostComponentWidgetState extends State<PostComponentWidget> {
     // On component load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       _model.likes = widget!.postDoc!.numVotes;
-      setState(() {});
+      safeSetState(() {});
     });
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -160,7 +160,7 @@ class _PostComponentWidgetState extends State<PostComponentWidget> {
                             ),
                             Text(
                               dateTimeFormat(
-                                'relative',
+                                "relative",
                                 containerUsersRecord.createdTime!,
                                 locale:
                                     FFLocalizations.of(context).languageCode,
@@ -317,7 +317,7 @@ class _PostComponentWidgetState extends State<PostComponentWidget> {
                                 ),
                               });
                               _model.likes = _model.likes + 1;
-                              setState(() {});
+                              safeSetState(() {});
                             },
                           );
                         } else {
@@ -343,7 +343,7 @@ class _PostComponentWidgetState extends State<PostComponentWidget> {
                                 ),
                               });
                               _model.likes = _model.likes + -1;
-                              setState(() {});
+                              safeSetState(() {});
                             },
                           );
                         }

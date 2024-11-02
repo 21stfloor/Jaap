@@ -38,7 +38,7 @@ class _CreatePostWidgetState extends State<CreatePostWidget> {
     _model.descriptionTextFieldTextController ??= TextEditingController();
     _model.descriptionTextFieldFocusNode ??= FocusNode();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -51,9 +51,7 @@ class _CreatePostWidgetState extends State<CreatePostWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _model.unfocusNode.canRequestFocus
-          ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-          : FocusScope.of(context).unfocus(),
+      onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
@@ -71,7 +69,7 @@ class _CreatePostWidgetState extends State<CreatePostWidget> {
                   decoration: BoxDecoration(),
                   child: wrapWithModel(
                     model: _model.sideNavApplicantsModel,
-                    updateCallback: () => setState(() {}),
+                    updateCallback: () => safeSetState(() {}),
                     child: SideNavApplicantsWidget(),
                   ),
                 ),
@@ -356,7 +354,8 @@ class _CreatePostWidgetState extends State<CreatePostWidget> {
                               if (selectedMedia != null &&
                                   selectedMedia.every((m) => validateFileFormat(
                                       m.storagePath, context))) {
-                                setState(() => _model.isDataUploading = true);
+                                safeSetState(
+                                    () => _model.isDataUploading = true);
                                 var selectedUploadedFiles = <FFUploadedFile>[];
 
                                 var downloadUrls = <String>[];
@@ -387,13 +386,13 @@ class _CreatePostWidgetState extends State<CreatePostWidget> {
                                         selectedMedia.length &&
                                     downloadUrls.length ==
                                         selectedMedia.length) {
-                                  setState(() {
+                                  safeSetState(() {
                                     _model.uploadedLocalFile =
                                         selectedUploadedFiles.first;
                                     _model.uploadedFileUrl = downloadUrls.first;
                                   });
                                 } else {
-                                  setState(() {});
+                                  safeSetState(() {});
                                   return;
                                 }
                               }
@@ -405,7 +404,7 @@ class _CreatePostWidgetState extends State<CreatePostWidget> {
                                     .delete();
                               }
                               _model.postImage = _model.uploadedFileUrl;
-                              setState(() {});
+                              safeSetState(() {});
                             },
                           ),
                         ),

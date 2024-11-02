@@ -41,11 +41,6 @@ class HiredApplicationsRecord extends FirestoreRecord {
   DocumentReference? get agency => _agency;
   bool hasAgency() => _agency != null;
 
-  // "status" field.
-  String? _status;
-  String get status => _status ?? '';
-  bool hasStatus() => _status != null;
-
   // "endDate" field.
   DateTime? _endDate;
   DateTime? get endDate => _endDate;
@@ -59,7 +54,6 @@ class HiredApplicationsRecord extends FirestoreRecord {
     _title = snapshotData['title'] as String?;
     _salary = castToType<double>(snapshotData['salary']);
     _agency = snapshotData['agency'] as DocumentReference?;
-    _status = snapshotData['status'] as String?;
     _endDate = snapshotData['endDate'] as DateTime?;
   }
 
@@ -109,7 +103,6 @@ Map<String, dynamic> createHiredApplicationsRecordData({
   String? title,
   double? salary,
   DocumentReference? agency,
-  String? status,
   DateTime? endDate,
 }) {
   final firestoreData = mapToFirestore(
@@ -119,7 +112,6 @@ Map<String, dynamic> createHiredApplicationsRecordData({
       'title': title,
       'salary': salary,
       'agency': agency,
-      'status': status,
       'endDate': endDate,
     }.withoutNulls,
   );
@@ -138,20 +130,12 @@ class HiredApplicationsRecordDocumentEquality
         e1?.title == e2?.title &&
         e1?.salary == e2?.salary &&
         e1?.agency == e2?.agency &&
-        e1?.status == e2?.status &&
         e1?.endDate == e2?.endDate;
   }
 
   @override
-  int hash(HiredApplicationsRecord? e) => const ListEquality().hash([
-        e?.applicant,
-        e?.dateHired,
-        e?.title,
-        e?.salary,
-        e?.agency,
-        e?.status,
-        e?.endDate
-      ]);
+  int hash(HiredApplicationsRecord? e) => const ListEquality().hash(
+      [e?.applicant, e?.dateHired, e?.title, e?.salary, e?.agency, e?.endDate]);
 
   @override
   bool isValidKey(Object? o) => o is HiredApplicationsRecord;

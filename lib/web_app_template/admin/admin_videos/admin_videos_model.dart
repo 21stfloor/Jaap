@@ -32,7 +32,6 @@ class AdminVideosModel extends FlutterFlowModel<AdminVideosWidget> {
 
   ///  State fields for stateful widgets in this page.
 
-  final unfocusNode = FocusNode();
   // Stores action output result for [Firestore Query - Query a collection] action in adminVideos widget.
   List<VideoPostRecord>? allVideos;
   // Model for sidebarAdmin component.
@@ -48,7 +47,7 @@ class AdminVideosModel extends FlutterFlowModel<AdminVideosWidget> {
 
   @override
   void dispose() {
-    unfocusNode.dispose();
     sidebarAdminModel.dispose();
+    paginatedDataTableController.dispose();
   }
 }

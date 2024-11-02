@@ -6,6 +6,7 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/web_app_template/agency/side_nav_agency/side_nav_agency_widget.dart';
 import 'dart:math';
+import '/actions/actions.dart' as action_blocks;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -64,7 +65,7 @@ class _ProfileAgencyWidgetState extends State<ProfileAgencyWidget>
       this,
     );
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -77,9 +78,7 @@ class _ProfileAgencyWidgetState extends State<ProfileAgencyWidget>
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _model.unfocusNode.canRequestFocus
-          ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-          : FocusScope.of(context).unfocus(),
+      onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
@@ -92,7 +91,7 @@ class _ProfileAgencyWidgetState extends State<ProfileAgencyWidget>
                 decoration: BoxDecoration(),
                 child: wrapWithModel(
                   model: _model.sideNavAgencyModel,
-                  updateCallback: () => setState(() {}),
+                  updateCallback: () => safeSetState(() {}),
                   child: SideNavAgencyWidget(),
                 ),
               ),
@@ -242,7 +241,6 @@ class _ProfileAgencyWidgetState extends State<ProfileAgencyWidget>
                                                     List<UserRatingsRecord>
                                                         containerUserRatingsRecordList =
                                                         snapshot.data!;
-
                                                     // Return an empty Container when the item does not exist.
                                                     if (snapshot
                                                         .data!.isEmpty) {
@@ -254,6 +252,7 @@ class _ProfileAgencyWidgetState extends State<ProfileAgencyWidget>
                                                             ? containerUserRatingsRecordList
                                                                 .first
                                                             : null;
+
                                                     return Container(
                                                       decoration:
                                                           BoxDecoration(),
@@ -405,6 +404,164 @@ class _ProfileAgencyWidgetState extends State<ProfileAgencyWidget>
                                       ],
                                     ),
                                   ),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    0.0, 0.0, 0.0, 1.0),
+                                child: StreamBuilder<List<UsersRecord>>(
+                                  stream: queryUsersRecord(
+                                    queryBuilder: (usersRecord) =>
+                                        usersRecord.where(
+                                      'role',
+                                      isEqualTo: FFAppConstants.userTypeAdmin,
+                                    ),
+                                  ),
+                                  builder: (context, snapshot) {
+                                    // Customize what your widget looks like when it's loading.
+                                    if (!snapshot.hasData) {
+                                      return Center(
+                                        child: SizedBox(
+                                          width: 50.0,
+                                          height: 50.0,
+                                          child: CircularProgressIndicator(
+                                            valueColor:
+                                                AlwaysStoppedAnimation<Color>(
+                                              FlutterFlowTheme.of(context)
+                                                  .primary,
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                    List<UsersRecord>
+                                        materialListItem2UsersRecordList =
+                                        snapshot.data!;
+
+                                    return InkWell(
+                                      splashColor: Colors.transparent,
+                                      focusColor: Colors.transparent,
+                                      hoverColor: Colors.transparent,
+                                      highlightColor: Colors.transparent,
+                                      onTap: () async {
+                                        var confirmDialogResponse =
+                                            await showDialog<bool>(
+                                                  context: context,
+                                                  builder:
+                                                      (alertDialogContext) {
+                                                    return AlertDialog(
+                                                      title: Text(
+                                                          'Deactivate Account'),
+                                                      content: Text(
+                                                          'Are you sure you want to deactivate your account?'),
+                                                      actions: [
+                                                        TextButton(
+                                                          onPressed: () =>
+                                                              Navigator.pop(
+                                                                  alertDialogContext,
+                                                                  false),
+                                                          child: Text('Cancel'),
+                                                        ),
+                                                        TextButton(
+                                                          onPressed: () =>
+                                                              Navigator.pop(
+                                                                  alertDialogContext,
+                                                                  true),
+                                                          child:
+                                                              Text('Confirm'),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  },
+                                                ) ??
+                                                false;
+                                        if (confirmDialogResponse) {
+                                          await action_blocks
+                                              .createNotification(
+                                            context,
+                                            user:
+                                                materialListItem2UsersRecordList
+                                                    .first.reference,
+                                            message:
+                                                'The user email ${currentUserEmail}is requesting account deactivation.',
+                                          );
+                                          await action_blocks
+                                              .createNotification(
+                                            context,
+                                            user:
+                                                materialListItem2UsersRecordList
+                                                    .last.reference,
+                                            message:
+                                                'The user email ${currentUserEmail}is requesting account deactivation.',
+                                          );
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                'Message sent to admin successfully.',
+                                                style: TextStyle(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .primaryText,
+                                                ),
+                                              ),
+                                              duration:
+                                                  Duration(milliseconds: 4000),
+                                              backgroundColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .secondary,
+                                            ),
+                                          );
+                                        }
+                                      },
+                                      child: Container(
+                                        width: double.infinity,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(12.0),
+                                          border: Border.all(
+                                            color: Color(0xFFE5E7EB),
+                                            width: 1.0,
+                                          ),
+                                        ),
+                                        child: Padding(
+                                          padding: EdgeInsets.all(16.0),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                                  '06l3dmgn' /* Deactivate Account */,
+                                                ),
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyLarge
+                                                        .override(
+                                                          fontFamily:
+                                                              'Plus Jakarta Sans',
+                                                          color:
+                                                              Color(0xFF15161E),
+                                                          fontSize: 16.0,
+                                                          letterSpacing: 0.0,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                        ),
+                                              ),
+                                              Icon(
+                                                Icons.chevron_right_rounded,
+                                                color: Color(0xFF606A85),
+                                                size: 24.0,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
                                 ),
                               ),
                             ]

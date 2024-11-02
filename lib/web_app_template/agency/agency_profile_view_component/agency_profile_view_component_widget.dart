@@ -1,5 +1,6 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
+import '/components/comments_to_employer_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -17,11 +18,9 @@ class AgencyProfileViewComponentWidget extends StatefulWidget {
   const AgencyProfileViewComponentWidget({
     super.key,
     required this.agencyProfile,
-    this.jobRef,
   });
 
   final AgencyPofileRecord? agencyProfile;
-  final JobApplicationRecord? jobRef;
 
   @override
   State<AgencyProfileViewComponentWidget> createState() =>
@@ -43,7 +42,7 @@ class _AgencyProfileViewComponentWidgetState
     super.initState();
     _model = createModel(context, () => AgencyProfileViewComponentModel());
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -336,7 +335,6 @@ class _AgencyProfileViewComponentWidgetState
                                                     List<UserRatingsRecord>
                                                         containerUserRatingsRecordList =
                                                         snapshot.data!;
-
                                                     // Return an empty Container when the item does not exist.
                                                     if (snapshot
                                                         .data!.isEmpty) {
@@ -348,6 +346,7 @@ class _AgencyProfileViewComponentWidgetState
                                                             ? containerUserRatingsRecordList
                                                                 .first
                                                             : null;
+
                                                     return Container(
                                                       decoration:
                                                           BoxDecoration(),
@@ -556,6 +555,13 @@ class _AgencyProfileViewComponentWidgetState
                           ),
                         ),
                     ],
+                  ),
+                ),
+                wrapWithModel(
+                  model: _model.commentsToEmployerModel,
+                  updateCallback: () => safeSetState(() {}),
+                  child: CommentsToEmployerWidget(
+                    employerUser: widget!.agencyProfile!.user!,
                   ),
                 ),
               ],

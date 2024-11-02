@@ -28,7 +28,7 @@ class _Chat2MainApplicantWidgetState extends State<Chat2MainApplicantWidget> {
     super.initState();
     _model = createModel(context, () => Chat2MainApplicantModel());
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -41,9 +41,7 @@ class _Chat2MainApplicantWidgetState extends State<Chat2MainApplicantWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _model.unfocusNode.canRequestFocus
-          ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-          : FocusScope.of(context).unfocus(),
+      onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
@@ -51,7 +49,7 @@ class _Chat2MainApplicantWidgetState extends State<Chat2MainApplicantWidget> {
           elevation: 16.0,
           child: wrapWithModel(
             model: _model.sideNavApplicantsModel2,
-            updateCallback: () => setState(() {}),
+            updateCallback: () => safeSetState(() {}),
             child: SideNavApplicantsWidget(),
           ),
         ),
@@ -67,7 +65,7 @@ class _Chat2MainApplicantWidgetState extends State<Chat2MainApplicantWidget> {
               ))
                 wrapWithModel(
                   model: _model.sideNavApplicantsModel1,
-                  updateCallback: () => setState(() {}),
+                  updateCallback: () => safeSetState(() {}),
                   child: SideNavApplicantsWidget(),
                 ),
               Expanded(
@@ -168,7 +166,6 @@ class _Chat2MainApplicantWidgetState extends State<Chat2MainApplicantWidget> {
                                     List<JobApplicationRecord>
                                         containerJobApplicationRecordList =
                                         snapshot.data!;
-
                                     // Return an empty Container when the item does not exist.
                                     if (snapshot.data!.isEmpty) {
                                       return Container();
@@ -179,6 +176,7 @@ class _Chat2MainApplicantWidgetState extends State<Chat2MainApplicantWidget> {
                                             ? containerJobApplicationRecordList
                                                 .first
                                             : null;
+
                                     return Container(
                                       decoration: BoxDecoration(),
                                       child: StreamBuilder<JobRecord>(
@@ -456,7 +454,7 @@ class _Chat2MainApplicantWidgetState extends State<Chat2MainApplicantWidget> {
                                                                             child:
                                                                                 Text(
                                                                               dateTimeFormat(
-                                                                                'relative',
+                                                                                "relative",
                                                                                 listViewChatsRecord.lastMessageTime!,
                                                                                 locale: FFLocalizations.of(context).languageShortCode ?? FFLocalizations.of(context).languageCode,
                                                                               ),

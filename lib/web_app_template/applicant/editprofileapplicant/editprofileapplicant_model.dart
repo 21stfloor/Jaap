@@ -28,6 +28,8 @@ class EditprofileapplicantModel
 
   String? uploadedResume;
 
+  String? uploadedCertification;
+
   ///  State fields for stateful widgets in this page.
 
   final formKey = GlobalKey<FormState>();
@@ -44,17 +46,6 @@ class EditprofileapplicantModel
   FocusNode? fullnameFieldFocusNode;
   TextEditingController? fullnameFieldTextController;
   String? Function(BuildContext, String?)? fullnameFieldTextControllerValidator;
-  String? _fullnameFieldTextControllerValidator(
-      BuildContext context, String? val) {
-    if (val == null || val.isEmpty) {
-      return FFLocalizations.of(context).getText(
-        'njcpfcmz' /* Field is required */,
-      );
-    }
-
-    return null;
-  }
-
   // State field(s) for emailField widget.
   FocusNode? emailFieldFocusNode;
   TextEditingController? emailFieldTextController;
@@ -65,32 +56,10 @@ class EditprofileapplicantModel
   TextEditingController? birthplaceFieldTextController;
   String? Function(BuildContext, String?)?
       birthplaceFieldTextControllerValidator;
-  String? _birthplaceFieldTextControllerValidator(
-      BuildContext context, String? val) {
-    if (val == null || val.isEmpty) {
-      return FFLocalizations.of(context).getText(
-        'bmt22r1p' /* Field is required */,
-      );
-    }
-
-    return null;
-  }
-
   // State field(s) for addressField widget.
   FocusNode? addressFieldFocusNode;
   TextEditingController? addressFieldTextController;
   String? Function(BuildContext, String?)? addressFieldTextControllerValidator;
-  String? _addressFieldTextControllerValidator(
-      BuildContext context, String? val) {
-    if (val == null || val.isEmpty) {
-      return FFLocalizations.of(context).getText(
-        '6caumz4v' /* Field is required */,
-      );
-    }
-
-    return null;
-  }
-
   // State field(s) for bioField widget.
   FocusNode? bioFieldFocusNode;
   TextEditingController? bioFieldTextController;
@@ -99,32 +68,28 @@ class EditprofileapplicantModel
   FocusNode? phoneFieldFocusNode;
   TextEditingController? phoneFieldTextController;
   String? Function(BuildContext, String?)? phoneFieldTextControllerValidator;
-  String? _phoneFieldTextControllerValidator(
-      BuildContext context, String? val) {
-    if (val == null || val.isEmpty) {
-      return FFLocalizations.of(context).getText(
-        'kjpck38e' /* Field is required */,
-      );
-    }
-
-    return null;
-  }
-
   bool isDataUploading2 = false;
   FFUploadedFile uploadedLocalFile2 =
       FFUploadedFile(bytes: Uint8List.fromList([]));
   String uploadedFileUrl2 = '';
 
+  bool isDataUploading3 = false;
+  FFUploadedFile uploadedLocalFile3 =
+      FFUploadedFile(bytes: Uint8List.fromList([]));
+  String uploadedFileUrl3 = '';
+
+  // State field(s) for certificationField widget.
+  FocusNode? certificationFieldFocusNode;
+  TextEditingController? certificationFieldTextController;
+  String? Function(BuildContext, String?)?
+      certificationFieldTextControllerValidator;
+  // Stores action output result for [Validate Form] action in Button widget.
+  bool? isValid;
+
   @override
   void initState(BuildContext context) {
     sideNavApplicantsModel =
         createModel(context, () => SideNavApplicantsModel());
-    fullnameFieldTextControllerValidator =
-        _fullnameFieldTextControllerValidator;
-    birthplaceFieldTextControllerValidator =
-        _birthplaceFieldTextControllerValidator;
-    addressFieldTextControllerValidator = _addressFieldTextControllerValidator;
-    phoneFieldTextControllerValidator = _phoneFieldTextControllerValidator;
   }
 
   @override
@@ -147,5 +112,8 @@ class EditprofileapplicantModel
 
     phoneFieldFocusNode?.dispose();
     phoneFieldTextController?.dispose();
+
+    certificationFieldFocusNode?.dispose();
+    certificationFieldTextController?.dispose();
   }
 }

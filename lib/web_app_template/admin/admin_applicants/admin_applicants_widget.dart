@@ -29,7 +29,7 @@ class _AdminApplicantsWidgetState extends State<AdminApplicantsWidget> {
     super.initState();
     _model = createModel(context, () => AdminApplicantsModel());
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -42,9 +42,7 @@ class _AdminApplicantsWidgetState extends State<AdminApplicantsWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _model.unfocusNode.canRequestFocus
-          ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-          : FocusScope.of(context).unfocus(),
+      onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
@@ -62,7 +60,7 @@ class _AdminApplicantsWidgetState extends State<AdminApplicantsWidget> {
                   decoration: BoxDecoration(),
                   child: wrapWithModel(
                     model: _model.sidebarAdminModel,
-                    updateCallback: () => setState(() {}),
+                    updateCallback: () => safeSetState(() {}),
                     child: SidebarAdminWidget(),
                   ),
                 ),
@@ -170,7 +168,6 @@ class _AdminApplicantsWidgetState extends State<AdminApplicantsWidget> {
                                         mainAxisSize: MainAxisSize.max,
                                         children: [
                                           Expanded(
-                                            flex: 4,
                                             child: Text(
                                               FFLocalizations.of(context)
                                                   .getText(
@@ -195,7 +192,6 @@ class _AdminApplicantsWidgetState extends State<AdminApplicantsWidget> {
                                             tablet: false,
                                           ))
                                             Expanded(
-                                              flex: 2,
                                               child: Text(
                                                 FFLocalizations.of(context)
                                                     .getText(
@@ -237,6 +233,25 @@ class _AdminApplicantsWidgetState extends State<AdminApplicantsWidget> {
                                             child: Text(
                                               FFLocalizations.of(context)
                                                   .getText(
+                                                '9fr2kttt' /* Work ID */,
+                                              ),
+                                              style: FlutterFlowTheme.of(
+                                                      context)
+                                                  .bodySmall
+                                                  .override(
+                                                    fontFamily: 'Readex Pro',
+                                                    color: Color(0xFF14181B),
+                                                    fontSize: 12.0,
+                                                    letterSpacing: 0.0,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                  ),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Text(
+                                              FFLocalizations.of(context)
+                                                  .getText(
                                                 '9j9segex' /* Status */,
                                               ),
                                               style: FlutterFlowTheme.of(
@@ -256,9 +271,49 @@ class _AdminApplicantsWidgetState extends State<AdminApplicantsWidget> {
                                             child: Text(
                                               FFLocalizations.of(context)
                                                   .getText(
-                                                '0qd0z8xo' /* Actions */,
+                                                '0qd0z8xo' /* Activate */,
                                               ),
-                                              textAlign: TextAlign.end,
+                                              textAlign: TextAlign.start,
+                                              style: FlutterFlowTheme.of(
+                                                      context)
+                                                  .bodySmall
+                                                  .override(
+                                                    fontFamily: 'Readex Pro',
+                                                    color: Color(0xFF14181B),
+                                                    fontSize: 12.0,
+                                                    letterSpacing: 0.0,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                  ),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Text(
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'r9x1cmpz' /* Verify */,
+                                              ),
+                                              textAlign: TextAlign.start,
+                                              style: FlutterFlowTheme.of(
+                                                      context)
+                                                  .bodySmall
+                                                  .override(
+                                                    fontFamily: 'Readex Pro',
+                                                    color: Color(0xFF14181B),
+                                                    fontSize: 12.0,
+                                                    letterSpacing: 0.0,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                  ),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Text(
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'qzsfcv7p' /* Approve Deployment */,
+                                              ),
+                                              textAlign: TextAlign.start,
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .bodySmall
@@ -310,6 +365,7 @@ class _AdminApplicantsWidgetState extends State<AdminApplicantsWidget> {
 
                                     return ListView.builder(
                                       padding: EdgeInsets.zero,
+                                      primary: false,
                                       shrinkWrap: true,
                                       scrollDirection: Axis.vertical,
                                       itemCount: listViewUsersRecordList.length,
@@ -352,13 +408,13 @@ class _AdminApplicantsWidgetState extends State<AdminApplicantsWidget> {
                                               List<AppllicantProfileRecord>
                                                   containerAppllicantProfileRecordList =
                                                   snapshot.data!;
-
                                               final containerAppllicantProfileRecord =
                                                   containerAppllicantProfileRecordList
                                                           .isNotEmpty
                                                       ? containerAppllicantProfileRecordList
                                                           .first
                                                       : null;
+
                                               return Container(
                                                 width: 100.0,
                                                 decoration: BoxDecoration(
@@ -383,7 +439,6 @@ class _AdminApplicantsWidgetState extends State<AdminApplicantsWidget> {
                                                         MainAxisSize.max,
                                                     children: [
                                                       Expanded(
-                                                        flex: 4,
                                                         child: Padding(
                                                           padding:
                                                               EdgeInsetsDirectional
@@ -489,10 +544,9 @@ class _AdminApplicantsWidgetState extends State<AdminApplicantsWidget> {
                                                         ),
                                                       ),
                                                       Expanded(
-                                                        flex: 2,
                                                         child: Text(
                                                           dateTimeFormat(
-                                                            'yMMMd',
+                                                            "yMMMd",
                                                             listViewUsersRecord
                                                                 .createdTime!,
                                                             locale: FFLocalizations
@@ -517,13 +571,12 @@ class _AdminApplicantsWidgetState extends State<AdminApplicantsWidget> {
                                                         ),
                                                       ),
                                                       Expanded(
-                                                        flex: 2,
                                                         child: Row(
                                                           mainAxisSize:
                                                               MainAxisSize.max,
                                                           mainAxisAlignment:
                                                               MainAxisAlignment
-                                                                  .center,
+                                                                  .start,
                                                           children: [
                                                             FlutterFlowIconButton(
                                                               borderColor:
@@ -551,6 +604,45 @@ class _AdminApplicantsWidgetState extends State<AdminApplicantsWidget> {
                                                                 await launchURL(
                                                                     containerAppllicantProfileRecord!
                                                                         .uploadResume);
+                                                              },
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        child: Row(
+                                                          mainAxisSize:
+                                                              MainAxisSize.max,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            FlutterFlowIconButton(
+                                                              borderColor:
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .primary,
+                                                              borderRadius:
+                                                                  20.0,
+                                                              borderWidth: 1.0,
+                                                              buttonSize: 40.0,
+                                                              fillColor:
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .accent1,
+                                                              icon: Icon(
+                                                                Icons
+                                                                    .download_sharp,
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primaryText,
+                                                                size: 24.0,
+                                                              ),
+                                                              onPressed:
+                                                                  () async {
+                                                                await launchURL(
+                                                                    containerAppllicantProfileRecord!
+                                                                        .workId);
                                                               },
                                                             ),
                                                           ],
@@ -614,89 +706,89 @@ class _AdminApplicantsWidgetState extends State<AdminApplicantsWidget> {
                                                               MainAxisSize.max,
                                                           mainAxisAlignment:
                                                               MainAxisAlignment
-                                                                  .end,
+                                                                  .start,
                                                           children: [
                                                             Builder(
                                                               builder:
                                                                   (context) {
                                                                 if (!listViewUsersRecord
                                                                     .activated) {
-                                                                  return Visibility(
-                                                                    visible:
-                                                                        responsiveVisibility(
-                                                                      context:
-                                                                          context,
-                                                                      phone:
-                                                                          false,
-                                                                    ),
-                                                                    child:
+                                                                  return Column(
+                                                                    mainAxisSize:
+                                                                        MainAxisSize
+                                                                            .max,
+                                                                    children: [
+                                                                      if (responsiveVisibility(
+                                                                        context:
+                                                                            context,
+                                                                        phone:
+                                                                            false,
+                                                                      ))
                                                                         Padding(
-                                                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                                                          0.0,
-                                                                          0.0,
-                                                                          8.0,
-                                                                          0.0),
-                                                                      child:
-                                                                          FlutterFlowIconButton(
-                                                                        borderColor:
-                                                                            Colors.transparent,
-                                                                        borderRadius:
-                                                                            30.0,
-                                                                        borderWidth:
-                                                                            1.0,
-                                                                        buttonSize:
-                                                                            44.0,
-                                                                        icon:
-                                                                            Icon(
-                                                                          Icons
-                                                                              .check_circle,
-                                                                          color:
-                                                                              FlutterFlowTheme.of(context).secondary,
-                                                                          size:
-                                                                              24.0,
-                                                                        ),
-                                                                        onPressed:
-                                                                            () async {
-                                                                          var confirmDialogResponse = await showDialog<bool>(
-                                                                                context: context,
-                                                                                builder: (alertDialogContext) {
-                                                                                  return AlertDialog(
-                                                                                    title: Text('Confirm'),
-                                                                                    content: Text('Are you sure you want to activated this user?'),
-                                                                                    actions: [
-                                                                                      TextButton(
-                                                                                        onPressed: () => Navigator.pop(alertDialogContext, false),
-                                                                                        child: Text('Cancel'),
+                                                                          padding: EdgeInsetsDirectional.fromSTEB(
+                                                                              0.0,
+                                                                              0.0,
+                                                                              8.0,
+                                                                              0.0),
+                                                                          child:
+                                                                              FlutterFlowIconButton(
+                                                                            borderColor:
+                                                                                Colors.transparent,
+                                                                            borderRadius:
+                                                                                30.0,
+                                                                            borderWidth:
+                                                                                1.0,
+                                                                            buttonSize:
+                                                                                44.0,
+                                                                            icon:
+                                                                                Icon(
+                                                                              Icons.check_circle,
+                                                                              color: FlutterFlowTheme.of(context).secondary,
+                                                                              size: 24.0,
+                                                                            ),
+                                                                            onPressed:
+                                                                                () async {
+                                                                              var confirmDialogResponse = await showDialog<bool>(
+                                                                                    context: context,
+                                                                                    builder: (alertDialogContext) {
+                                                                                      return AlertDialog(
+                                                                                        title: Text('Confirm'),
+                                                                                        content: Text('Are you sure you want to activated this user?'),
+                                                                                        actions: [
+                                                                                          TextButton(
+                                                                                            onPressed: () => Navigator.pop(alertDialogContext, false),
+                                                                                            child: Text('Cancel'),
+                                                                                          ),
+                                                                                          TextButton(
+                                                                                            onPressed: () => Navigator.pop(alertDialogContext, true),
+                                                                                            child: Text('Confirm'),
+                                                                                          ),
+                                                                                        ],
+                                                                                      );
+                                                                                    },
+                                                                                  ) ??
+                                                                                  false;
+                                                                              if (confirmDialogResponse) {
+                                                                                await listViewUsersRecord.reference.update(createUsersRecordData(
+                                                                                  activated: true,
+                                                                                ));
+                                                                                ScaffoldMessenger.of(context).showSnackBar(
+                                                                                  SnackBar(
+                                                                                    content: Text(
+                                                                                      'activated successfully',
+                                                                                      style: TextStyle(
+                                                                                        color: FlutterFlowTheme.of(context).primaryText,
                                                                                       ),
-                                                                                      TextButton(
-                                                                                        onPressed: () => Navigator.pop(alertDialogContext, true),
-                                                                                        child: Text('Confirm'),
-                                                                                      ),
-                                                                                    ],
-                                                                                  );
-                                                                                },
-                                                                              ) ??
-                                                                              false;
-                                                                          if (confirmDialogResponse) {
-                                                                            await listViewUsersRecord.reference.update(createUsersRecordData(
-                                                                              activated: true,
-                                                                            ));
-                                                                            ScaffoldMessenger.of(context).showSnackBar(
-                                                                              SnackBar(
-                                                                                content: Text(
-                                                                                  'activated successfully',
-                                                                                  style: TextStyle(
-                                                                                    color: FlutterFlowTheme.of(context).primaryText,
+                                                                                    ),
+                                                                                    duration: Duration(milliseconds: 4000),
+                                                                                    backgroundColor: FlutterFlowTheme.of(context).secondary,
                                                                                   ),
-                                                                                ),
-                                                                                duration: Duration(milliseconds: 4000),
-                                                                                backgroundColor: FlutterFlowTheme.of(context).secondary,
-                                                                              ),
-                                                                            );
-                                                                          }
-                                                                        },
-                                                                      ),
-                                                                    ),
+                                                                                );
+                                                                              }
+                                                                            },
+                                                                          ),
+                                                                        ),
+                                                                    ],
                                                                   );
                                                                 } else {
                                                                   return Text(
@@ -704,6 +796,232 @@ class _AdminApplicantsWidgetState extends State<AdminApplicantsWidget> {
                                                                             context)
                                                                         .getText(
                                                                       'u1xi9phm' /* None */,
+                                                                    ),
+                                                                    style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .override(
+                                                                          fontFamily:
+                                                                              'Inter',
+                                                                          letterSpacing:
+                                                                              0.0,
+                                                                        ),
+                                                                  );
+                                                                }
+                                                              },
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        child: Row(
+                                                          mainAxisSize:
+                                                              MainAxisSize.max,
+                                                          children: [
+                                                            Builder(
+                                                              builder:
+                                                                  (context) {
+                                                                if (!containerAppllicantProfileRecord!
+                                                                    .verified) {
+                                                                  return Column(
+                                                                    mainAxisSize:
+                                                                        MainAxisSize
+                                                                            .max,
+                                                                    children: [
+                                                                      if (responsiveVisibility(
+                                                                        context:
+                                                                            context,
+                                                                        phone:
+                                                                            false,
+                                                                      ))
+                                                                        Padding(
+                                                                          padding: EdgeInsetsDirectional.fromSTEB(
+                                                                              0.0,
+                                                                              0.0,
+                                                                              8.0,
+                                                                              0.0),
+                                                                          child:
+                                                                              FlutterFlowIconButton(
+                                                                            borderColor:
+                                                                                Colors.transparent,
+                                                                            borderRadius:
+                                                                                30.0,
+                                                                            borderWidth:
+                                                                                1.0,
+                                                                            buttonSize:
+                                                                                44.0,
+                                                                            icon:
+                                                                                Icon(
+                                                                              Icons.check_circle,
+                                                                              color: FlutterFlowTheme.of(context).secondary,
+                                                                              size: 24.0,
+                                                                            ),
+                                                                            onPressed:
+                                                                                () async {
+                                                                              var confirmDialogResponse = await showDialog<bool>(
+                                                                                    context: context,
+                                                                                    builder: (alertDialogContext) {
+                                                                                      return AlertDialog(
+                                                                                        title: Text('Confirm'),
+                                                                                        content: Text('Are you sure you want to verify this user?'),
+                                                                                        actions: [
+                                                                                          TextButton(
+                                                                                            onPressed: () => Navigator.pop(alertDialogContext, false),
+                                                                                            child: Text('Cancel'),
+                                                                                          ),
+                                                                                          TextButton(
+                                                                                            onPressed: () => Navigator.pop(alertDialogContext, true),
+                                                                                            child: Text('Confirm'),
+                                                                                          ),
+                                                                                        ],
+                                                                                      );
+                                                                                    },
+                                                                                  ) ??
+                                                                                  false;
+                                                                              if (confirmDialogResponse) {
+                                                                                await containerAppllicantProfileRecord!.reference.update(createAppllicantProfileRecordData(
+                                                                                  verified: true,
+                                                                                ));
+                                                                                ScaffoldMessenger.of(context).showSnackBar(
+                                                                                  SnackBar(
+                                                                                    content: Text(
+                                                                                      'Verified successfully',
+                                                                                      style: TextStyle(
+                                                                                        color: FlutterFlowTheme.of(context).primaryText,
+                                                                                      ),
+                                                                                    ),
+                                                                                    duration: Duration(milliseconds: 4000),
+                                                                                    backgroundColor: FlutterFlowTheme.of(context).secondary,
+                                                                                  ),
+                                                                                );
+                                                                              }
+                                                                            },
+                                                                          ),
+                                                                        ),
+                                                                    ],
+                                                                  );
+                                                                } else {
+                                                                  return Text(
+                                                                    FFLocalizations.of(
+                                                                            context)
+                                                                        .getText(
+                                                                      'qot4r7gg' /* Verified */,
+                                                                    ),
+                                                                    style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .override(
+                                                                          fontFamily:
+                                                                              'Inter',
+                                                                          letterSpacing:
+                                                                              0.0,
+                                                                        ),
+                                                                  );
+                                                                }
+                                                              },
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        child: Row(
+                                                          mainAxisSize:
+                                                              MainAxisSize.max,
+                                                          children: [
+                                                            Builder(
+                                                              builder:
+                                                                  (context) {
+                                                                if ((containerAppllicantProfileRecord?.workId !=
+                                                                            null &&
+                                                                        containerAppllicantProfileRecord?.workId !=
+                                                                            '') &&
+                                                                    (containerAppllicantProfileRecord
+                                                                            ?.status !=
+                                                                        FFAppConstants
+                                                                            .statusDeployed)) {
+                                                                  return Column(
+                                                                    mainAxisSize:
+                                                                        MainAxisSize
+                                                                            .max,
+                                                                    children: [
+                                                                      if (responsiveVisibility(
+                                                                        context:
+                                                                            context,
+                                                                        phone:
+                                                                            false,
+                                                                      ))
+                                                                        Padding(
+                                                                          padding: EdgeInsetsDirectional.fromSTEB(
+                                                                              0.0,
+                                                                              0.0,
+                                                                              8.0,
+                                                                              0.0),
+                                                                          child:
+                                                                              FlutterFlowIconButton(
+                                                                            borderColor:
+                                                                                Colors.transparent,
+                                                                            borderRadius:
+                                                                                30.0,
+                                                                            borderWidth:
+                                                                                1.0,
+                                                                            buttonSize:
+                                                                                44.0,
+                                                                            icon:
+                                                                                Icon(
+                                                                              Icons.check_circle,
+                                                                              color: FlutterFlowTheme.of(context).secondary,
+                                                                              size: 24.0,
+                                                                            ),
+                                                                            onPressed:
+                                                                                () async {
+                                                                              var confirmDialogResponse = await showDialog<bool>(
+                                                                                    context: context,
+                                                                                    builder: (alertDialogContext) {
+                                                                                      return AlertDialog(
+                                                                                        title: Text('Confirm'),
+                                                                                        content: Text('Are you sure you want to approve deployment of this user?'),
+                                                                                        actions: [
+                                                                                          TextButton(
+                                                                                            onPressed: () => Navigator.pop(alertDialogContext, false),
+                                                                                            child: Text('Cancel'),
+                                                                                          ),
+                                                                                          TextButton(
+                                                                                            onPressed: () => Navigator.pop(alertDialogContext, true),
+                                                                                            child: Text('Confirm'),
+                                                                                          ),
+                                                                                        ],
+                                                                                      );
+                                                                                    },
+                                                                                  ) ??
+                                                                                  false;
+                                                                              if (confirmDialogResponse) {
+                                                                                await containerAppllicantProfileRecord!.reference.update(createAppllicantProfileRecordData(
+                                                                                  status: FFAppConstants.statusDeployed,
+                                                                                ));
+                                                                                ScaffoldMessenger.of(context).showSnackBar(
+                                                                                  SnackBar(
+                                                                                    content: Text(
+                                                                                      'Deployed successfully',
+                                                                                      style: TextStyle(
+                                                                                        color: FlutterFlowTheme.of(context).primaryText,
+                                                                                      ),
+                                                                                    ),
+                                                                                    duration: Duration(milliseconds: 4000),
+                                                                                    backgroundColor: FlutterFlowTheme.of(context).secondary,
+                                                                                  ),
+                                                                                );
+                                                                              }
+                                                                            },
+                                                                          ),
+                                                                        ),
+                                                                    ],
+                                                                  );
+                                                                } else {
+                                                                  return Text(
+                                                                    FFLocalizations.of(
+                                                                            context)
+                                                                        .getText(
+                                                                      'hxuglzf3' /* Verified */,
                                                                     ),
                                                                     style: FlutterFlowTheme.of(
                                                                             context)

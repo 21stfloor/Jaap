@@ -41,7 +41,7 @@ class _EditPostWidgetState extends State<EditPostWidget> {
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       _model.postImage = widget!.postToEdit?.postImage;
-      setState(() {});
+      safeSetState(() {});
     });
 
     _model.titleTextFieldTextController ??=
@@ -52,7 +52,7 @@ class _EditPostWidgetState extends State<EditPostWidget> {
         TextEditingController(text: widget!.postToEdit?.postDescription);
     _model.descriptionTextFieldFocusNode ??= FocusNode();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -65,9 +65,7 @@ class _EditPostWidgetState extends State<EditPostWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _model.unfocusNode.canRequestFocus
-          ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-          : FocusScope.of(context).unfocus(),
+      onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
@@ -85,7 +83,7 @@ class _EditPostWidgetState extends State<EditPostWidget> {
                   decoration: BoxDecoration(),
                   child: wrapWithModel(
                     model: _model.sideNavApplicantsModel,
-                    updateCallback: () => setState(() {}),
+                    updateCallback: () => safeSetState(() {}),
                     child: SideNavApplicantsWidget(),
                   ),
                 ),
@@ -367,7 +365,8 @@ class _EditPostWidgetState extends State<EditPostWidget> {
                               if (selectedMedia != null &&
                                   selectedMedia.every((m) => validateFileFormat(
                                       m.storagePath, context))) {
-                                setState(() => _model.isDataUploading = true);
+                                safeSetState(
+                                    () => _model.isDataUploading = true);
                                 var selectedUploadedFiles = <FFUploadedFile>[];
 
                                 var downloadUrls = <String>[];
@@ -398,13 +397,13 @@ class _EditPostWidgetState extends State<EditPostWidget> {
                                         selectedMedia.length &&
                                     downloadUrls.length ==
                                         selectedMedia.length) {
-                                  setState(() {
+                                  safeSetState(() {
                                     _model.uploadedLocalFile =
                                         selectedUploadedFiles.first;
                                     _model.uploadedFileUrl = downloadUrls.first;
                                   });
                                 } else {
-                                  setState(() {});
+                                  safeSetState(() {});
                                   return;
                                 }
                               }
@@ -416,7 +415,7 @@ class _EditPostWidgetState extends State<EditPostWidget> {
                                     .delete();
                               }
                               _model.postImage = _model.uploadedFileUrl;
-                              setState(() {});
+                              safeSetState(() {});
                             },
                           ),
                         ),

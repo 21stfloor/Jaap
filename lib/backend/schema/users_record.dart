@@ -71,6 +71,11 @@ class UsersRecord extends FirestoreRecord {
   bool get activated => _activated ?? false;
   bool hasActivated() => _activated != null;
 
+  // "accountactivation" field.
+  bool? _accountactivation;
+  bool get accountactivation => _accountactivation ?? false;
+  bool hasAccountactivation() => _accountactivation != null;
+
   void _initializeFields() {
     _email = snapshotData['email'] as String?;
     _displayName = snapshotData['display_name'] as String?;
@@ -83,6 +88,7 @@ class UsersRecord extends FirestoreRecord {
     _role = snapshotData['role'] as String?;
     _title = snapshotData['title'] as String?;
     _activated = snapshotData['activated'] as bool?;
+    _accountactivation = snapshotData['accountactivation'] as bool?;
   }
 
   static CollectionReference get collection =>
@@ -130,6 +136,7 @@ Map<String, dynamic> createUsersRecordData({
   String? role,
   String? title,
   bool? activated,
+  bool? accountactivation,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -144,6 +151,7 @@ Map<String, dynamic> createUsersRecordData({
       'role': role,
       'title': title,
       'activated': activated,
+      'accountactivation': accountactivation,
     }.withoutNulls,
   );
 
@@ -165,7 +173,8 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e1?.lastActiveTime == e2?.lastActiveTime &&
         e1?.role == e2?.role &&
         e1?.title == e2?.title &&
-        e1?.activated == e2?.activated;
+        e1?.activated == e2?.activated &&
+        e1?.accountactivation == e2?.accountactivation;
   }
 
   @override
@@ -180,7 +189,8 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e?.lastActiveTime,
         e?.role,
         e?.title,
-        e?.activated
+        e?.activated,
+        e?.accountactivation
       ]);
 
   @override

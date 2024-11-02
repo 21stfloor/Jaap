@@ -1,6 +1,7 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/backend/firebase_storage/storage.dart';
+import '/components/terms_of_service_widget.dart';
 import '/flutter_flow/flutter_flow_expanded_image_view.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -20,9 +21,12 @@ import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
 class AuthCreateAgencyModel extends FlutterFlowModel<AuthCreateAgencyWidget> {
+  ///  Local state fields for this page.
+
+  bool isAgreed = false;
+
   ///  State fields for stateful widgets in this page.
 
-  final unfocusNode = FocusNode();
   final formKey = GlobalKey<FormState>();
   // State field(s) for displayName widget.
   FocusNode? displayNameFocusNode;
@@ -100,6 +104,9 @@ class AuthCreateAgencyModel extends FlutterFlowModel<AuthCreateAgencyWidget> {
       FFUploadedFile(bytes: Uint8List.fromList([]));
   String uploadedFileUrl2 = '';
 
+  // State field(s) for Checkbox widget.
+  bool? checkboxValue;
+
   @override
   void initState(BuildContext context) {
     displayNameTextControllerValidator = _displayNameTextControllerValidator;
@@ -113,7 +120,6 @@ class AuthCreateAgencyModel extends FlutterFlowModel<AuthCreateAgencyWidget> {
 
   @override
   void dispose() {
-    unfocusNode.dispose();
     displayNameFocusNode?.dispose();
     displayNameTextController?.dispose();
 

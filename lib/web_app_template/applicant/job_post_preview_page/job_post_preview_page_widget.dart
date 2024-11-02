@@ -1,3 +1,4 @@
+import '/auth/base_auth_user_provider.dart';
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
@@ -6,6 +7,7 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/web_app_template/agency/agency_profile_view_component/agency_profile_view_component_widget.dart';
 import '/web_app_template/applicant/side_nav_applicants/side_nav_applicants_widget.dart';
+import '/web_app_template/applicant/side_nav_geust/side_nav_geust_widget.dart';
 import '/actions/actions.dart' as action_blocks;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +41,7 @@ class _JobPostPreviewPageWidgetState extends State<JobPostPreviewPageWidget> {
     super.initState();
     _model = createModel(context, () => JobPostPreviewPageModel());
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -75,18 +77,28 @@ class _JobPostPreviewPageWidgetState extends State<JobPostPreviewPageWidget> {
         final jobPostPreviewPageAgencyPofileRecord = snapshot.data!;
 
         return GestureDetector(
-          onTap: () => _model.unfocusNode.canRequestFocus
-              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-              : FocusScope.of(context).unfocus(),
+          onTap: () => FocusScope.of(context).unfocus(),
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
             drawer: Drawer(
               elevation: 16.0,
-              child: wrapWithModel(
-                model: _model.sideNavApplicantsModel2,
-                updateCallback: () => setState(() {}),
-                child: SideNavApplicantsWidget(),
+              child: Builder(
+                builder: (context) {
+                  if (loggedIn == true) {
+                    return wrapWithModel(
+                      model: _model.sideNavApplicantsModel2,
+                      updateCallback: () => safeSetState(() {}),
+                      child: SideNavApplicantsWidget(),
+                    );
+                  } else {
+                    return wrapWithModel(
+                      model: _model.sideNavGeustModel2,
+                      updateCallback: () => safeSetState(() {}),
+                      child: SideNavGeustWidget(),
+                    );
+                  }
+                },
               ),
             ),
             body: SafeArea(
@@ -100,14 +112,23 @@ class _JobPostPreviewPageWidgetState extends State<JobPostPreviewPageWidget> {
                     tablet: false,
                   ))
                     Container(
-                      height: MediaQuery.sizeOf(context).height * 1.0,
-                      decoration: BoxDecoration(
-                        color: FlutterFlowTheme.of(context).secondaryBackground,
-                      ),
-                      child: wrapWithModel(
-                        model: _model.sideNavApplicantsModel1,
-                        updateCallback: () => setState(() {}),
-                        child: SideNavApplicantsWidget(),
+                      decoration: BoxDecoration(),
+                      child: Builder(
+                        builder: (context) {
+                          if (loggedIn == true) {
+                            return wrapWithModel(
+                              model: _model.sideNavApplicantsModel1,
+                              updateCallback: () => safeSetState(() {}),
+                              child: SideNavApplicantsWidget(),
+                            );
+                          } else {
+                            return wrapWithModel(
+                              model: _model.sideNavGeustModel1,
+                              updateCallback: () => safeSetState(() {}),
+                              child: SideNavGeustWidget(),
+                            );
+                          }
+                        },
                       ),
                     ),
                   Flexible(
@@ -152,6 +173,21 @@ class _JobPostPreviewPageWidgetState extends State<JobPostPreviewPageWidget> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
+                                      FlutterFlowIconButton(
+                                        borderRadius: 8.0,
+                                        buttonSize: 40.0,
+                                        fillColor: FlutterFlowTheme.of(context)
+                                            .primary,
+                                        icon: Icon(
+                                          Icons.arrow_back,
+                                          color:
+                                              FlutterFlowTheme.of(context).info,
+                                          size: 24.0,
+                                        ),
+                                        onPressed: () async {
+                                          context.safePop();
+                                        },
+                                      ),
                                       Padding(
                                         padding: EdgeInsetsDirectional.fromSTEB(
                                             0.0, 0.0, 12.0, 0.0),
@@ -241,16 +277,9 @@ class _JobPostPreviewPageWidgetState extends State<JobPostPreviewPageWidget> {
                                                                     Directionality.of(
                                                                         context)),
                                                         child: GestureDetector(
-                                                          onTap: () => _model
-                                                                  .unfocusNode
-                                                                  .canRequestFocus
-                                                              ? FocusScope.of(
-                                                                      context)
-                                                                  .requestFocus(
-                                                                      _model
-                                                                          .unfocusNode)
-                                                              : FocusScope.of(
-                                                                      context)
+                                                          onTap: () =>
+                                                              FocusScope.of(
+                                                                      dialogContext)
                                                                   .unfocus(),
                                                           child:
                                                               AgencyProfileViewComponentWidget(
@@ -260,8 +289,7 @@ class _JobPostPreviewPageWidgetState extends State<JobPostPreviewPageWidget> {
                                                         ),
                                                       );
                                                     },
-                                                  ).then((value) =>
-                                                      setState(() {}));
+                                                  );
                                                 },
                                                 child: Text(
                                                   jobPostPreviewPageAgencyPofileRecord
@@ -422,7 +450,7 @@ class _JobPostPreviewPageWidgetState extends State<JobPostPreviewPageWidget> {
                                                 child: Text(
                                                   FFLocalizations.of(context)
                                                       .getText(
-                                                    'ft7c9acv' /* About the job */,
+                                                    'y1f83gnx' /* About the job */,
                                                   ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
@@ -466,6 +494,50 @@ class _JobPostPreviewPageWidgetState extends State<JobPostPreviewPageWidget> {
                                                 child: Text(
                                                   FFLocalizations.of(context)
                                                       .getText(
+                                                    'ft7c9acv' /* Job type */,
+                                                  ),
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .bodyMedium
+                                                      .override(
+                                                        fontFamily: 'Inter',
+                                                        fontSize: 20.0,
+                                                        letterSpacing: 0.0,
+                                                      ),
+                                                ),
+                                              ),
+                                              Container(
+                                                width: double.infinity,
+                                                height: 60.0,
+                                                decoration: BoxDecoration(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .secondaryBackground,
+                                                ),
+                                                child: Padding(
+                                                  padding: EdgeInsets.all(8.0),
+                                                  child: Text(
+                                                    valueOrDefault<String>(
+                                                      widget!.jobPost?.type,
+                                                      'N/A',
+                                                    ),
+                                                    maxLines: 1,
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          fontFamily: 'Inter',
+                                                          letterSpacing: 0.0,
+                                                        ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Align(
+                                                alignment: AlignmentDirectional(
+                                                    -1.0, 0.0),
+                                                child: Text(
+                                                  FFLocalizations.of(context)
+                                                      .getText(
                                                     'flxms526' /* Location */,
                                                   ),
                                                   style: FlutterFlowTheme.of(
@@ -493,7 +565,7 @@ class _JobPostPreviewPageWidgetState extends State<JobPostPreviewPageWidget> {
                                                   padding: EdgeInsets.all(8.0),
                                                   child: Text(
                                                     valueOrDefault<String>(
-                                                      widget!.jobPost?.location,
+                                                      widget!.jobPost?.region,
                                                       'N/A',
                                                     ),
                                                     maxLines: 2,
@@ -581,7 +653,6 @@ class _JobPostPreviewPageWidgetState extends State<JobPostPreviewPageWidget> {
                                                   List<AppllicantProfileRecord>
                                                       columnAppllicantProfileRecordList =
                                                       snapshot.data!;
-
                                                   // Return an empty Container when the item does not exist.
                                                   if (snapshot.data!.isEmpty) {
                                                     return Container();
@@ -592,6 +663,7 @@ class _JobPostPreviewPageWidgetState extends State<JobPostPreviewPageWidget> {
                                                           ? columnAppllicantProfileRecordList
                                                               .first
                                                           : null;
+
                                                   return Column(
                                                     mainAxisSize:
                                                         MainAxisSize.max,
@@ -669,10 +741,12 @@ class _JobPostPreviewPageWidgetState extends State<JobPostPreviewPageWidget> {
                                                                   );
                                                                 } else {
                                                                   return Visibility(
-                                                                    visible: (columnAppllicantProfileRecord !=
-                                                                            null) &&
+                                                                    visible: (columnAppllicantProfileRecord != null) &&
                                                                         (columnAppllicantProfileRecord?.currentCompany ==
-                                                                            null),
+                                                                            null) &&
+                                                                        (valueOrDefault<bool>(currentUserDocument?.accountactivation,
+                                                                                false) !=
+                                                                            false),
                                                                     child:
                                                                         Padding(
                                                                       padding: EdgeInsetsDirectional.fromSTEB(
@@ -681,107 +755,116 @@ class _JobPostPreviewPageWidgetState extends State<JobPostPreviewPageWidget> {
                                                                           0.0,
                                                                           0.0),
                                                                       child:
-                                                                          FFButtonWidget(
-                                                                        onPressed:
-                                                                            () async {
-                                                                          var confirmDialogResponse = await showDialog<bool>(
-                                                                                context: context,
-                                                                                builder: (alertDialogContext) {
-                                                                                  return AlertDialog(
-                                                                                    title: Text('Confirm Application'),
-                                                                                    content: Text('Are you sure you want to apply for this job?'),
-                                                                                    actions: [
-                                                                                      TextButton(
-                                                                                        onPressed: () => Navigator.pop(alertDialogContext, false),
-                                                                                        child: Text('Cancel'),
-                                                                                      ),
-                                                                                      TextButton(
-                                                                                        onPressed: () => Navigator.pop(alertDialogContext, true),
-                                                                                        child: Text('Confirm'),
-                                                                                      ),
-                                                                                    ],
-                                                                                  );
-                                                                                },
-                                                                              ) ??
-                                                                              false;
-                                                                          if (confirmDialogResponse) {
-                                                                            await JobApplicationRecord.createDoc(widget!.jobPost!.reference).set({
-                                                                              ...createJobApplicationRecordData(
-                                                                                applicant: columnAppllicantProfileRecord?.reference,
-                                                                                agency: widget!.jobPost?.agency,
-                                                                              ),
-                                                                              ...mapToFirestore(
-                                                                                {
-                                                                                  'date': FieldValue.serverTimestamp(),
-                                                                                },
-                                                                              ),
-                                                                            });
+                                                                          AuthUserStreamWidget(
+                                                                        builder:
+                                                                            (context) =>
+                                                                                FFButtonWidget(
+                                                                          onPressed:
+                                                                              () async {
+                                                                            if (loggedIn ==
+                                                                                false) {
+                                                                              context.pushNamed('auth_CreateApplicant');
 
-                                                                            setState(() {});
-                                                                            ScaffoldMessenger.of(context).showSnackBar(
-                                                                              SnackBar(
-                                                                                content: Text(
-                                                                                  'Your application was sent to the agency',
-                                                                                  style: TextStyle(
-                                                                                    color: FlutterFlowTheme.of(context).primaryText,
+                                                                              return;
+                                                                            } else {
+                                                                              var confirmDialogResponse = await showDialog<bool>(
+                                                                                    context: context,
+                                                                                    builder: (alertDialogContext) {
+                                                                                      return AlertDialog(
+                                                                                        title: Text('Confirm Application'),
+                                                                                        content: Text('Are you sure you want to apply for this job?'),
+                                                                                        actions: [
+                                                                                          TextButton(
+                                                                                            onPressed: () => Navigator.pop(alertDialogContext, false),
+                                                                                            child: Text('Cancel'),
+                                                                                          ),
+                                                                                          TextButton(
+                                                                                            onPressed: () => Navigator.pop(alertDialogContext, true),
+                                                                                            child: Text('Confirm'),
+                                                                                          ),
+                                                                                        ],
+                                                                                      );
+                                                                                    },
+                                                                                  ) ??
+                                                                                  false;
+                                                                              if (confirmDialogResponse) {
+                                                                                await JobApplicationRecord.createDoc(widget!.jobPost!.reference).set({
+                                                                                  ...createJobApplicationRecordData(
+                                                                                    applicant: columnAppllicantProfileRecord?.reference,
+                                                                                    agency: widget!.jobPost?.agency,
                                                                                   ),
-                                                                                ),
-                                                                                duration: Duration(milliseconds: 4000),
-                                                                                backgroundColor: FlutterFlowTheme.of(context).secondary,
-                                                                              ),
-                                                                            );
-                                                                            await action_blocks.createNotification(
-                                                                              context,
-                                                                              user: jobPostPreviewPageAgencyPofileRecord.parentReference,
-                                                                              message: 'A new applicant wants to apply to your job post: ${widget!.jobPost?.title}',
-                                                                            );
-                                                                          }
-                                                                        },
-                                                                        text: FFLocalizations.of(context)
-                                                                            .getText(
-                                                                          's1tjlcve' /* Apply now */,
-                                                                        ),
-                                                                        icon:
-                                                                            Icon(
-                                                                          Icons
-                                                                              .card_travel_rounded,
-                                                                          size:
-                                                                              24.0,
-                                                                        ),
-                                                                        options:
-                                                                            FFButtonOptions(
-                                                                          height:
-                                                                              60.0,
-                                                                          padding: EdgeInsetsDirectional.fromSTEB(
-                                                                              24.0,
-                                                                              0.0,
-                                                                              24.0,
-                                                                              0.0),
-                                                                          iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                                                              0.0,
-                                                                              0.0,
-                                                                              0.0,
-                                                                              0.0),
-                                                                          color:
-                                                                              FlutterFlowTheme.of(context).primary,
-                                                                          textStyle: FlutterFlowTheme.of(context)
-                                                                              .titleSmall
-                                                                              .override(
-                                                                                fontFamily: 'Inter',
-                                                                                color: Colors.white,
-                                                                                letterSpacing: 0.0,
-                                                                              ),
-                                                                          elevation:
-                                                                              3.0,
-                                                                          borderSide:
-                                                                              BorderSide(
-                                                                            color:
-                                                                                Colors.transparent,
-                                                                            width:
-                                                                                1.0,
+                                                                                  ...mapToFirestore(
+                                                                                    {
+                                                                                      'date': FieldValue.serverTimestamp(),
+                                                                                    },
+                                                                                  ),
+                                                                                });
+
+                                                                                safeSetState(() {});
+                                                                                ScaffoldMessenger.of(context).showSnackBar(
+                                                                                  SnackBar(
+                                                                                    content: Text(
+                                                                                      'Your application was sent to the agency',
+                                                                                      style: TextStyle(
+                                                                                        color: FlutterFlowTheme.of(context).primaryText,
+                                                                                      ),
+                                                                                    ),
+                                                                                    duration: Duration(milliseconds: 4000),
+                                                                                    backgroundColor: FlutterFlowTheme.of(context).secondary,
+                                                                                  ),
+                                                                                );
+                                                                                await action_blocks.createNotification(
+                                                                                  context,
+                                                                                  user: jobPostPreviewPageAgencyPofileRecord.parentReference,
+                                                                                  message: 'A new applicant wants to apply to your job post: ${widget!.jobPost?.title}',
+                                                                                );
+
+                                                                                await columnAppllicantProfileRecord!.reference.update(createAppllicantProfileRecordData(
+                                                                                  status: FFAppConstants.statusNotHired,
+                                                                                ));
+                                                                              }
+                                                                            }
+                                                                          },
+                                                                          text: !loggedIn
+                                                                              ? 'Register now'
+                                                                              : 'Apply now',
+                                                                          icon:
+                                                                              Icon(
+                                                                            Icons.card_travel_rounded,
+                                                                            size:
+                                                                                24.0,
                                                                           ),
-                                                                          borderRadius:
-                                                                              BorderRadius.circular(12.0),
+                                                                          options:
+                                                                              FFButtonOptions(
+                                                                            height:
+                                                                                60.0,
+                                                                            padding: EdgeInsetsDirectional.fromSTEB(
+                                                                                24.0,
+                                                                                0.0,
+                                                                                24.0,
+                                                                                0.0),
+                                                                            iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                                                                0.0,
+                                                                                0.0,
+                                                                                0.0,
+                                                                                0.0),
+                                                                            color:
+                                                                                FlutterFlowTheme.of(context).primary,
+                                                                            textStyle: FlutterFlowTheme.of(context).titleSmall.override(
+                                                                                  fontFamily: 'Inter',
+                                                                                  color: Colors.white,
+                                                                                  letterSpacing: 0.0,
+                                                                                ),
+                                                                            elevation:
+                                                                                3.0,
+                                                                            borderSide:
+                                                                                BorderSide(
+                                                                              color: Colors.transparent,
+                                                                              width: 1.0,
+                                                                            ),
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(12.0),
+                                                                          ),
                                                                         ),
                                                                       ),
                                                                     ),

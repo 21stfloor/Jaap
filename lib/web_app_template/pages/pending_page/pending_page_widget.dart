@@ -25,7 +25,7 @@ class _PendingPageWidgetState extends State<PendingPageWidget> {
     super.initState();
     _model = createModel(context, () => PendingPageModel());
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -38,9 +38,7 @@ class _PendingPageWidgetState extends State<PendingPageWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _model.unfocusNode.canRequestFocus
-          ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-          : FocusScope.of(context).unfocus(),
+      onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
@@ -50,7 +48,7 @@ class _PendingPageWidgetState extends State<PendingPageWidget> {
             alignment: AlignmentDirectional(0.0, 0.0),
             child: wrapWithModel(
               model: _model.pendingpageModel,
-              updateCallback: () => setState(() {}),
+              updateCallback: () => safeSetState(() {}),
               child: PendingpageWidget(),
             ),
           ),

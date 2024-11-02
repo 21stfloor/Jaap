@@ -43,7 +43,7 @@ class _AdminVideosPostEditWidgetState extends State<AdminVideosPostEditWidget> {
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       _model.uploadedThumbnail = widget!.videoToEdit?.postImage;
       _model.uploadedVideo = widget!.videoToEdit?.video;
-      setState(() {});
+      safeSetState(() {});
     });
 
     _model.titleTextController ??=
@@ -54,7 +54,7 @@ class _AdminVideosPostEditWidgetState extends State<AdminVideosPostEditWidget> {
         TextEditingController(text: widget!.videoToEdit?.postDescription);
     _model.descriptionFocusNode ??= FocusNode();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -67,9 +67,7 @@ class _AdminVideosPostEditWidgetState extends State<AdminVideosPostEditWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _model.unfocusNode.canRequestFocus
-          ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-          : FocusScope.of(context).unfocus(),
+      onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
@@ -77,7 +75,7 @@ class _AdminVideosPostEditWidgetState extends State<AdminVideosPostEditWidget> {
           elevation: 16.0,
           child: wrapWithModel(
             model: _model.sidebarAdminModel2,
-            updateCallback: () => setState(() {}),
+            updateCallback: () => safeSetState(() {}),
             child: SidebarAdminWidget(),
           ),
         ),
@@ -97,7 +95,7 @@ class _AdminVideosPostEditWidgetState extends State<AdminVideosPostEditWidget> {
                     decoration: BoxDecoration(),
                     child: wrapWithModel(
                       model: _model.sidebarAdminModel1,
-                      updateCallback: () => setState(() {}),
+                      updateCallback: () => safeSetState(() {}),
                       child: SidebarAdminWidget(),
                     ),
                   ),
@@ -356,7 +354,7 @@ class _AdminVideosPostEditWidgetState extends State<AdminVideosPostEditWidget> {
                                                           .delete();
                                                       _model.uploadedThumbnail =
                                                           null;
-                                                      setState(() {});
+                                                      safeSetState(() {});
                                                     }
                                                   },
                                                   text: FFLocalizations.of(
@@ -423,7 +421,7 @@ class _AdminVideosPostEditWidgetState extends State<AdminVideosPostEditWidget> {
                                                           validateFileFormat(
                                                               m.storagePath,
                                                               context))) {
-                                                    setState(() => _model
+                                                    safeSetState(() => _model
                                                             .isDataUploading1 =
                                                         true);
                                                     var selectedUploadedFiles =
@@ -486,7 +484,7 @@ class _AdminVideosPostEditWidgetState extends State<AdminVideosPostEditWidget> {
                                                         downloadUrls.length ==
                                                             selectedMedia
                                                                 .length) {
-                                                      setState(() {
+                                                      safeSetState(() {
                                                         _model.uploadedLocalFile1 =
                                                             selectedUploadedFiles
                                                                 .first;
@@ -496,7 +494,7 @@ class _AdminVideosPostEditWidgetState extends State<AdminVideosPostEditWidget> {
                                                       showUploadMessage(
                                                           context, 'Success!');
                                                     } else {
-                                                      setState(() {});
+                                                      safeSetState(() {});
                                                       showUploadMessage(context,
                                                           'Failed to upload data');
                                                       return;
@@ -505,7 +503,7 @@ class _AdminVideosPostEditWidgetState extends State<AdminVideosPostEditWidget> {
 
                                                   _model.uploadedThumbnail =
                                                       _model.uploadedFileUrl1;
-                                                  setState(() {});
+                                                  safeSetState(() {});
                                                 },
                                                 child: Material(
                                                   color: Colors.transparent,
@@ -626,7 +624,7 @@ class _AdminVideosPostEditWidgetState extends State<AdminVideosPostEditWidget> {
                                                           .delete();
                                                       _model.uploadedVideo =
                                                           null;
-                                                      setState(() {});
+                                                      safeSetState(() {});
                                                     }
                                                   },
                                                   text: FFLocalizations.of(
@@ -705,7 +703,7 @@ class _AdminVideosPostEditWidgetState extends State<AdminVideosPostEditWidget> {
                                                         validateFileFormat(
                                                             m.storagePath,
                                                             context))) {
-                                                  setState(() => _model
+                                                  safeSetState(() => _model
                                                       .isDataUploading2 = true);
                                                   var selectedUploadedFiles =
                                                       <FFUploadedFile>[];
@@ -765,7 +763,7 @@ class _AdminVideosPostEditWidgetState extends State<AdminVideosPostEditWidget> {
                                                       downloadUrls.length ==
                                                           selectedMedia
                                                               .length) {
-                                                    setState(() {
+                                                    safeSetState(() {
                                                       _model.uploadedLocalFile2 =
                                                           selectedUploadedFiles
                                                               .first;
@@ -775,7 +773,7 @@ class _AdminVideosPostEditWidgetState extends State<AdminVideosPostEditWidget> {
                                                     showUploadMessage(
                                                         context, 'Success!');
                                                   } else {
-                                                    setState(() {});
+                                                    safeSetState(() {});
                                                     showUploadMessage(context,
                                                         'Failed to upload data');
                                                     return;
@@ -784,7 +782,7 @@ class _AdminVideosPostEditWidgetState extends State<AdminVideosPostEditWidget> {
 
                                                 _model.uploadedVideo =
                                                     _model.uploadedFileUrl2;
-                                                setState(() {});
+                                                safeSetState(() {});
                                               },
                                               child: Material(
                                                 color: Colors.transparent,

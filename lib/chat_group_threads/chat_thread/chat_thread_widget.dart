@@ -38,7 +38,7 @@ class _ChatThreadWidgetState extends State<ChatThreadWidget> {
     super.initState();
     _model = createModel(context, () => ChatThreadModel());
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -164,7 +164,7 @@ class _ChatThreadWidgetState extends State<ChatThreadWidget> {
                                       child: Text(
                                         valueOrDefault<String>(
                                           dateTimeFormat(
-                                            'relative',
+                                            "relative",
                                             widget!.chatMessagesRef?.timestamp,
                                             locale: FFLocalizations.of(context)
                                                     .languageShortCode ??
@@ -378,7 +378,7 @@ class _ChatThreadWidgetState extends State<ChatThreadWidget> {
                                 child: Text(
                                   valueOrDefault<String>(
                                     dateTimeFormat(
-                                      'relative',
+                                      "relative",
                                       widget!.chatMessagesRef?.timestamp,
                                       locale: FFLocalizations.of(context)
                                               .languageShortCode ??

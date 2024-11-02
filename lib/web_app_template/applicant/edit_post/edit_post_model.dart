@@ -22,7 +22,6 @@ class EditPostModel extends FlutterFlowModel<EditPostWidget> {
 
   ///  State fields for stateful widgets in this page.
 
-  final unfocusNode = FocusNode();
   final formKey = GlobalKey<FormState>();
   // Model for sideNavApplicants component.
   late SideNavApplicantsModel sideNavApplicantsModel;
@@ -75,7 +74,6 @@ class EditPostModel extends FlutterFlowModel<EditPostWidget> {
 
   @override
   void dispose() {
-    unfocusNode.dispose();
     sideNavApplicantsModel.dispose();
     titleTextFieldFocusNode?.dispose();
     titleTextFieldTextController?.dispose();

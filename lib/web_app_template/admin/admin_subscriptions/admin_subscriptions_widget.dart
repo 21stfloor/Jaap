@@ -30,7 +30,7 @@ class _AdminSubscriptionsWidgetState extends State<AdminSubscriptionsWidget> {
     _model.textController ??= TextEditingController();
     _model.textFieldFocusNode ??= FocusNode();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -43,9 +43,7 @@ class _AdminSubscriptionsWidgetState extends State<AdminSubscriptionsWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _model.unfocusNode.canRequestFocus
-          ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-          : FocusScope.of(context).unfocus(),
+      onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
@@ -63,7 +61,7 @@ class _AdminSubscriptionsWidgetState extends State<AdminSubscriptionsWidget> {
                   decoration: BoxDecoration(),
                   child: wrapWithModel(
                     model: _model.sidebarAdminModel,
-                    updateCallback: () => setState(() {}),
+                    updateCallback: () => safeSetState(() {}),
                     child: SidebarAdminWidget(),
                   ),
                 ),
@@ -686,7 +684,7 @@ class _AdminSubscriptionsWidgetState extends State<AdminSubscriptionsWidget> {
                                                                 flex: 2,
                                                                 child: Text(
                                                                   dateTimeFormat(
-                                                                    'yMMMd',
+                                                                    "yMMMd",
                                                                     listViewSubscriptionRecord
                                                                         .startDate!,
                                                                     locale: FFLocalizations.of(
@@ -719,7 +717,7 @@ class _AdminSubscriptionsWidgetState extends State<AdminSubscriptionsWidget> {
                                                                 flex: 1,
                                                                 child: Text(
                                                                   dateTimeFormat(
-                                                                    'yMMMd',
+                                                                    "yMMMd",
                                                                     listViewSubscriptionRecord
                                                                         .endDate!,
                                                                     locale: FFLocalizations.of(

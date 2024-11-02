@@ -53,7 +53,7 @@ class _PaymentDialogAgencyWidgetState extends State<PaymentDialogAgencyWidget> {
         singleRecord: true,
       ).then((s) => s.firstOrNull);
       _model.price = _model.currentApplicantPrice!.price;
-      setState(() {});
+      safeSetState(() {});
     });
 
     _model.cardNumberTextController ??= TextEditingController();
@@ -68,7 +68,7 @@ class _PaymentDialogAgencyWidgetState extends State<PaymentDialogAgencyWidget> {
     _model.gcashNumberTextController ??= TextEditingController();
     _model.gcashNumberFocusNode ??= FocusNode();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -579,7 +579,7 @@ class _PaymentDialogAgencyWidgetState extends State<PaymentDialogAgencyWidget> {
                                     }
                                     _model.paymentMethodSelected =
                                         FFAppConstants.paymentMethodCard;
-                                    setState(() {});
+                                    safeSetState(() {});
                                     await action_blocks.startBoosting(
                                       context,
                                       price: _model.price,
@@ -642,7 +642,7 @@ class _PaymentDialogAgencyWidgetState extends State<PaymentDialogAgencyWidget> {
                                   onPressed: () async {
                                     _model.paymentMethodSelected =
                                         FFAppConstants.paymentMethodPaypal;
-                                    setState(() {});
+                                    safeSetState(() {});
                                     await action_blocks.startBoosting(
                                       context,
                                       price: _model.price,
@@ -659,6 +659,7 @@ class _PaymentDialogAgencyWidgetState extends State<PaymentDialogAgencyWidget> {
                                     FontAwesomeIcons.paypal,
                                     color: FlutterFlowTheme.of(context)
                                         .secondaryBackground,
+                                    size: 15.0,
                                   ),
                                   options: FFButtonOptions(
                                     width: 270.0,
@@ -783,7 +784,7 @@ class _PaymentDialogAgencyWidgetState extends State<PaymentDialogAgencyWidget> {
                                     _model.gcashToggle = false;
                                     _model.paymentMethodSelected =
                                         FFAppConstants.paymentMethodGcash;
-                                    setState(() {});
+                                    safeSetState(() {});
                                     await action_blocks.startBoosting(
                                       context,
                                       price: _model.price,
@@ -795,7 +796,7 @@ class _PaymentDialogAgencyWidgetState extends State<PaymentDialogAgencyWidget> {
                                     Navigator.pop(context);
                                   } else {
                                     _model.gcashToggle = true;
-                                    setState(() {});
+                                    safeSetState(() {});
                                   }
                                 },
                                 text: FFLocalizations.of(context).getText(

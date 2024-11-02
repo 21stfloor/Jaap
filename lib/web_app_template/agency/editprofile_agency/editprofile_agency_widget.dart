@@ -43,7 +43,7 @@ class _EditprofileAgencyWidgetState extends State<EditprofileAgencyWidget> {
       _model.profilePic = currentUserPhoto;
       _model.certificateUploaded =
           _model.agencyProfile?.imageBuisnessCertificate;
-      setState(() {});
+      safeSetState(() {});
     });
 
     _model.editDisplayNAmeTextController ??=
@@ -56,7 +56,7 @@ class _EditprofileAgencyWidgetState extends State<EditprofileAgencyWidget> {
     _model.aboutUsTextFieldTextController ??= TextEditingController();
     _model.aboutUsTextFieldFocusNode ??= FocusNode();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -75,7 +75,7 @@ class _EditprofileAgencyWidgetState extends State<EditprofileAgencyWidget> {
         elevation: 16.0,
         child: wrapWithModel(
           model: _model.sideNavAgencyModel2,
-          updateCallback: () => setState(() {}),
+          updateCallback: () => safeSetState(() {}),
           child: SideNavAgencyWidget(),
         ),
       ),
@@ -91,7 +91,7 @@ class _EditprofileAgencyWidgetState extends State<EditprofileAgencyWidget> {
             ))
               wrapWithModel(
                 model: _model.sideNavAgencyModel1,
-                updateCallback: () => setState(() {}),
+                updateCallback: () => safeSetState(() {}),
                 child: SideNavAgencyWidget(),
               ),
             Expanded(
@@ -117,7 +117,6 @@ class _EditprofileAgencyWidgetState extends State<EditprofileAgencyWidget> {
                   }
                   List<AgencyPofileRecord> containerAgencyPofileRecordList =
                       snapshot.data!;
-
                   // Return an empty Container when the item does not exist.
                   if (snapshot.data!.isEmpty) {
                     return Container();
@@ -126,6 +125,7 @@ class _EditprofileAgencyWidgetState extends State<EditprofileAgencyWidget> {
                       containerAgencyPofileRecordList.isNotEmpty
                           ? containerAgencyPofileRecordList.first
                           : null;
+
                   return Container(
                     width: double.infinity,
                     height: MediaQuery.sizeOf(context).height * 1.0,
@@ -194,7 +194,7 @@ class _EditprofileAgencyWidgetState extends State<EditprofileAgencyWidget> {
                                       selectedMedia.every((m) =>
                                           validateFileFormat(
                                               m.storagePath, context))) {
-                                    setState(
+                                    safeSetState(
                                         () => _model.isDataUploading1 = true);
                                     var selectedUploadedFiles =
                                         <FFUploadedFile>[];
@@ -229,14 +229,14 @@ class _EditprofileAgencyWidgetState extends State<EditprofileAgencyWidget> {
                                             selectedMedia.length &&
                                         downloadUrls.length ==
                                             selectedMedia.length) {
-                                      setState(() {
+                                      safeSetState(() {
                                         _model.uploadedLocalFile1 =
                                             selectedUploadedFiles.first;
                                         _model.uploadedFileUrl1 =
                                             downloadUrls.first;
                                       });
                                     } else {
-                                      setState(() {});
+                                      safeSetState(() {});
                                       return;
                                     }
                                   }
@@ -252,7 +252,7 @@ class _EditprofileAgencyWidgetState extends State<EditprofileAgencyWidget> {
                                         .delete();
                                   }
                                   _model.profilePic = _model.uploadedFileUrl1;
-                                  setState(() {});
+                                  safeSetState(() {});
                                 },
                                 text: FFLocalizations.of(context).getText(
                                   'i0e5cob6' /* Change Photo */,
@@ -607,7 +607,7 @@ class _EditprofileAgencyWidgetState extends State<EditprofileAgencyWidget> {
                                       selectedMedia.every((m) =>
                                           validateFileFormat(
                                               m.storagePath, context))) {
-                                    setState(
+                                    safeSetState(
                                         () => _model.isDataUploading2 = true);
                                     var selectedUploadedFiles =
                                         <FFUploadedFile>[];
@@ -642,14 +642,14 @@ class _EditprofileAgencyWidgetState extends State<EditprofileAgencyWidget> {
                                             selectedMedia.length &&
                                         downloadUrls.length ==
                                             selectedMedia.length) {
-                                      setState(() {
+                                      safeSetState(() {
                                         _model.uploadedLocalFile2 =
                                             selectedUploadedFiles.first;
                                         _model.uploadedFileUrl2 =
                                             downloadUrls.first;
                                       });
                                     } else {
-                                      setState(() {});
+                                      safeSetState(() {});
                                       return;
                                     }
                                   }
@@ -670,7 +670,7 @@ class _EditprofileAgencyWidgetState extends State<EditprofileAgencyWidget> {
                                     }
                                     _model.certificateUploaded =
                                         _model.uploadedFileUrl2;
-                                    setState(() {});
+                                    safeSetState(() {});
                                   }
                                 },
                                 text: FFLocalizations.of(context).getText(

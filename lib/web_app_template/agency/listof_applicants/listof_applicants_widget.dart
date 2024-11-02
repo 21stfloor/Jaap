@@ -3,8 +3,8 @@ import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import '/web_app_template/agency/application_row/application_row_widget.dart';
 import '/web_app_template/agency/side_nav_agency/side_nav_agency_widget.dart';
+import '/web_app_template/applicant/application_row/application_row_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -28,7 +28,7 @@ class _ListofApplicantsWidgetState extends State<ListofApplicantsWidget> {
     super.initState();
     _model = createModel(context, () => ListofApplicantsModel());
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -41,9 +41,7 @@ class _ListofApplicantsWidgetState extends State<ListofApplicantsWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _model.unfocusNode.canRequestFocus
-          ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-          : FocusScope.of(context).unfocus(),
+      onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
@@ -51,7 +49,7 @@ class _ListofApplicantsWidgetState extends State<ListofApplicantsWidget> {
           elevation: 16.0,
           child: wrapWithModel(
             model: _model.sideNavAgencyModel2,
-            updateCallback: () => setState(() {}),
+            updateCallback: () => safeSetState(() {}),
             child: SideNavAgencyWidget(),
           ),
         ),
@@ -67,7 +65,7 @@ class _ListofApplicantsWidgetState extends State<ListofApplicantsWidget> {
               ))
                 wrapWithModel(
                   model: _model.sideNavAgencyModel1,
-                  updateCallback: () => setState(() {}),
+                  updateCallback: () => safeSetState(() {}),
                   child: SideNavAgencyWidget(),
                 ),
               Expanded(
@@ -131,7 +129,6 @@ class _ListofApplicantsWidgetState extends State<ListofApplicantsWidget> {
                             List<AgencyPofileRecord>
                                 containerAgencyPofileRecordList =
                                 snapshot.data!;
-
                             // Return an empty Container when the item does not exist.
                             if (snapshot.data!.isEmpty) {
                               return Container();
@@ -140,6 +137,7 @@ class _ListofApplicantsWidgetState extends State<ListofApplicantsWidget> {
                                 containerAgencyPofileRecordList.isNotEmpty
                                     ? containerAgencyPofileRecordList.first
                                     : null;
+
                             return Container(
                               width: double.infinity,
                               height: 800.0,
@@ -197,7 +195,8 @@ class _ListofApplicantsWidgetState extends State<ListofApplicantsWidget> {
                                                 .reference.id,
                                             listViewIndex,
                                           ),
-                                          updateCallback: () => setState(() {}),
+                                          updateCallback: () =>
+                                              safeSetState(() {}),
                                           child: ApplicationRowWidget(
                                             key: Key(
                                               'Keyo64_${listViewJobApplicationRecord.reference.id}',

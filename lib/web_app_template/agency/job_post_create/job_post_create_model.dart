@@ -6,6 +6,7 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
 import '/web_app_template/agency/side_nav_agency/side_nav_agency_widget.dart';
+import '/flutter_flow/custom_functions.dart' as functions;
 import 'job_post_create_widget.dart' show JobPostCreateWidget;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,6 @@ import 'package:provider/provider.dart';
 class JobPostCreateModel extends FlutterFlowModel<JobPostCreateWidget> {
   ///  State fields for stateful widgets in this page.
 
-  final unfocusNode = FocusNode();
   final formKey = GlobalKey<FormState>();
   // Model for sideNavAgency component.
   late SideNavAgencyModel sideNavAgencyModel1;
@@ -94,6 +94,9 @@ class JobPostCreateModel extends FlutterFlowModel<JobPostCreateWidget> {
   // State field(s) for regionDropDown widget.
   String? regionDropDownValue;
   FormFieldController<String>? regionDropDownValueController;
+  // State field(s) for jobTypeDropDown widget.
+  String? jobTypeDropDownValue;
+  FormFieldController<String>? jobTypeDropDownValueController;
   // Model for sideNavAgency component.
   late SideNavAgencyModel sideNavAgencyModel2;
 
@@ -111,7 +114,6 @@ class JobPostCreateModel extends FlutterFlowModel<JobPostCreateWidget> {
 
   @override
   void dispose() {
-    unfocusNode.dispose();
     sideNavAgencyModel1.dispose();
     jobTitleFocusNode?.dispose();
     jobTitleTextController?.dispose();

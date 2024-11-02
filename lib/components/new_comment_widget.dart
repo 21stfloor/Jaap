@@ -33,7 +33,7 @@ class _NewCommentWidgetState extends State<NewCommentWidget> {
     _model.textController ??= TextEditingController();
     _model.textFieldFocusNode ??= FocusNode();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -94,7 +94,7 @@ class _NewCommentWidgetState extends State<NewCommentWidget> {
                         onChanged: (_) => EasyDebounce.debounce(
                           '_model.textController',
                           Duration(milliseconds: 2000),
-                          () => setState(() {}),
+                          () => safeSetState(() {}),
                         ),
                         autofocus: true,
                         obscureText: false,

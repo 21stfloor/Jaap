@@ -12,7 +12,6 @@ import 'package:provider/provider.dart';
 class CommunityPageModel extends FlutterFlowModel<CommunityPageWidget> {
   ///  State fields for stateful widgets in this page.
 
-  final unfocusNode = FocusNode();
   // Model for sideNavApplicants component.
   late SideNavApplicantsModel sideNavApplicantsModel1;
   // Models for postComponent dynamic component.
@@ -31,7 +30,6 @@ class CommunityPageModel extends FlutterFlowModel<CommunityPageWidget> {
 
   @override
   void dispose() {
-    unfocusNode.dispose();
     sideNavApplicantsModel1.dispose();
     postComponentModels.dispose();
     sideNavApplicantsModel2.dispose();

@@ -27,7 +27,7 @@ class _Chat2MainAgencyWidgetState extends State<Chat2MainAgencyWidget> {
     super.initState();
     _model = createModel(context, () => Chat2MainAgencyModel());
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -40,9 +40,7 @@ class _Chat2MainAgencyWidgetState extends State<Chat2MainAgencyWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _model.unfocusNode.canRequestFocus
-          ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-          : FocusScope.of(context).unfocus(),
+      onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
@@ -50,7 +48,7 @@ class _Chat2MainAgencyWidgetState extends State<Chat2MainAgencyWidget> {
           elevation: 16.0,
           child: wrapWithModel(
             model: _model.sideNavAgencyModel2,
-            updateCallback: () => setState(() {}),
+            updateCallback: () => safeSetState(() {}),
             child: SideNavAgencyWidget(),
           ),
         ),
@@ -66,7 +64,7 @@ class _Chat2MainAgencyWidgetState extends State<Chat2MainAgencyWidget> {
               ))
                 wrapWithModel(
                   model: _model.sideNavAgencyModel1,
-                  updateCallback: () => setState(() {}),
+                  updateCallback: () => safeSetState(() {}),
                   child: SideNavAgencyWidget(),
                 ),
               Expanded(
@@ -167,7 +165,6 @@ class _Chat2MainAgencyWidgetState extends State<Chat2MainAgencyWidget> {
                                     List<JobApplicationRecord>
                                         containerJobApplicationRecordList =
                                         snapshot.data!;
-
                                     // Return an empty Container when the item does not exist.
                                     if (snapshot.data!.isEmpty) {
                                       return Container();
@@ -178,6 +175,7 @@ class _Chat2MainAgencyWidgetState extends State<Chat2MainAgencyWidget> {
                                             ? containerJobApplicationRecordList
                                                 .first
                                             : null;
+
                                     return Container(
                                       decoration: BoxDecoration(),
                                       child: Padding(
@@ -460,7 +458,7 @@ class _Chat2MainAgencyWidgetState extends State<Chat2MainAgencyWidget> {
                                                                           child:
                                                                               Text(
                                                                             dateTimeFormat(
-                                                                              'relative',
+                                                                              "relative",
                                                                               listViewChatsRecord.lastMessageTime!,
                                                                               locale: FFLocalizations.of(context).languageShortCode ?? FFLocalizations.of(context).languageCode,
                                                                             ),
@@ -501,16 +499,51 @@ class _Chat2MainAgencyWidgetState extends State<Chat2MainAgencyWidget> {
                                                                           borderRadius:
                                                                               BorderRadius.circular(8.0),
                                                                         ),
-                                                                        child:
-                                                                            Text(
-                                                                          containerJobRecord
-                                                                              .title,
-                                                                          style: FlutterFlowTheme.of(context)
-                                                                              .titleLarge
-                                                                              .override(
-                                                                                fontFamily: 'Inter',
-                                                                                letterSpacing: 0.0,
-                                                                              ),
+                                                                        child: StreamBuilder<
+                                                                            AppllicantProfileRecord>(
+                                                                          stream:
+                                                                              AppllicantProfileRecord.getDocument(containerJobApplicationRecord!.applicant!),
+                                                                          builder:
+                                                                              (context, snapshot) {
+                                                                            // Customize what your widget looks like when it's loading.
+                                                                            if (!snapshot.hasData) {
+                                                                              return Center(
+                                                                                child: SizedBox(
+                                                                                  width: 50.0,
+                                                                                  height: 50.0,
+                                                                                  child: CircularProgressIndicator(
+                                                                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                                                                      FlutterFlowTheme.of(context).primary,
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              );
+                                                                            }
+
+                                                                            final columnAppllicantProfileRecord =
+                                                                                snapshot.data!;
+
+                                                                            return Column(
+                                                                              mainAxisSize: MainAxisSize.max,
+                                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                                              children: [
+                                                                                Text(
+                                                                                  containerJobRecord.title,
+                                                                                  style: FlutterFlowTheme.of(context).titleLarge.override(
+                                                                                        fontFamily: 'Inter',
+                                                                                        letterSpacing: 0.0,
+                                                                                      ),
+                                                                                ),
+                                                                                Text(
+                                                                                  columnAppllicantProfileRecord.status,
+                                                                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                        fontFamily: 'Inter',
+                                                                                        letterSpacing: 0.0,
+                                                                                      ),
+                                                                                ),
+                                                                              ],
+                                                                            );
+                                                                          },
                                                                         ),
                                                                       ),
                                                                     ),

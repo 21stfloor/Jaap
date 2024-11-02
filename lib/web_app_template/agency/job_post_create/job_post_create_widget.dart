@@ -6,6 +6,7 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
 import '/web_app_template/agency/side_nav_agency/side_nav_agency_widget.dart';
+import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -45,7 +46,7 @@ class _JobPostCreateWidgetState extends State<JobPostCreateWidget> {
     _model.salaryTextController ??= TextEditingController();
     _model.salaryFocusNode ??= FocusNode();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -82,15 +83,13 @@ class _JobPostCreateWidgetState extends State<JobPostCreateWidget> {
         }
         List<AgencyPofileRecord> jobPostCreateAgencyPofileRecordList =
             snapshot.data!;
-
         final jobPostCreateAgencyPofileRecord =
             jobPostCreateAgencyPofileRecordList.isNotEmpty
                 ? jobPostCreateAgencyPofileRecordList.first
                 : null;
+
         return GestureDetector(
-          onTap: () => _model.unfocusNode.canRequestFocus
-              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-              : FocusScope.of(context).unfocus(),
+          onTap: () => FocusScope.of(context).unfocus(),
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
@@ -98,7 +97,7 @@ class _JobPostCreateWidgetState extends State<JobPostCreateWidget> {
               elevation: 16.0,
               child: wrapWithModel(
                 model: _model.sideNavAgencyModel2,
-                updateCallback: () => setState(() {}),
+                updateCallback: () => safeSetState(() {}),
                 child: SideNavAgencyWidget(),
               ),
             ),
@@ -114,7 +113,7 @@ class _JobPostCreateWidgetState extends State<JobPostCreateWidget> {
                   ))
                     wrapWithModel(
                       model: _model.sideNavAgencyModel1,
-                      updateCallback: () => setState(() {}),
+                      updateCallback: () => safeSetState(() {}),
                       child: SideNavAgencyWidget(),
                     ),
                   Expanded(
@@ -498,7 +497,7 @@ class _JobPostCreateWidgetState extends State<JobPostCreateWidget> {
                                   children: [
                                     Text(
                                       FFLocalizations.of(context).getText(
-                                        'b1jydmn8' /* Region */,
+                                        'b1jydmn8' /* Country */,
                                       ),
                                       style: FlutterFlowTheme.of(context)
                                           .bodyMedium
@@ -511,9 +510,82 @@ class _JobPostCreateWidgetState extends State<JobPostCreateWidget> {
                                       controller: _model
                                               .regionDropDownValueController ??=
                                           FormFieldController<String>(null),
-                                      options: FFAppConstants.regions,
-                                      onChanged: (val) => setState(() =>
+                                      options: functions.getAllCountries()!,
+                                      onChanged: (val) => safeSetState(() =>
                                           _model.regionDropDownValue = val),
+                                      width: 300.0,
+                                      height: 56.0,
+                                      searchHintTextStyle:
+                                          FlutterFlowTheme.of(context)
+                                              .labelMedium
+                                              .override(
+                                                fontFamily: 'Inter',
+                                                letterSpacing: 0.0,
+                                              ),
+                                      searchTextStyle:
+                                          FlutterFlowTheme.of(context)
+                                              .bodyMedium
+                                              .override(
+                                                fontFamily: 'Inter',
+                                                letterSpacing: 0.0,
+                                              ),
+                                      textStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            fontFamily: 'Inter',
+                                            letterSpacing: 0.0,
+                                          ),
+                                      hintText:
+                                          FFLocalizations.of(context).getText(
+                                        '1bwxw0gd' /* Please select... */,
+                                      ),
+                                      searchHintText:
+                                          FFLocalizations.of(context).getText(
+                                        'silqhjvc' /* Search country... */,
+                                      ),
+                                      icon: Icon(
+                                        Icons.keyboard_arrow_down_rounded,
+                                        color: FlutterFlowTheme.of(context)
+                                            .secondaryText,
+                                        size: 24.0,
+                                      ),
+                                      fillColor: FlutterFlowTheme.of(context)
+                                          .secondaryBackground,
+                                      elevation: 2.0,
+                                      borderColor: FlutterFlowTheme.of(context)
+                                          .alternate,
+                                      borderWidth: 2.0,
+                                      borderRadius: 8.0,
+                                      margin: EdgeInsetsDirectional.fromSTEB(
+                                          16.0, 4.0, 16.0, 4.0),
+                                      hidesUnderline: true,
+                                      isOverButton: true,
+                                      isSearchable: true,
+                                      isMultiSelect: false,
+                                    ),
+                                  ],
+                                ),
+                                Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Text(
+                                      FFLocalizations.of(context).getText(
+                                        'uiaw5khe' /* Job Type */,
+                                      ),
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            fontFamily: 'Inter',
+                                            letterSpacing: 0.0,
+                                          ),
+                                    ),
+                                    FlutterFlowDropDown<String>(
+                                      controller: _model
+                                              .jobTypeDropDownValueController ??=
+                                          FormFieldController<String>(null),
+                                      options: FFAppConstants.jobTypes,
+                                      onChanged: (val) => safeSetState(() =>
+                                          _model.jobTypeDropDownValue = val),
                                       width: 300.0,
                                       height: 56.0,
                                       textStyle: FlutterFlowTheme.of(context)
@@ -524,7 +596,7 @@ class _JobPostCreateWidgetState extends State<JobPostCreateWidget> {
                                           ),
                                       hintText:
                                           FFLocalizations.of(context).getText(
-                                        '1bwxw0gd' /* Please select... */,
+                                        'x1w888kk' /* Please select... */,
                                       ),
                                       icon: Icon(
                                         Icons.keyboard_arrow_down_rounded,
@@ -578,27 +650,55 @@ class _JobPostCreateWidgetState extends State<JobPostCreateWidget> {
                                         );
                                         return;
                                       }
+                                      if (_model.jobTypeDropDownValue == null) {
+                                        await showDialog(
+                                          context: context,
+                                          builder: (alertDialogContext) {
+                                            return AlertDialog(
+                                              title: Text('Invalid'),
+                                              content: Text(
+                                                  'Please select a valid job type'),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () =>
+                                                      Navigator.pop(
+                                                          alertDialogContext),
+                                                  child: Text('Ok'),
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
+                                        return;
+                                      }
 
-                                      await JobRecord.collection
-                                          .doc()
-                                          .set(createJobRecordData(
-                                            title: _model
-                                                .jobTitleTextController.text,
-                                            description: _model
-                                                .jobDescriptionTextController
-                                                .text,
-                                            location: _model
-                                                .locationTextController.text,
-                                            agency:
-                                                jobPostCreateAgencyPofileRecord
-                                                    ?.reference,
-                                            salary: int.tryParse(_model
-                                                .salaryTextController.text),
-                                            skils: _model
-                                                .skillsTextController.text,
-                                            visible: true,
-                                            region: _model.regionDropDownValue,
-                                          ));
+                                      await JobRecord.collection.doc().set({
+                                        ...createJobRecordData(
+                                          title: _model
+                                              .jobTitleTextController.text,
+                                          description: _model
+                                              .jobDescriptionTextController
+                                              .text,
+                                          location: _model
+                                              .locationTextController.text,
+                                          agency:
+                                              jobPostCreateAgencyPofileRecord
+                                                  ?.reference,
+                                          salary: int.tryParse(
+                                              _model.salaryTextController.text),
+                                          skils:
+                                              _model.skillsTextController.text,
+                                          visible: true,
+                                          region: _model.regionDropDownValue,
+                                          type: _model.jobTypeDropDownValue,
+                                        ),
+                                        ...mapToFirestore(
+                                          {
+                                            'datePosted':
+                                                FieldValue.serverTimestamp(),
+                                          },
+                                        ),
+                                      });
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         SnackBar(

@@ -28,7 +28,7 @@ class _AdminpaymentsWidgetState extends State<AdminpaymentsWidget> {
     _model.textController ??= TextEditingController();
     _model.textFieldFocusNode ??= FocusNode();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -41,9 +41,7 @@ class _AdminpaymentsWidgetState extends State<AdminpaymentsWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _model.unfocusNode.canRequestFocus
-          ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-          : FocusScope.of(context).unfocus(),
+      onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
@@ -61,7 +59,7 @@ class _AdminpaymentsWidgetState extends State<AdminpaymentsWidget> {
                   decoration: BoxDecoration(),
                   child: wrapWithModel(
                     model: _model.sidebarAdminModel,
-                    updateCallback: () => setState(() {}),
+                    updateCallback: () => safeSetState(() {}),
                     child: SidebarAdminWidget(),
                   ),
                 ),
@@ -425,7 +423,7 @@ class _AdminpaymentsWidgetState extends State<AdminpaymentsWidget> {
                                                                 true,
                                                             onChanged:
                                                                 (newValue) async {
-                                                              setState(() =>
+                                                              safeSetState(() =>
                                                                   _model.checkboxValue1 =
                                                                       newValue!);
                                                             },
@@ -653,7 +651,7 @@ class _AdminpaymentsWidgetState extends State<AdminpaymentsWidget> {
                                                                       false,
                                                                   onChanged:
                                                                       (newValue) async {
-                                                                    setState(() =>
+                                                                    safeSetState(() =>
                                                                         _model.checkboxValue2 =
                                                                             newValue!);
                                                                   },
@@ -891,7 +889,7 @@ class _AdminpaymentsWidgetState extends State<AdminpaymentsWidget> {
                                                                       false,
                                                                   onChanged:
                                                                       (newValue) async {
-                                                                    setState(() =>
+                                                                    safeSetState(() =>
                                                                         _model.checkboxValue3 =
                                                                             newValue!);
                                                                   },
@@ -1129,7 +1127,7 @@ class _AdminpaymentsWidgetState extends State<AdminpaymentsWidget> {
                                                                       false,
                                                                   onChanged:
                                                                       (newValue) async {
-                                                                    setState(() =>
+                                                                    safeSetState(() =>
                                                                         _model.checkboxValue4 =
                                                                             newValue!);
                                                                   },

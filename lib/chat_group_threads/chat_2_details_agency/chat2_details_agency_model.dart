@@ -1,6 +1,7 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/chat_group_threads/chat_thread_component/chat_thread_component_widget.dart';
+import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -11,6 +12,7 @@ import 'dart:async';
 import '/actions/actions.dart' as action_blocks;
 import 'chat2_details_agency_widget.dart' show Chat2DetailsAgencyWidget;
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -45,9 +47,10 @@ class Chat2DetailsAgencyModel
 
   ///  State fields for stateful widgets in this page.
 
-  final unfocusNode = FocusNode();
   // Model for sideNavAgency component.
   late SideNavAgencyModel sideNavAgencyModel1;
+  // Stores action output result for [Firestore Query - Query a collection] action in IconButton widget.
+  CallSessionRecord? existingSession;
   // Model for chat_ThreadComponent component.
   late ChatThreadComponentModel chatThreadComponentModel;
   // Model for sideNavAgency component.
@@ -63,7 +66,6 @@ class Chat2DetailsAgencyModel
 
   @override
   void dispose() {
-    unfocusNode.dispose();
     sideNavAgencyModel1.dispose();
     chatThreadComponentModel.dispose();
     sideNavAgencyModel2.dispose();

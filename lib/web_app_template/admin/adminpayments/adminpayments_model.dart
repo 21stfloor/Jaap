@@ -10,7 +10,6 @@ import 'package:provider/provider.dart';
 class AdminpaymentsModel extends FlutterFlowModel<AdminpaymentsWidget> {
   ///  State fields for stateful widgets in this page.
 
-  final unfocusNode = FocusNode();
   // Model for sidebarAdmin component.
   late SidebarAdminModel sidebarAdminModel;
   // State field(s) for TextField widget.
@@ -33,7 +32,6 @@ class AdminpaymentsModel extends FlutterFlowModel<AdminpaymentsWidget> {
 
   @override
   void dispose() {
-    unfocusNode.dispose();
     sidebarAdminModel.dispose();
     textFieldFocusNode?.dispose();
     textController?.dispose();

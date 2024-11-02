@@ -40,7 +40,7 @@ class _AdminVideoPostCreateWidgetState
     _model.descriptionTextController ??= TextEditingController();
     _model.descriptionFocusNode ??= FocusNode();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -53,9 +53,7 @@ class _AdminVideoPostCreateWidgetState
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _model.unfocusNode.canRequestFocus
-          ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-          : FocusScope.of(context).unfocus(),
+      onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
@@ -63,7 +61,7 @@ class _AdminVideoPostCreateWidgetState
           elevation: 16.0,
           child: wrapWithModel(
             model: _model.sidebarAdminModel2,
-            updateCallback: () => setState(() {}),
+            updateCallback: () => safeSetState(() {}),
             child: SidebarAdminWidget(),
           ),
         ),
@@ -83,7 +81,7 @@ class _AdminVideoPostCreateWidgetState
                     decoration: BoxDecoration(),
                     child: wrapWithModel(
                       model: _model.sidebarAdminModel1,
-                      updateCallback: () => setState(() {}),
+                      updateCallback: () => safeSetState(() {}),
                       child: SidebarAdminWidget(),
                     ),
                   ),
@@ -342,7 +340,7 @@ class _AdminVideoPostCreateWidgetState
                                                           .delete();
                                                       _model.uploadedThumbnail =
                                                           null;
-                                                      setState(() {});
+                                                      safeSetState(() {});
                                                     }
                                                   },
                                                   text: FFLocalizations.of(
@@ -409,7 +407,7 @@ class _AdminVideoPostCreateWidgetState
                                                           validateFileFormat(
                                                               m.storagePath,
                                                               context))) {
-                                                    setState(() => _model
+                                                    safeSetState(() => _model
                                                             .isDataUploading1 =
                                                         true);
                                                     var selectedUploadedFiles =
@@ -472,7 +470,7 @@ class _AdminVideoPostCreateWidgetState
                                                         downloadUrls.length ==
                                                             selectedMedia
                                                                 .length) {
-                                                      setState(() {
+                                                      safeSetState(() {
                                                         _model.uploadedLocalFile1 =
                                                             selectedUploadedFiles
                                                                 .first;
@@ -482,7 +480,7 @@ class _AdminVideoPostCreateWidgetState
                                                       showUploadMessage(
                                                           context, 'Success!');
                                                     } else {
-                                                      setState(() {});
+                                                      safeSetState(() {});
                                                       showUploadMessage(context,
                                                           'Failed to upload data');
                                                       return;
@@ -491,7 +489,7 @@ class _AdminVideoPostCreateWidgetState
 
                                                   _model.uploadedThumbnail =
                                                       _model.uploadedFileUrl1;
-                                                  setState(() {});
+                                                  safeSetState(() {});
                                                 },
                                                 child: Material(
                                                   color: Colors.transparent,
@@ -602,7 +600,7 @@ class _AdminVideoPostCreateWidgetState
                                                         validateFileFormat(
                                                             m.storagePath,
                                                             context))) {
-                                                  setState(() => _model
+                                                  safeSetState(() => _model
                                                       .isDataUploading2 = true);
                                                   var selectedUploadedFiles =
                                                       <FFUploadedFile>[];
@@ -662,7 +660,7 @@ class _AdminVideoPostCreateWidgetState
                                                       downloadUrls.length ==
                                                           selectedMedia
                                                               .length) {
-                                                    setState(() {
+                                                    safeSetState(() {
                                                       _model.uploadedLocalFile2 =
                                                           selectedUploadedFiles
                                                               .first;
@@ -672,7 +670,7 @@ class _AdminVideoPostCreateWidgetState
                                                     showUploadMessage(
                                                         context, 'Success!');
                                                   } else {
-                                                    setState(() {});
+                                                    safeSetState(() {});
                                                     showUploadMessage(context,
                                                         'Failed to upload data');
                                                     return;
@@ -681,7 +679,7 @@ class _AdminVideoPostCreateWidgetState
 
                                                 _model.uploadedVideo =
                                                     _model.uploadedFileUrl2;
-                                                setState(() {});
+                                                safeSetState(() {});
                                               },
                                               child: Material(
                                                 color: Colors.transparent,

@@ -25,7 +25,6 @@ class AdminVideosPostEditModel
 
   ///  State fields for stateful widgets in this page.
 
-  final unfocusNode = FocusNode();
   final formKey = GlobalKey<FormState>();
   // Model for sidebarAdmin component.
   late SidebarAdminModel sidebarAdminModel1;
@@ -81,7 +80,6 @@ class AdminVideosPostEditModel
 
   @override
   void dispose() {
-    unfocusNode.dispose();
     sidebarAdminModel1.dispose();
     titleFocusNode?.dispose();
     titleTextController?.dispose();

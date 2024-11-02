@@ -27,7 +27,7 @@ class _CommunityPageWidgetState extends State<CommunityPageWidget> {
     super.initState();
     _model = createModel(context, () => CommunityPageModel());
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -40,9 +40,7 @@ class _CommunityPageWidgetState extends State<CommunityPageWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _model.unfocusNode.canRequestFocus
-          ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-          : FocusScope.of(context).unfocus(),
+      onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
@@ -50,7 +48,7 @@ class _CommunityPageWidgetState extends State<CommunityPageWidget> {
           elevation: 16.0,
           child: wrapWithModel(
             model: _model.sideNavApplicantsModel2,
-            updateCallback: () => setState(() {}),
+            updateCallback: () => safeSetState(() {}),
             child: SideNavApplicantsWidget(),
           ),
         ),
@@ -68,7 +66,7 @@ class _CommunityPageWidgetState extends State<CommunityPageWidget> {
                   decoration: BoxDecoration(),
                   child: wrapWithModel(
                     model: _model.sideNavApplicantsModel1,
-                    updateCallback: () => setState(() {}),
+                    updateCallback: () => safeSetState(() {}),
                     child: SideNavApplicantsWidget(),
                   ),
                 ),
@@ -152,7 +150,7 @@ class _CommunityPageWidgetState extends State<CommunityPageWidget> {
                                       listViewPostRecord.reference.id,
                                       listViewIndex,
                                     ),
-                                    updateCallback: () => setState(() {}),
+                                    updateCallback: () => safeSetState(() {}),
                                     updateOnChange: true,
                                     child: PostComponentWidget(
                                       key: Key(

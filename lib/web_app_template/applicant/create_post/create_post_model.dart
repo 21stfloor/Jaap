@@ -21,7 +21,6 @@ class CreatePostModel extends FlutterFlowModel<CreatePostWidget> {
 
   ///  State fields for stateful widgets in this page.
 
-  final unfocusNode = FocusNode();
   final formKey = GlobalKey<FormState>();
   // Model for sideNavApplicants component.
   late SideNavApplicantsModel sideNavApplicantsModel;
@@ -34,7 +33,7 @@ class CreatePostModel extends FlutterFlowModel<CreatePostWidget> {
       BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
       return FFLocalizations.of(context).getText(
-        '5sxu8y8y' /* Field is required */,
+        'n248ccji' /* Field is required */,
       );
     }
 
@@ -50,7 +49,7 @@ class CreatePostModel extends FlutterFlowModel<CreatePostWidget> {
       BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
       return FFLocalizations.of(context).getText(
-        'n248ccji' /* Field is required */,
+        'bmt22r1p' /* Field is required */,
       );
     }
 
@@ -74,7 +73,6 @@ class CreatePostModel extends FlutterFlowModel<CreatePostWidget> {
 
   @override
   void dispose() {
-    unfocusNode.dispose();
     sideNavApplicantsModel.dispose();
     titleTextFieldFocusNode?.dispose();
     titleTextFieldTextController?.dispose();

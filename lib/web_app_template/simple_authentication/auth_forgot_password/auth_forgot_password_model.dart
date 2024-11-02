@@ -14,7 +14,6 @@ class AuthForgotPasswordModel
     extends FlutterFlowModel<AuthForgotPasswordWidget> {
   ///  State fields for stateful widgets in this page.
 
-  final unfocusNode = FocusNode();
   final formKey = GlobalKey<FormState>();
   // State field(s) for emailAddress widget.
   FocusNode? emailAddressFocusNode;
@@ -41,7 +40,6 @@ class AuthForgotPasswordModel
 
   @override
   void dispose() {
-    unfocusNode.dispose();
     emailAddressFocusNode?.dispose();
     emailAddressTextController?.dispose();
   }

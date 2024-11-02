@@ -1,0 +1,37 @@
+September
+
+
+1.terms of service/contracts:
+	agency to platform
+	agency to applicant
+
+
+2.fixed submission of documents of any certifications(applicant) manually input by applicant which type
+
+3.monitoring of deployed ofw (anonymous reporting, agency should not be able to know which applicant who reported them)
+
+4.admin flag action of agencies reported
+
+5.job posted should be viewable for guest user(no login required) apply button should be replaced by register now button
+
+6.job filter(countries, type of job, company) dropdown
+filtering by date range
+
+7.employment status (applicant profile) hired, not-hired, job-finding, verified user(should upload necessary files before admin mark the applicant as verified)
+
+8.feedback must be input after end of contract (both agency and user) feedback list in profile
+
+9. agency account deactivation needs to contact admin first
+applicant account deactivation (no access to chat, cannot apply)
+
+10.reactivation in login page(thru email)
+
+11.dashboard (designs)
+
+12.agency email before chat(accept/reject button)
+
+13.video conference
+
+14.agencies also have monitoring of "about me" work history
+
+15.agency uploading of proof of deployed applicant(work id etc) before admin changes the status into hired and deployed

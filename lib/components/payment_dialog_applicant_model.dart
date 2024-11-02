@@ -70,7 +70,7 @@ class PaymentDialogApplicantModel
   String? _cardCVVTextControllerValidator(BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
       return FFLocalizations.of(context).getText(
-        'hzmfx47s' /* Field is required */,
+        'hqxpt1h6' /* Field is required */,
       );
     }
 

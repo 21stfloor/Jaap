@@ -28,7 +28,7 @@ class _PendingpageWidgetState extends State<PendingpageWidget> {
     super.initState();
     _model = createModel(context, () => PendingpageModel());
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override

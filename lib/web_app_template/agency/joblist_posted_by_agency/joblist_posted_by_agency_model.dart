@@ -13,7 +13,6 @@ class JoblistPostedByAgencyModel
     extends FlutterFlowModel<JoblistPostedByAgencyWidget> {
   ///  State fields for stateful widgets in this page.
 
-  final unfocusNode = FocusNode();
   // Model for sideNavAgency component.
   late SideNavAgencyModel sideNavAgencyModel1;
   // Model for sideNavAgency component.
@@ -27,7 +26,6 @@ class JoblistPostedByAgencyModel
 
   @override
   void dispose() {
-    unfocusNode.dispose();
     sideNavAgencyModel1.dispose();
     sideNavAgencyModel2.dispose();
   }

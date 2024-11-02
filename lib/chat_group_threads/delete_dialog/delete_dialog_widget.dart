@@ -47,7 +47,7 @@ class _DeleteDialogWidgetState extends State<DeleteDialogWidget>
     // On component load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       _model.showDelete = false;
-      setState(() {});
+      safeSetState(() {});
     });
 
     animationsMap.addAll({
@@ -73,7 +73,7 @@ class _DeleteDialogWidgetState extends State<DeleteDialogWidget>
       ),
     });
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -176,10 +176,10 @@ class _DeleteDialogWidgetState extends State<DeleteDialogWidget>
                     ),
                   ),
                   onEnter: ((event) async {
-                    setState(() => _model.mouseRegionHovered1 = true);
+                    safeSetState(() => _model.mouseRegionHovered1 = true);
                   }),
                   onExit: ((event) async {
-                    setState(() => _model.mouseRegionHovered1 = false);
+                    safeSetState(() => _model.mouseRegionHovered1 = false);
                   }),
                 ),
                 Divider(
@@ -196,7 +196,7 @@ class _DeleteDialogWidgetState extends State<DeleteDialogWidget>
                     highlightColor: Colors.transparent,
                     onTap: () async {
                       _model.showDelete = true;
-                      setState(() {});
+                      safeSetState(() {});
                     },
                     child: AnimatedContainer(
                       duration: Duration(milliseconds: 200),
@@ -247,10 +247,10 @@ class _DeleteDialogWidgetState extends State<DeleteDialogWidget>
                     ),
                   ),
                   onEnter: ((event) async {
-                    setState(() => _model.mouseRegionHovered2 = true);
+                    safeSetState(() => _model.mouseRegionHovered2 = true);
                   }),
                   onExit: ((event) async {
-                    setState(() => _model.mouseRegionHovered2 = false);
+                    safeSetState(() => _model.mouseRegionHovered2 = false);
                   }),
                 ),
                 if (_model.showDelete == true)
@@ -338,10 +338,10 @@ class _DeleteDialogWidgetState extends State<DeleteDialogWidget>
                       ),
                     ),
                     onEnter: ((event) async {
-                      setState(() => _model.mouseRegionHovered3 = true);
+                      safeSetState(() => _model.mouseRegionHovered3 = true);
                     }),
                     onExit: ((event) async {
-                      setState(() => _model.mouseRegionHovered3 = false);
+                      safeSetState(() => _model.mouseRegionHovered3 = false);
                     }),
                   ).animateOnPageLoad(
                       animationsMap['mouseRegionOnPageLoadAnimation']!),

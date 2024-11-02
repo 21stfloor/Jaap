@@ -53,12 +53,12 @@ class _AdminVideosWidgetState extends State<AdminVideosWidget> {
       );
       _model.filteredVideoList =
           _model.allVideos!.toList().cast<VideoPostRecord>();
-      setState(() {});
+      safeSetState(() {});
 
       _navigate();
     });
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -71,9 +71,7 @@ class _AdminVideosWidgetState extends State<AdminVideosWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _model.unfocusNode.canRequestFocus
-          ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-          : FocusScope.of(context).unfocus(),
+      onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
@@ -84,7 +82,7 @@ class _AdminVideosWidgetState extends State<AdminVideosWidget> {
             children: [
               wrapWithModel(
                 model: _model.sidebarAdminModel,
-                updateCallback: () => setState(() {}),
+                updateCallback: () => safeSetState(() {}),
                 child: SidebarAdminWidget(),
               ),
               Expanded(
@@ -330,7 +328,7 @@ class _AdminVideosWidgetState extends State<AdminVideosWidget> {
                                           ),
                                           Text(
                                             dateTimeFormat(
-                                              'yMMMd',
+                                              "yMMMd",
                                               videoRowsItem.timePosted!,
                                               locale:
                                                   FFLocalizations.of(context)

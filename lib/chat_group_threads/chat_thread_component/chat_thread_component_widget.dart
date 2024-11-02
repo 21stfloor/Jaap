@@ -48,7 +48,7 @@ class _ChatThreadComponentWidgetState extends State<ChatThreadComponentWidget> {
     _model.textController ??= TextEditingController();
     _model.textFieldFocusNode ??= FocusNode();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -100,7 +100,7 @@ class _ChatThreadComponentWidgetState extends State<ChatThreadComponentWidget> {
                         });
                       }
 
-                      setState(() {});
+                      safeSetState(() {});
                     }();
                   }
                   _model.listViewPreviousSnapshot = snapshot;
@@ -122,10 +122,10 @@ class _ChatThreadComponentWidgetState extends State<ChatThreadComponentWidget> {
                 }
                 List<ChatMessagesRecord> listViewChatMessagesRecordList =
                     snapshot.data!;
-
                 if (listViewChatMessagesRecordList.isEmpty) {
                   return EmptyChatWidget();
                 }
+
                 return ListView.builder(
                   padding: EdgeInsets.fromLTRB(
                     0,
@@ -146,7 +146,7 @@ class _ChatThreadComponentWidgetState extends State<ChatThreadComponentWidget> {
                           listViewChatMessagesRecord.reference.id,
                           listViewIndex,
                         ),
-                        updateCallback: () => setState(() {}),
+                        updateCallback: () => safeSetState(() {}),
                         updateOnChange: true,
                         child: ChatThreadWidget(
                           key: Key(
@@ -236,7 +236,7 @@ class _ChatThreadComponentWidgetState extends State<ChatThreadComponentWidget> {
                                       size: 24.0,
                                     ),
                                     onPressed: () async {
-                                      setState(() {
+                                      safeSetState(() {
                                         _model.isDataUploading = false;
                                         _model.uploadedLocalFile =
                                             FFUploadedFile(
@@ -293,7 +293,7 @@ class _ChatThreadComponentWidgetState extends State<ChatThreadComponentWidget> {
                             if (selectedMedia != null &&
                                 selectedMedia.every((m) => validateFileFormat(
                                     m.storagePath, context))) {
-                              setState(() => _model.isDataUploading = true);
+                              safeSetState(() => _model.isDataUploading = true);
                               var selectedUploadedFiles = <FFUploadedFile>[];
 
                               var downloadUrls = <String>[];
@@ -330,14 +330,14 @@ class _ChatThreadComponentWidgetState extends State<ChatThreadComponentWidget> {
                               if (selectedUploadedFiles.length ==
                                       selectedMedia.length &&
                                   downloadUrls.length == selectedMedia.length) {
-                                setState(() {
+                                safeSetState(() {
                                   _model.uploadedLocalFile =
                                       selectedUploadedFiles.first;
                                   _model.uploadedFileUrl = downloadUrls.first;
                                 });
                                 showUploadMessage(context, 'Success!');
                               } else {
-                                setState(() {});
+                                safeSetState(() {});
                                 showUploadMessage(
                                     context, 'Failed to upload data');
                                 return;
@@ -348,7 +348,7 @@ class _ChatThreadComponentWidgetState extends State<ChatThreadComponentWidget> {
                                 _model.uploadedFileUrl != '') {
                               _model
                                   .addToImagesUploaded(_model.uploadedFileUrl);
-                              setState(() {});
+                              safeSetState(() {});
                             }
                           },
                         ),
@@ -418,10 +418,10 @@ class _ChatThreadComponentWidgetState extends State<ChatThreadComponentWidget> {
                                           },
                                         ),
                                       });
-                                      setState(() {
+                                      safeSetState(() {
                                         _model.textController?.clear();
                                       });
-                                      setState(() {
+                                      safeSetState(() {
                                         _model.isDataUploading = false;
                                         _model.uploadedLocalFile =
                                             FFUploadedFile(
@@ -430,9 +430,9 @@ class _ChatThreadComponentWidgetState extends State<ChatThreadComponentWidget> {
                                       });
 
                                       _model.imagesUploaded = [];
-                                      setState(() {});
+                                      safeSetState(() {});
 
-                                      setState(() {});
+                                      safeSetState(() {});
                                     },
                                     autofocus: true,
                                     textCapitalization:
@@ -602,10 +602,10 @@ class _ChatThreadComponentWidgetState extends State<ChatThreadComponentWidget> {
                                             },
                                           ),
                                         });
-                                        setState(() {
+                                        safeSetState(() {
                                           _model.textController?.clear();
                                         });
-                                        setState(() {
+                                        safeSetState(() {
                                           _model.isDataUploading = false;
                                           _model.uploadedLocalFile =
                                               FFUploadedFile(
@@ -615,12 +615,12 @@ class _ChatThreadComponentWidgetState extends State<ChatThreadComponentWidget> {
                                         });
 
                                         _model.imagesUploaded = [];
-                                        setState(() {});
+                                        safeSetState(() {});
                                       } finally {
                                         await firestoreBatch.commit();
                                       }
 
-                                      setState(() {});
+                                      safeSetState(() {});
                                     },
                                   ),
                                 ),

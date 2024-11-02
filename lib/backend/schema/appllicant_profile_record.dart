@@ -56,6 +56,31 @@ class AppllicantProfileRecord extends FirestoreRecord {
   String get bio => _bio ?? '';
   bool hasBio() => _bio != null;
 
+  // "certification" field.
+  String? _certification;
+  String get certification => _certification ?? '';
+  bool hasCertification() => _certification != null;
+
+  // "certificationFile" field.
+  String? _certificationFile;
+  String get certificationFile => _certificationFile ?? '';
+  bool hasCertificationFile() => _certificationFile != null;
+
+  // "status" field.
+  String? _status;
+  String get status => _status ?? '';
+  bool hasStatus() => _status != null;
+
+  // "verified" field.
+  bool? _verified;
+  bool get verified => _verified ?? false;
+  bool hasVerified() => _verified != null;
+
+  // "workId" field.
+  String? _workId;
+  String get workId => _workId ?? '';
+  bool hasWorkId() => _workId != null;
+
   DocumentReference get parentReference => reference.parent.parent!;
 
   void _initializeFields() {
@@ -67,6 +92,11 @@ class AppllicantProfileRecord extends FirestoreRecord {
     _birthPlace = snapshotData['birthPlace'] as String?;
     _birthday = snapshotData['birthday'] as DateTime?;
     _bio = snapshotData['bio'] as String?;
+    _certification = snapshotData['certification'] as String?;
+    _certificationFile = snapshotData['certificationFile'] as String?;
+    _status = snapshotData['status'] as String?;
+    _verified = snapshotData['verified'] as bool?;
+    _workId = snapshotData['workId'] as String?;
   }
 
   static Query<Map<String, dynamic>> collection([DocumentReference? parent]) =>
@@ -118,6 +148,11 @@ Map<String, dynamic> createAppllicantProfileRecordData({
   String? birthPlace,
   DateTime? birthday,
   String? bio,
+  String? certification,
+  String? certificationFile,
+  String? status,
+  bool? verified,
+  String? workId,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -129,6 +164,11 @@ Map<String, dynamic> createAppllicantProfileRecordData({
       'birthPlace': birthPlace,
       'birthday': birthday,
       'bio': bio,
+      'certification': certification,
+      'certificationFile': certificationFile,
+      'status': status,
+      'verified': verified,
+      'workId': workId,
     }.withoutNulls,
   );
 
@@ -148,7 +188,12 @@ class AppllicantProfileRecordDocumentEquality
         e1?.address == e2?.address &&
         e1?.birthPlace == e2?.birthPlace &&
         e1?.birthday == e2?.birthday &&
-        e1?.bio == e2?.bio;
+        e1?.bio == e2?.bio &&
+        e1?.certification == e2?.certification &&
+        e1?.certificationFile == e2?.certificationFile &&
+        e1?.status == e2?.status &&
+        e1?.verified == e2?.verified &&
+        e1?.workId == e2?.workId;
   }
 
   @override
@@ -160,7 +205,12 @@ class AppllicantProfileRecordDocumentEquality
         e?.address,
         e?.birthPlace,
         e?.birthday,
-        e?.bio
+        e?.bio,
+        e?.certification,
+        e?.certificationFile,
+        e?.status,
+        e?.verified,
+        e?.workId
       ]);
 
   @override

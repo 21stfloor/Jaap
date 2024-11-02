@@ -1,15 +1,19 @@
+import '/auth/base_auth_user_provider.dart';
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
+import '/backend/schema/structs/index.dart';
 import '/chat_group_threads/empty_state_simple/empty_state_simple_widget.dart';
+import '/components/empty_result_widget.dart';
+import '/components/job_filters_widget.dart';
 import '/components/payment_dialog_applicant_widget.dart';
-import '/flutter_flow/flutter_flow_choice_chips.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import '/flutter_flow/form_field_controller.dart';
 import '/web_app_template/agency/agency_profile_view_component/agency_profile_view_component_widget.dart';
+import '/web_app_template/agency/side_nav_agency/side_nav_agency_widget.dart';
 import '/web_app_template/applicant/side_nav_applicants/side_nav_applicants_widget.dart';
+import '/web_app_template/applicant/side_nav_geust/side_nav_geust_widget.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collection/collection.dart';
@@ -40,35 +44,22 @@ class _JobListWidgetState extends State<JobListWidget> {
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      Function() _navigate = () {};
-      if (valueOrDefault(currentUserDocument?.role, '') !=
-          FFAppConstants.userTypeApplicant) {
-        GoRouter.of(context).prepareAuthEvent();
-        await authManager.signOut();
-        GoRouter.of(context).clearRedirectLocation();
-
-        _navigate =
-            () => context.goNamedAuth('auth_WelcomeScreen', context.mounted);
-
-        _navigate();
-        return;
-      }
-      _model.addToRegionSelected(FFAppConstants.regionAsia);
-      setState(() {});
-      _model.allVisibleJobs = await queryJobRecordOnce(
-        queryBuilder: (jobRecord) => jobRecord
-            .where(
-              'visible',
-              isEqualTo: true,
-            )
-            .where(
-              'region',
-              isEqualTo: FFAppConstants.regionAsia,
-            ),
+      _model.filterData = JobFilterStruct(
+        countries: [],
+        companies: [],
+        days: 'Any time',
+        jobTypes: [],
       );
-      _model.jobListResult = _model.allVisibleJobs!.toList().cast<JobRecord>();
-      setState(() {});
-      _model.allBoostedPost = await queryPaymentsRecordOnce(
+      safeSetState(() {});
+      _model.jobListVisible = await queryJobRecordOnce(
+        queryBuilder: (jobRecord) => jobRecord.where(
+          'visible',
+          isEqualTo: true,
+        ),
+      );
+      _model.jobListResult = _model.jobListVisible!.toList().cast<JobRecord>();
+      safeSetState(() {});
+      _model.boostedPostVisible = await queryPaymentsRecordOnce(
         queryBuilder: (paymentsRecord) => paymentsRecord
             .where(
               'expiry',
@@ -77,20 +68,18 @@ class _JobListWidgetState extends State<JobListWidget> {
             .orderBy('expiry', descending: true)
             .orderBy('date', descending: true),
       );
-      _model.boostedPosts = _model.allBoostedPost!
+      _model.boostedPosts = _model.boostedPostVisible!
           .where((e) => !e.expired)
           .toList()
           .toList()
           .cast<PaymentsRecord>();
-      setState(() {});
-
-      _navigate();
+      safeSetState(() {});
     });
 
     _model.searchBoxTextController ??= TextEditingController();
     _model.searchBoxFocusNode ??= FocusNode();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -105,18 +94,41 @@ class _JobListWidgetState extends State<JobListWidget> {
     context.watch<FFAppState>();
 
     return GestureDetector(
-      onTap: () => _model.unfocusNode.canRequestFocus
-          ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-          : FocusScope.of(context).unfocus(),
+      onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
         drawer: Drawer(
           elevation: 16.0,
-          child: wrapWithModel(
-            model: _model.sideNavApplicantsModel2,
-            updateCallback: () => setState(() {}),
-            child: SideNavApplicantsWidget(),
+          child: Builder(
+            builder: (context) {
+              if (loggedIn == true) {
+                return Builder(
+                  builder: (context) {
+                    if (valueOrDefault(currentUserDocument?.role, '') ==
+                        FFAppConstants.userTypeApplicant) {
+                      return wrapWithModel(
+                        model: _model.sideNavApplicantsModel2,
+                        updateCallback: () => safeSetState(() {}),
+                        child: SideNavApplicantsWidget(),
+                      );
+                    } else {
+                      return wrapWithModel(
+                        model: _model.sideNavAgencyModel2,
+                        updateCallback: () => safeSetState(() {}),
+                        child: SideNavAgencyWidget(),
+                      );
+                    }
+                  },
+                );
+              } else {
+                return wrapWithModel(
+                  model: _model.sideNavGeustModel2,
+                  updateCallback: () => safeSetState(() {}),
+                  child: SideNavGeustWidget(),
+                );
+              }
+            },
           ),
         ),
         body: SafeArea(
@@ -131,10 +143,35 @@ class _JobListWidgetState extends State<JobListWidget> {
               ))
                 Container(
                   decoration: BoxDecoration(),
-                  child: wrapWithModel(
-                    model: _model.sideNavApplicantsModel1,
-                    updateCallback: () => setState(() {}),
-                    child: SideNavApplicantsWidget(),
+                  child: Builder(
+                    builder: (context) {
+                      if (loggedIn == true) {
+                        return Builder(
+                          builder: (context) {
+                            if (valueOrDefault(currentUserDocument?.role, '') ==
+                                FFAppConstants.userTypeApplicant) {
+                              return wrapWithModel(
+                                model: _model.sideNavApplicantsModel1,
+                                updateCallback: () => safeSetState(() {}),
+                                child: SideNavApplicantsWidget(),
+                              );
+                            } else {
+                              return wrapWithModel(
+                                model: _model.sideNavAgencyModel1,
+                                updateCallback: () => safeSetState(() {}),
+                                child: SideNavAgencyWidget(),
+                              );
+                            }
+                          },
+                        );
+                      } else {
+                        return wrapWithModel(
+                          model: _model.sideNavGeustModel1,
+                          updateCallback: () => safeSetState(() {}),
+                          child: SideNavGeustWidget(),
+                        );
+                      }
+                    },
                   ),
                 ),
               Expanded(
@@ -250,50 +287,6 @@ class _JobListWidgetState extends State<JobListWidget> {
                                 size: 24.0,
                               ),
                               onPressed: () async {
-                                if (FFAppState().hasSubscription) {
-                                  if (_model.choiceChipsValues!
-                                      .contains(FFAppConstants.regionAll)) {
-                                    _model.updatedAllVisibleJobWorld =
-                                        await queryJobRecordOnce(
-                                      queryBuilder: (jobRecord) => jobRecord
-                                          .where(
-                                            'visible',
-                                            isEqualTo: true,
-                                          )
-                                          .whereIn(
-                                              'region', _model.regionSelected),
-                                    );
-                                    _model.jobListResult = _model
-                                        .updatedAllVisibleJobWorld!
-                                        .toList()
-                                        .cast<JobRecord>();
-                                    setState(() {});
-                                  }
-                                } else {
-                                  _model.regionSelected = [];
-                                  setState(() {});
-                                  _model.addToRegionSelected(
-                                      FFAppConstants.regionAsia);
-                                  setState(() {});
-                                  _model.updatedAllVisibleJobAsia =
-                                      await queryJobRecordOnce(
-                                    queryBuilder: (jobRecord) => jobRecord
-                                        .where(
-                                          'visible',
-                                          isEqualTo: true,
-                                        )
-                                        .where(
-                                          'region',
-                                          isEqualTo: FFAppConstants.regionAsia,
-                                        ),
-                                  );
-                                  _model.jobListResult = _model
-                                      .updatedAllVisibleJobAsia!
-                                      .toList()
-                                      .cast<JobRecord>();
-                                  setState(() {});
-                                }
-
                                 if (_model.searchBoxTextController.text !=
                                         null &&
                                     _model.searchBoxTextController.text != '') {
@@ -305,8 +298,8 @@ class _JobListWidgetState extends State<JobListWidget> {
                                                 TextSearchItem.fromTerms(
                                                     record, [
                                               record.title!,
-                                              record.location!,
-                                              record.skils!
+                                              record.skils!,
+                                              record.location!
                                             ]),
                                           )
                                           .toList(),
@@ -321,113 +314,114 @@ class _JobListWidgetState extends State<JobListWidget> {
                                       .simpleSearchResults
                                       .toList()
                                       .cast<JobRecord>();
-                                  setState(() {});
+                                  safeSetState(() {});
                                 }
-
-                                setState(() {});
+                                await _model.searchJob(context);
                               },
                             ),
                           ],
                         ),
-                        Column(
+                        Row(
                           mainAxisSize: MainAxisSize.max,
                           children: [
-                            Builder(
-                              builder: (context) => FlutterFlowChoiceChips(
-                                options: FFAppConstants.regions
-                                    .map((label) => ChipData(label))
-                                    .toList(),
-                                onChanged: (val) async {
-                                  setState(
-                                      () => _model.choiceChipsValues = val);
-                                  if (FFAppState().hasSubscription == true) {
-                                    _model.regionSelected = _model
-                                        .choiceChipsValues!
-                                        .toList()
-                                        .cast<String>();
-                                    setState(() {});
-                                  } else {
-                                    if (_model.choiceChipsValues!
-                                        .contains('World')) {
-                                      await showDialog(
-                                        barrierDismissible: false,
-                                        context: context,
-                                        builder: (dialogContext) {
-                                          return Dialog(
-                                            elevation: 0,
-                                            insetPadding: EdgeInsets.zero,
-                                            backgroundColor: Colors.transparent,
-                                            alignment: AlignmentDirectional(
-                                                    0.0, 0.0)
-                                                .resolve(
-                                                    Directionality.of(context)),
-                                            child: GestureDetector(
-                                              onTap: () => _model.unfocusNode
-                                                      .canRequestFocus
-                                                  ? FocusScope.of(context)
-                                                      .requestFocus(
-                                                          _model.unfocusNode)
-                                                  : FocusScope.of(context)
-                                                      .unfocus(),
-                                              child:
-                                                  PaymentDialogApplicantWidget(),
-                                            ),
-                                          );
-                                        },
-                                      ).then((value) => setState(() {}));
+                            FFButtonWidget(
+                              onPressed: () async {
+                                await showModalBottomSheet(
+                                  isScrollControlled: true,
+                                  backgroundColor: FlutterFlowTheme.of(context)
+                                      .primaryBackground,
+                                  isDismissible: false,
+                                  enableDrag: false,
+                                  context: context,
+                                  builder: (context) {
+                                    return GestureDetector(
+                                      onTap: () =>
+                                          FocusScope.of(context).unfocus(),
+                                      child: Padding(
+                                        padding:
+                                            MediaQuery.viewInsetsOf(context),
+                                        child: Container(
+                                          height: MediaQuery.sizeOf(context)
+                                                  .height *
+                                              0.35,
+                                          child: JobFiltersWidget(
+                                            filterData: _model.filterData,
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ).then((value) => safeSetState(
+                                    () => _model.filterResult = value));
 
-                                      return;
-                                    }
-                                  }
-                                },
-                                selectedChipStyle: ChipStyle(
-                                  backgroundColor:
-                                      FlutterFlowTheme.of(context).tertiary,
-                                  textStyle: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .override(
-                                        fontFamily: 'Inter',
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryText,
-                                        letterSpacing: 0.0,
-                                      ),
-                                  iconColor:
-                                      FlutterFlowTheme.of(context).alternate,
-                                  iconSize: 18.0,
-                                  elevation: 4.0,
-                                  borderRadius: BorderRadius.circular(16.0),
-                                ),
-                                unselectedChipStyle: ChipStyle(
-                                  backgroundColor:
-                                      FlutterFlowTheme.of(context).alternate,
-                                  textStyle: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .override(
-                                        fontFamily: 'Inter',
-                                        color: FlutterFlowTheme.of(context)
-                                            .secondaryText,
-                                        letterSpacing: 0.0,
-                                      ),
-                                  iconColor: FlutterFlowTheme.of(context)
-                                      .secondaryText,
-                                  iconSize: 18.0,
-                                  elevation: 0.0,
-                                  borderRadius: BorderRadius.circular(16.0),
-                                ),
-                                chipSpacing: 12.0,
-                                rowSpacing: 12.0,
-                                multiselect: true,
-                                initialized: _model.choiceChipsValues != null,
-                                alignment: WrapAlignment.start,
-                                controller:
-                                    _model.choiceChipsValueController ??=
-                                        FormFieldController<List<String>>(
-                                  _model.regionSelected,
-                                ),
-                                wrapped: true,
+                                if (_model.filterResult != null) {
+                                  _model.filterData = _model.filterResult;
+                                  _model.hasFilter = true;
+                                  safeSetState(() {});
+                                  await _model.searchJob(context);
+                                }
+
+                                safeSetState(() {});
+                              },
+                              text: FFLocalizations.of(context).getText(
+                                'bb8nfvf5' /* Filters */,
+                              ),
+                              icon: Icon(
+                                Icons.filter_list,
+                                size: 15.0,
+                              ),
+                              options: FFButtonOptions(
+                                height: 40.0,
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    16.0, 0.0, 16.0, 0.0),
+                                iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                    0.0, 0.0, 0.0, 0.0),
+                                color: FlutterFlowTheme.of(context).primary,
+                                textStyle: FlutterFlowTheme.of(context)
+                                    .titleSmall
+                                    .override(
+                                      fontFamily: 'Inter',
+                                      color: Colors.white,
+                                      letterSpacing: 0.0,
+                                    ),
+                                elevation: 0.0,
+                                borderRadius: BorderRadius.circular(8.0),
                               ),
                             ),
-                          ],
+                            if (_model.hasFilter)
+                              FFButtonWidget(
+                                onPressed: () async {
+                                  _model.filterData = null;
+                                  _model.hasFilter = false;
+                                  safeSetState(() {});
+                                  await _model.searchJob(context);
+
+                                  safeSetState(() {});
+                                },
+                                text: FFLocalizations.of(context).getText(
+                                  'tv427z25' /* Clear filter */,
+                                ),
+                                options: FFButtonOptions(
+                                  height: 40.0,
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      16.0, 0.0, 16.0, 0.0),
+                                  iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                      0.0, 0.0, 0.0, 0.0),
+                                  color: FlutterFlowTheme.of(context).error,
+                                  textStyle: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .override(
+                                        fontFamily: 'Inter',
+                                        color: Colors.white,
+                                        letterSpacing: 0.0,
+                                      ),
+                                  elevation: 0.0,
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                              ),
+                          ]
+                              .divide(SizedBox(width: 10.0))
+                              .around(SizedBox(width: 10.0)),
                         ),
                         Expanded(
                           flex: 5,
@@ -515,7 +509,6 @@ class _JobListWidgetState extends State<JobListWidget> {
                                                     List<AgencyPofileRecord>
                                                         containerAgencyPofileRecordList =
                                                         snapshot.data!;
-
                                                     // Return an empty Container when the item does not exist.
                                                     if (snapshot
                                                         .data!.isEmpty) {
@@ -527,6 +520,7 @@ class _JobListWidgetState extends State<JobListWidget> {
                                                             ? containerAgencyPofileRecordList
                                                                 .first
                                                             : null;
+
                                                     return Container(
                                                       width: double.infinity,
                                                       height: double.infinity,
@@ -663,14 +657,14 @@ class _JobListWidgetState extends State<JobListWidget> {
                                                                                       backgroundColor: Colors.transparent,
                                                                                       alignment: AlignmentDirectional(0.0, 0.0).resolve(Directionality.of(context)),
                                                                                       child: GestureDetector(
-                                                                                        onTap: () => _model.unfocusNode.canRequestFocus ? FocusScope.of(context).requestFocus(_model.unfocusNode) : FocusScope.of(context).unfocus(),
+                                                                                        onTap: () => FocusScope.of(dialogContext).unfocus(),
                                                                                         child: AgencyProfileViewComponentWidget(
                                                                                           agencyProfile: containerAgencyPofileRecord!,
                                                                                         ),
                                                                                       ),
                                                                                     );
                                                                                   },
-                                                                                ).then((value) => setState(() {}));
+                                                                                );
                                                                               },
                                                                               child: ClipRRect(
                                                                                 borderRadius: BorderRadius.circular(40.0),
@@ -766,12 +760,12 @@ class _JobListWidgetState extends State<JobListWidget> {
                                                                                           backgroundColor: Colors.transparent,
                                                                                           alignment: AlignmentDirectional(0.0, 0.0).resolve(Directionality.of(context)),
                                                                                           child: GestureDetector(
-                                                                                            onTap: () => _model.unfocusNode.canRequestFocus ? FocusScope.of(context).requestFocus(_model.unfocusNode) : FocusScope.of(context).unfocus(),
+                                                                                            onTap: () => FocusScope.of(dialogContext).unfocus(),
                                                                                             child: PaymentDialogApplicantWidget(),
                                                                                           ),
                                                                                         );
                                                                                       },
-                                                                                    ).then((value) => setState(() {}));
+                                                                                    );
                                                                                   } else {
                                                                                     context.pushNamed(
                                                                                       'jobPostPreviewPage',
@@ -824,9 +818,9 @@ class _JobListWidgetState extends State<JobListWidget> {
                                                   },
                                                 );
                                               },
-                                              carouselController:
-                                                  _model.carouselController ??=
-                                                      CarouselController(),
+                                              carouselController: _model
+                                                      .carouselController ??=
+                                                  CarouselSliderController(),
                                               options: CarouselOptions(
                                                 initialPage: max(
                                                     0,
@@ -888,57 +882,27 @@ class _JobListWidgetState extends State<JobListWidget> {
                             decoration: BoxDecoration(),
                             child: Builder(
                               builder: (context) {
-                                final jobRows = _model.jobListResult.toList();
+                                if (_model.jobListResult.length > 0) {
+                                  return Builder(
+                                    builder: (context) {
+                                      final jobRows =
+                                          _model.jobListResult.toList();
 
-                                return ListView.builder(
-                                  padding: EdgeInsets.zero,
-                                  shrinkWrap: true,
-                                  scrollDirection: Axis.vertical,
-                                  itemCount: jobRows.length,
-                                  itemBuilder: (context, jobRowsIndex) {
-                                    final jobRowsItem = jobRows[jobRowsIndex];
-                                    return Padding(
-                                      padding: EdgeInsets.all(16.0),
-                                      child: StreamBuilder<AgencyPofileRecord>(
-                                        stream: AgencyPofileRecord.getDocument(
-                                            jobRowsItem.agency!),
-                                        builder: (context, snapshot) {
-                                          // Customize what your widget looks like when it's loading.
-                                          if (!snapshot.hasData) {
-                                            return Center(
-                                              child: SizedBox(
-                                                width: 50.0,
-                                                height: 50.0,
-                                                child:
-                                                    CircularProgressIndicator(
-                                                  valueColor:
-                                                      AlwaysStoppedAnimation<
-                                                          Color>(
-                                                    FlutterFlowTheme.of(context)
-                                                        .primary,
-                                                  ),
-                                                ),
-                                              ),
-                                            );
-                                          }
-
-                                          final cardAgencyPofileRecord =
-                                              snapshot.data!;
-
-                                          return Card(
-                                            clipBehavior:
-                                                Clip.antiAliasWithSaveLayer,
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryBackground,
-                                            elevation: 4.0,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(8.0),
-                                            ),
-                                            child: StreamBuilder<UsersRecord>(
-                                              stream: UsersRecord.getDocument(
-                                                  cardAgencyPofileRecord
-                                                      .parentReference),
+                                      return ListView.builder(
+                                        padding: EdgeInsets.zero,
+                                        shrinkWrap: true,
+                                        scrollDirection: Axis.vertical,
+                                        itemCount: jobRows.length,
+                                        itemBuilder: (context, jobRowsIndex) {
+                                          final jobRowsItem =
+                                              jobRows[jobRowsIndex];
+                                          return Padding(
+                                            padding: EdgeInsets.all(16.0),
+                                            child: StreamBuilder<
+                                                AgencyPofileRecord>(
+                                              stream: AgencyPofileRecord
+                                                  .getDocument(
+                                                      jobRowsItem.agency!),
                                               builder: (context, snapshot) {
                                                 // Customize what your widget looks like when it's loading.
                                                 if (!snapshot.hasData) {
@@ -960,116 +924,198 @@ class _JobListWidgetState extends State<JobListWidget> {
                                                   );
                                                 }
 
-                                                final columnUsersRecord =
+                                                final cardAgencyPofileRecord =
                                                     snapshot.data!;
 
-                                                return Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Padding(
-                                                      padding:
-                                                          EdgeInsets.all(8.0),
-                                                      child: Row(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        children: [
-                                                          Builder(
-                                                            builder:
-                                                                (context) =>
-                                                                    InkWell(
-                                                              splashColor: Colors
-                                                                  .transparent,
-                                                              focusColor: Colors
-                                                                  .transparent,
-                                                              hoverColor: Colors
-                                                                  .transparent,
-                                                              highlightColor:
-                                                                  Colors
-                                                                      .transparent,
-                                                              onTap: () async {
-                                                                await showDialog(
-                                                                  context:
-                                                                      context,
-                                                                  builder:
-                                                                      (dialogContext) {
-                                                                    return Dialog(
-                                                                      elevation:
-                                                                          0,
-                                                                      insetPadding:
-                                                                          EdgeInsets
-                                                                              .zero,
-                                                                      backgroundColor:
-                                                                          Colors
-                                                                              .transparent,
-                                                                      alignment: AlignmentDirectional(
-                                                                              0.0,
-                                                                              0.0)
-                                                                          .resolve(
-                                                                              Directionality.of(context)),
-                                                                      child:
-                                                                          GestureDetector(
-                                                                        onTap: () => _model.unfocusNode.canRequestFocus
-                                                                            ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-                                                                            : FocusScope.of(context).unfocus(),
-                                                                        child:
-                                                                            AgencyProfileViewComponentWidget(
-                                                                          agencyProfile:
-                                                                              cardAgencyPofileRecord,
-                                                                        ),
-                                                                      ),
-                                                                    );
-                                                                  },
-                                                                ).then((value) =>
-                                                                    setState(
-                                                                        () {}));
-                                                              },
-                                                              child: ClipRRect(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            40.0),
-                                                                child: Image
-                                                                    .network(
-                                                                  valueOrDefault<
-                                                                      String>(
-                                                                    columnUsersRecord
-                                                                        .photoUrl,
-                                                                    'https://firebasestorage.googleapis.com/v0/b/jaap-h3fa31.appspot.com/o/449133811_969639548177226_1356168894052321592_n%20(1).jpg?alt=media&token=41943bb5-d21d-42a4-873b-961dbcfb5091',
-                                                                  ),
-                                                                  width: 40.0,
-                                                                  height: 40.0,
-                                                                  fit: BoxFit
-                                                                      .cover,
-                                                                ),
+                                                return Card(
+                                                  clipBehavior: Clip
+                                                      .antiAliasWithSaveLayer,
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .secondaryBackground,
+                                                  elevation: 4.0,
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8.0),
+                                                  ),
+                                                  child: StreamBuilder<
+                                                      UsersRecord>(
+                                                    stream: UsersRecord.getDocument(
+                                                        cardAgencyPofileRecord
+                                                            .parentReference),
+                                                    builder:
+                                                        (context, snapshot) {
+                                                      // Customize what your widget looks like when it's loading.
+                                                      if (!snapshot.hasData) {
+                                                        return Center(
+                                                          child: SizedBox(
+                                                            width: 50.0,
+                                                            height: 50.0,
+                                                            child:
+                                                                CircularProgressIndicator(
+                                                              valueColor:
+                                                                  AlwaysStoppedAnimation<
+                                                                      Color>(
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primary,
                                                               ),
                                                             ),
                                                           ),
-                                                          Expanded(
-                                                            child: Padding(
-                                                              padding:
-                                                                  EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          12.0,
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0),
-                                                              child: Column(
-                                                                mainAxisSize:
-                                                                    MainAxisSize
-                                                                        .max,
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .start,
-                                                                children: [
+                                                        );
+                                                      }
+
+                                                      final columnUsersRecord =
+                                                          snapshot.data!;
+
+                                                      return Column(
+                                                        mainAxisSize:
+                                                            MainAxisSize.max,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Padding(
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    8.0),
+                                                            child: Row(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .max,
+                                                              children: [
+                                                                Builder(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          InkWell(
+                                                                    splashColor:
+                                                                        Colors
+                                                                            .transparent,
+                                                                    focusColor:
+                                                                        Colors
+                                                                            .transparent,
+                                                                    hoverColor:
+                                                                        Colors
+                                                                            .transparent,
+                                                                    highlightColor:
+                                                                        Colors
+                                                                            .transparent,
+                                                                    onTap:
+                                                                        () async {
+                                                                      await showDialog(
+                                                                        context:
+                                                                            context,
+                                                                        builder:
+                                                                            (dialogContext) {
+                                                                          return Dialog(
+                                                                            elevation:
+                                                                                0,
+                                                                            insetPadding:
+                                                                                EdgeInsets.zero,
+                                                                            backgroundColor:
+                                                                                Colors.transparent,
+                                                                            alignment:
+                                                                                AlignmentDirectional(0.0, 0.0).resolve(Directionality.of(context)),
+                                                                            child:
+                                                                                GestureDetector(
+                                                                              onTap: () => FocusScope.of(dialogContext).unfocus(),
+                                                                              child: AgencyProfileViewComponentWidget(
+                                                                                agencyProfile: cardAgencyPofileRecord,
+                                                                              ),
+                                                                            ),
+                                                                          );
+                                                                        },
+                                                                      );
+                                                                    },
+                                                                    child:
+                                                                        ClipRRect(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              40.0),
+                                                                      child: Image
+                                                                          .network(
+                                                                        valueOrDefault<
+                                                                            String>(
+                                                                          columnUsersRecord
+                                                                              .photoUrl,
+                                                                          'https://firebasestorage.googleapis.com/v0/b/jaap-h3fa31.appspot.com/o/449133811_969639548177226_1356168894052321592_n%20(1).jpg?alt=media&token=41943bb5-d21d-42a4-873b-961dbcfb5091',
+                                                                        ),
+                                                                        width:
+                                                                            40.0,
+                                                                        height:
+                                                                            40.0,
+                                                                        fit: BoxFit
+                                                                            .cover,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                Expanded(
+                                                                  child:
+                                                                      Padding(
+                                                                    padding: EdgeInsetsDirectional
+                                                                        .fromSTEB(
+                                                                            12.0,
+                                                                            0.0,
+                                                                            0.0,
+                                                                            0.0),
+                                                                    child:
+                                                                        Column(
+                                                                      mainAxisSize:
+                                                                          MainAxisSize
+                                                                              .max,
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .start,
+                                                                      children: [
+                                                                        Text(
+                                                                          jobRowsItem
+                                                                              .title,
+                                                                          style: FlutterFlowTheme.of(context)
+                                                                              .bodyLarge
+                                                                              .override(
+                                                                                fontFamily: 'Inter',
+                                                                                letterSpacing: 0.0,
+                                                                              ),
+                                                                        ),
+                                                                        Padding(
+                                                                          padding: EdgeInsetsDirectional.fromSTEB(
+                                                                              0.0,
+                                                                              4.0,
+                                                                              0.0,
+                                                                              0.0),
+                                                                          child:
+                                                                              Text(
+                                                                            jobRowsItem.description.maybeHandleOverflow(
+                                                                              maxChars: 300,
+                                                                              replacement: '…',
+                                                                            ),
+                                                                            style: FlutterFlowTheme.of(context).labelSmall.override(
+                                                                                  fontFamily: 'Inter',
+                                                                                  letterSpacing: 0.0,
+                                                                                ),
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                if (jobRowsItem
+                                                                        .hasDatePosted() ==
+                                                                    true)
                                                                   Text(
-                                                                    jobRowsItem
-                                                                        .title,
+                                                                    dateTimeFormat(
+                                                                      "relative",
+                                                                      jobRowsItem
+                                                                          .datePosted!,
+                                                                      locale: FFLocalizations.of(
+                                                                              context)
+                                                                          .languageCode,
+                                                                    ),
                                                                     style: FlutterFlowTheme.of(
                                                                             context)
-                                                                        .bodyLarge
+                                                                        .bodyMedium
                                                                         .override(
                                                                           fontFamily:
                                                                               'Inter',
@@ -1077,163 +1123,140 @@ class _JobListWidgetState extends State<JobListWidget> {
                                                                               0.0,
                                                                         ),
                                                                   ),
-                                                                  Padding(
-                                                                    padding: EdgeInsetsDirectional
-                                                                        .fromSTEB(
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    8.0),
+                                                            child: Text(
+                                                              formatNumber(
+                                                                jobRowsItem
+                                                                    .salary,
+                                                                formatType:
+                                                                    FormatType
+                                                                        .decimal,
+                                                                decimalType:
+                                                                    DecimalType
+                                                                        .periodDecimal,
+                                                                currency: 'P',
+                                                              ),
+                                                              style: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .labelMedium
+                                                                  .override(
+                                                                    fontFamily:
+                                                                        'Inter',
+                                                                    fontSize:
+                                                                        16.0,
+                                                                    letterSpacing:
+                                                                        0.0,
+                                                                  ),
+                                                            ),
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    8.0),
+                                                            child: Row(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .max,
+                                                              children: [
+                                                                Expanded(
+                                                                  child: Align(
+                                                                    alignment:
+                                                                        AlignmentDirectional(
+                                                                            1.0,
+                                                                            0.0),
+                                                                    child:
+                                                                        FFButtonWidget(
+                                                                      onPressed:
+                                                                          () async {
+                                                                        context
+                                                                            .pushNamed(
+                                                                          'jobPostPreviewPage',
+                                                                          queryParameters:
+                                                                              {
+                                                                            'jobPost':
+                                                                                serializeParam(
+                                                                              jobRowsItem,
+                                                                              ParamType.Document,
+                                                                            ),
+                                                                          }.withoutNulls,
+                                                                          extra: <String,
+                                                                              dynamic>{
+                                                                            'jobPost':
+                                                                                jobRowsItem,
+                                                                          },
+                                                                        );
+                                                                      },
+                                                                      text: FFLocalizations.of(
+                                                                              context)
+                                                                          .getText(
+                                                                        '9iuvbb3p' /* View Full Details  */,
+                                                                      ),
+                                                                      options:
+                                                                          FFButtonOptions(
+                                                                        height:
+                                                                            40.0,
+                                                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                                                            24.0,
                                                                             0.0,
-                                                                            4.0,
+                                                                            24.0,
+                                                                            0.0),
+                                                                        iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                                                            0.0,
+                                                                            0.0,
                                                                             0.0,
                                                                             0.0),
-                                                                    child: Text(
-                                                                      jobRowsItem
-                                                                          .description
-                                                                          .maybeHandleOverflow(
-                                                                        maxChars:
-                                                                            300,
-                                                                        replacement:
-                                                                            '…',
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .primary,
+                                                                        textStyle: FlutterFlowTheme.of(context)
+                                                                            .titleSmall
+                                                                            .override(
+                                                                              fontFamily: 'Inter',
+                                                                              color: Colors.white,
+                                                                              letterSpacing: 0.0,
+                                                                            ),
+                                                                        elevation:
+                                                                            3.0,
+                                                                        borderSide:
+                                                                            BorderSide(
+                                                                          color:
+                                                                              Colors.transparent,
+                                                                          width:
+                                                                              1.0,
+                                                                        ),
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(8.0),
                                                                       ),
-                                                                      style: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .labelSmall
-                                                                          .override(
-                                                                            fontFamily:
-                                                                                'Inter',
-                                                                            letterSpacing:
-                                                                                0.0,
-                                                                          ),
                                                                     ),
                                                                   ),
-                                                                ],
-                                                              ),
+                                                                ),
+                                                              ],
                                                             ),
                                                           ),
                                                         ],
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding:
-                                                          EdgeInsets.all(8.0),
-                                                      child: Text(
-                                                        formatNumber(
-                                                          jobRowsItem.salary,
-                                                          formatType: FormatType
-                                                              .decimal,
-                                                          decimalType:
-                                                              DecimalType
-                                                                  .periodDecimal,
-                                                          currency: 'P',
-                                                        ),
-                                                        style: FlutterFlowTheme
-                                                                .of(context)
-                                                            .labelMedium
-                                                            .override(
-                                                              fontFamily:
-                                                                  'Inter',
-                                                              fontSize: 16.0,
-                                                              letterSpacing:
-                                                                  0.0,
-                                                            ),
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding:
-                                                          EdgeInsets.all(8.0),
-                                                      child: Row(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        children: [
-                                                          Expanded(
-                                                            child: Align(
-                                                              alignment:
-                                                                  AlignmentDirectional(
-                                                                      1.0, 0.0),
-                                                              child:
-                                                                  FFButtonWidget(
-                                                                onPressed:
-                                                                    () async {
-                                                                  context
-                                                                      .pushNamed(
-                                                                    'jobPostPreviewPage',
-                                                                    queryParameters:
-                                                                        {
-                                                                      'jobPost':
-                                                                          serializeParam(
-                                                                        jobRowsItem,
-                                                                        ParamType
-                                                                            .Document,
-                                                                      ),
-                                                                    }.withoutNulls,
-                                                                    extra: <String,
-                                                                        dynamic>{
-                                                                      'jobPost':
-                                                                          jobRowsItem,
-                                                                    },
-                                                                  );
-                                                                },
-                                                                text: FFLocalizations.of(
-                                                                        context)
-                                                                    .getText(
-                                                                  '9iuvbb3p' /* View Full Details  */,
-                                                                ),
-                                                                options:
-                                                                    FFButtonOptions(
-                                                                  height: 40.0,
-                                                                  padding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          24.0,
-                                                                          0.0,
-                                                                          24.0,
-                                                                          0.0),
-                                                                  iconPadding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0),
-                                                                  color: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .primary,
-                                                                  textStyle: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .titleSmall
-                                                                      .override(
-                                                                        fontFamily:
-                                                                            'Inter',
-                                                                        color: Colors
-                                                                            .white,
-                                                                        letterSpacing:
-                                                                            0.0,
-                                                                      ),
-                                                                  elevation:
-                                                                      3.0,
-                                                                  borderSide:
-                                                                      BorderSide(
-                                                                    color: Colors
-                                                                        .transparent,
-                                                                    width: 1.0,
-                                                                  ),
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              8.0),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ],
+                                                      );
+                                                    },
+                                                  ),
                                                 );
                                               },
                                             ),
                                           );
                                         },
-                                      ),
-                                    );
-                                  },
-                                );
+                                      );
+                                    },
+                                  );
+                                } else {
+                                  return wrapWithModel(
+                                    model: _model.emptyResultModel,
+                                    updateCallback: () => safeSetState(() {}),
+                                    child: EmptyResultWidget(),
+                                  );
+                                }
                               },
                             ),
                           ),

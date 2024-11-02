@@ -28,7 +28,7 @@ class _ProfileRatingWidgetState extends State<ProfileRatingWidget> {
     super.initState();
     _model = createModel(context, () => ProfileRatingModel());
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override

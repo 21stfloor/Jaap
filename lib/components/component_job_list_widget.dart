@@ -65,7 +65,7 @@ class _ComponentJobListWidgetState extends State<ComponentJobListWidget>
       this,
     );
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -189,7 +189,7 @@ class _ComponentJobListWidgetState extends State<ComponentJobListWidget>
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           RatingBar.builder(
-                            onRatingUpdate: (newValue) => setState(
+                            onRatingUpdate: (newValue) => safeSetState(
                                 () => _model.ratingBarValue = newValue),
                             itemBuilder: (context, index) => Icon(
                               Icons.star_rounded,
