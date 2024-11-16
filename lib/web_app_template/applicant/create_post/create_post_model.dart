@@ -33,7 +33,7 @@ class CreatePostModel extends FlutterFlowModel<CreatePostWidget> {
       BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
       return FFLocalizations.of(context).getText(
-        'n248ccji' /* Field is required */,
+        'fl2uaihj' /* Field is required */,
       );
     }
 
@@ -49,7 +49,7 @@ class CreatePostModel extends FlutterFlowModel<CreatePostWidget> {
       BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
       return FFLocalizations.of(context).getText(
-        'bmt22r1p' /* Field is required */,
+        'gqcu1w2m' /* Field is required */,
       );
     }
 

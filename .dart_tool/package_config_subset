@@ -14,6 +14,10 @@ agora_uikit
 2.19
 file:///C:/Users/Home/AppData/Local/Pub/Cache/hosted/pub.dev/agora_uikit-1.3.10/
 file:///C:/Users/Home/AppData/Local/Pub/Cache/hosted/pub.dev/agora_uikit-1.3.10/lib/
+aligned_tooltip
+2.17
+file:///C:/Users/Home/AppData/Local/Pub/Cache/hosted/pub.dev/aligned_tooltip-0.0.1/
+file:///C:/Users/Home/AppData/Local/Pub/Cache/hosted/pub.dev/aligned_tooltip-0.0.1/lib/
 archive
 3.0
 file:///C:/Users/Home/AppData/Local/Pub/Cache/hosted/pub.dev/archive-3.6.1/
@@ -770,10 +774,6 @@ yaml
 2.19
 file:///C:/Users/Home/AppData/Local/Pub/Cache/hosted/pub.dev/yaml-3.1.2/
 file:///C:/Users/Home/AppData/Local/Pub/Cache/hosted/pub.dev/yaml-3.1.2/lib/
-jaap
-3.0
-file:///C:/Users/Home/Downloads/jaap/
-file:///C:/Users/Home/Downloads/jaap/lib/
 sky_engine
 3.2
 file:///C:/src/flutter/bin/cache/pkg/sky_engine/
@@ -794,4 +794,8 @@ flutter_web_plugins
 3.2
 file:///C:/src/flutter/packages/flutter_web_plugins/
 file:///C:/src/flutter/packages/flutter_web_plugins/lib/
+jaap
+3.0
+file:///D:/mygitrepros/Jaap/
+file:///D:/mygitrepros/Jaap/lib/
 2

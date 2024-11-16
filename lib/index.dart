@@ -15,8 +15,7 @@ export '/web_app_template/agency/job_post_create/job_post_create_widget.dart'
     show JobPostCreateWidget;
 export '/web_app_template/simple_authentication/auth_create_agency/auth_create_agency_widget.dart'
     show AuthCreateAgencyWidget;
-export '/web_app_template/applicant/job_list/job_list_widget.dart'
-    show JobListWidget;
+export '/web_app_template/job_list/job_list_widget.dart' show JobListWidget;
 export '/web_app_template/applicant/profile_applicant/profile_applicant_widget.dart'
     show ProfileApplicantWidget;
 export '/web_app_template/agency/profile_agency/profile_agency_widget.dart'
@@ -83,3 +82,8 @@ export '/web_app_template/agency/employing_history/employing_history_widget.dart
     show EmployingHistoryWidget;
 export '/notification_admin/notification_admin_widget.dart'
     show NotificationAdminWidget;
+export '/web_app_template/post_full_page/post_full_page_widget.dart'
+    show PostFullPageWidget;
+export '/blank_404/blank404_widget.dart' show Blank404Widget;
+export '/web_app_template/admin/admin_agency_videos/admin_agency_videos_widget.dart'
+    show AdminAgencyVideosWidget;

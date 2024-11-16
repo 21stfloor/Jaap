@@ -59,10 +59,10 @@ service cloud.firestore {
     }
 
     match /users/{parent}/post/{document} {
-      allow create: if request.auth.uid == parent;
+      allow create: if true;
       allow read: if true;
-      allow write: if request.auth.uid == parent;
-      allow delete: if request.auth.uid == parent;
+      allow write: if true;
+      allow delete: if true;
     }
 
     match /{path=**}/post/{document} {
@@ -142,5 +142,19 @@ service cloud.firestore {
       allow read: if true;
     }
 
+
+    match /CallSession/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if true;
+      allow delete: if true;
+    }
+
+    match /comments/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if true;
+      allow delete: if true;
+    }
   }
 }

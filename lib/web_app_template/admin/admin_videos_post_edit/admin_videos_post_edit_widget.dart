@@ -825,7 +825,7 @@ class _AdminVideosPostEditWidgetState extends State<AdminVideosPostEditWidget> {
                                                         FFLocalizations.of(
                                                                 context)
                                                             .getText(
-                                                          'z394d8z9' /* Upload Video */,
+                                                          '0wmmndax' /* Upload Video */,
                                                         ),
                                                         style:
                                                             FlutterFlowTheme.of(
@@ -887,7 +887,7 @@ class _AdminVideosPostEditWidgetState extends State<AdminVideosPostEditWidget> {
                                         context.goNamed('adminVideos');
                                       },
                                       text: FFLocalizations.of(context).getText(
-                                        '3li1rc0k' /* Post */,
+                                        'rjntzbo4' /* Post */,
                                       ),
                                       options: FFButtonOptions(
                                         width: double.infinity,

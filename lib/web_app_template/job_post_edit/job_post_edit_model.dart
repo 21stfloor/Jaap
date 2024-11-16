@@ -1,16 +1,20 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
+import '/backend/firebase_storage/storage.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_video_player.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
+import '/flutter_flow/upload_data.dart';
 import '/web_app_template/agency/payment_dialog_agency/payment_dialog_agency_widget.dart';
 import '/web_app_template/agency/side_nav_agency/side_nav_agency_widget.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'job_post_edit_widget.dart' show JobPostEditWidget;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collection/collection.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -34,7 +38,7 @@ class JobPostEditModel extends FlutterFlowModel<JobPostEditWidget> {
   String? _jobTitleTextControllerValidator(BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
       return FFLocalizations.of(context).getText(
-        '6caumz4v' /* Field is required */,
+        'da34klk7' /* Field is required */,
       );
     }
 
@@ -98,6 +102,11 @@ class JobPostEditModel extends FlutterFlowModel<JobPostEditWidget> {
 
     return null;
   }
+
+  bool isDataUploading = false;
+  FFUploadedFile uploadedLocalFile =
+      FFUploadedFile(bytes: Uint8List.fromList([]));
+  String uploadedFileUrl = '';
 
   // State field(s) for Switch widget.
   bool? switchValue;

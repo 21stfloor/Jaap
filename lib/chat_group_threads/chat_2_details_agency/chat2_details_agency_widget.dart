@@ -1,4 +1,3 @@
-import '../../video_call_widget/video_call_widget_widget.dart';
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/chat_group_threads/chat_thread_component/chat_thread_component_widget.dart';
@@ -47,6 +46,11 @@ class _Chat2DetailsAgencyWidgetState extends State<Chat2DetailsAgencyWidget> {
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
+      if ((widget!.chatRef == null) || (widget!.jobPost == null)) {
+        context.goNamed('blank_404');
+
+        return;
+      }
       unawaited(
         () async {
           await widget!.chatRef!.reference.update({
@@ -670,13 +674,19 @@ class _Chat2DetailsAgencyWidgetState extends State<Chat2DetailsAgencyWidget> {
                                                     },
                                                   ),
                                                   FlutterFlowIconButton(
-                                                    borderRadius: 8,
-                                                    buttonSize: 40,
-                                                    fillColor: FlutterFlowTheme.of(context).primary,
+                                                    borderRadius: 8.0,
+                                                    buttonSize: 40.0,
+                                                    fillColor:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .primary,
                                                     icon: Icon(
                                                       Icons.video_chat,
-                                                      color: FlutterFlowTheme.of(context).info,
-                                                      size: 24,
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .info,
+                                                      size: 24.0,
                                                     ),
                                                     onPressed: () async {
                                                       _model.existingSession =
@@ -732,22 +742,13 @@ class _Chat2DetailsAgencyWidgetState extends State<Chat2DetailsAgencyWidget> {
                                                     },
                                                           ),
                                                         });
+                                                        await _model
+                                                            .existingSession!
+                                                            .reference
+                                                            .delete();
                                                       }
 
                                                       safeSetState(() {});
-                                                      await showDialog(
-                                                        context: context,
-                                                        builder: (dialogContext) {
-                                                          return Dialog(
-                                                            elevation: 0,
-                                                            insetPadding: EdgeInsets.zero,
-                                                            backgroundColor: Colors.transparent,
-                                                            alignment: AlignmentDirectional(0.0, 0.0)
-                                                                .resolve(Directionality.of(context)),
-                                                            child: VideoCallWidgetWidget(chatRef: widget.chatRef,),
-                                                          );
-                                                        },
-                                                      );
                                                     },
                                                   ),
                                                 ],

@@ -1,4 +1,5 @@
-import '../../video_call_widget/video_call_widget_widget.dart';
+import 'package:jaap/video_call_widget/video_call_widget_widget.dart';
+
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/chat_group_threads/chat_thread_component/chat_thread_component_widget.dart';
@@ -44,6 +45,11 @@ class _Chat2DetailsApplicantWidgetState
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
+      if ((widget!.chatRef == null) || (widget!.job == null)) {
+        context.goNamed('blank_404');
+
+        return;
+      }
       unawaited(
         () async {
           await widget!.chatRef!.reference.update({

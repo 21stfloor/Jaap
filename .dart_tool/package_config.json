@@ -26,6 +26,12 @@
       "languageVersion": "2.19"
     },
     {
+      "name": "aligned_tooltip",
+      "rootUri": "file:///C:/Users/Home/AppData/Local/Pub/Cache/hosted/pub.dev/aligned_tooltip-0.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
       "name": "archive",
       "rootUri": "file:///C:/Users/Home/AppData/Local/Pub/Cache/hosted/pub.dev/archive-3.6.1",
       "packageUri": "lib/",
@@ -1196,7 +1202,7 @@
       "languageVersion": "3.0"
     }
   ],
-  "generated": "2024-11-02T00:20:39.923389Z",
+  "generated": "2024-11-16T20:47:20.515332Z",
   "generator": "pub",
   "generatorVersion": "3.5.3",
   "flutterRoot": "file:///C:/src/flutter",

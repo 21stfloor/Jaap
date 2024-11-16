@@ -4,6 +4,7 @@ import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_video_player.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/web_app_template/agency/agency_profile_view_component/agency_profile_view_component_widget.dart';
 import '/web_app_template/applicant/side_nav_applicants/side_nav_applicants_widget.dart';
@@ -397,11 +398,13 @@ class _JobPostPreviewPageWidgetState extends State<JobPostPreviewPageWidget> {
                                         child: Align(
                                           alignment:
                                               AlignmentDirectional(0.0, 0.0),
+                                          child: SingleChildScrollView(
                                           child: Column(
                                             mainAxisSize: MainAxisSize.max,
                                             children: [
                                               Align(
-                                                alignment: AlignmentDirectional(
+                                                  alignment:
+                                                      AlignmentDirectional(
                                                     -1.0, 0.0),
                                                 child: Text(
                                                   FFLocalizations.of(context)
@@ -427,14 +430,15 @@ class _JobPostPreviewPageWidgetState extends State<JobPostPreviewPageWidget> {
                                                       .secondaryBackground,
                                                 ),
                                                 child: Padding(
-                                                  padding: EdgeInsets.all(8.0),
+                                                    padding:
+                                                        EdgeInsets.all(8.0),
                                                   child: Text(
                                                     valueOrDefault<String>(
                                                       widget!.jobPost?.title,
                                                       'N/A',
                                                     ),
-                                                    style: FlutterFlowTheme.of(
-                                                            context)
+                                                      style: FlutterFlowTheme
+                                                              .of(context)
                                                         .titleLarge
                                                         .override(
                                                           fontFamily: 'Inter',
@@ -445,7 +449,8 @@ class _JobPostPreviewPageWidgetState extends State<JobPostPreviewPageWidget> {
                                                 ),
                                               ),
                                               Align(
-                                                alignment: AlignmentDirectional(
+                                                  alignment:
+                                                      AlignmentDirectional(
                                                     -1.0, 0.0),
                                                 child: Text(
                                                   FFLocalizations.of(context)
@@ -471,15 +476,16 @@ class _JobPostPreviewPageWidgetState extends State<JobPostPreviewPageWidget> {
                                                       .secondaryBackground,
                                                 ),
                                                 child: Padding(
-                                                  padding: EdgeInsets.all(8.0),
+                                                    padding:
+                                                        EdgeInsets.all(8.0),
                                                   child: Text(
                                                     valueOrDefault<String>(
-                                                      widget!
-                                                          .jobPost?.description,
+                                                        widget!.jobPost
+                                                            ?.description,
                                                       'N/A',
                                                     ),
-                                                    style: FlutterFlowTheme.of(
-                                                            context)
+                                                      style: FlutterFlowTheme
+                                                              .of(context)
                                                         .bodyMedium
                                                         .override(
                                                           fontFamily: 'Inter',
@@ -488,8 +494,25 @@ class _JobPostPreviewPageWidgetState extends State<JobPostPreviewPageWidget> {
                                                   ),
                                                 ),
                                               ),
+                                                if (widget!.jobPost!
+                                                        .hasVideo() &&
+                                                    widget!
+                                                        .jobPost!.videoApproved)
+                                                  FlutterFlowVideoPlayer(
+                                                    path:
+                                                        widget!.jobPost!.video,
+                                                    videoType:
+                                                        VideoType.network,
+                                                    autoPlay: true,
+                                                    looping: true,
+                                                    showControls: true,
+                                                    allowFullScreen: true,
+                                                    allowPlaybackSpeedMenu:
+                                                        false,
+                                                  ),
                                               Align(
-                                                alignment: AlignmentDirectional(
+                                                  alignment:
+                                                      AlignmentDirectional(
                                                     -1.0, 0.0),
                                                 child: Text(
                                                   FFLocalizations.of(context)
@@ -515,25 +538,82 @@ class _JobPostPreviewPageWidgetState extends State<JobPostPreviewPageWidget> {
                                                       .secondaryBackground,
                                                 ),
                                                 child: Padding(
-                                                  padding: EdgeInsets.all(8.0),
+                                                    padding:
+                                                        EdgeInsets.all(8.0),
                                                   child: Text(
                                                     valueOrDefault<String>(
                                                       widget!.jobPost?.type,
                                                       'N/A',
                                                     ),
                                                     maxLines: 1,
+                                                      style: FlutterFlowTheme
+                                                              .of(context)
+                                                          .bodyMedium
+                                                          .override(
+                                                            fontFamily: 'Inter',
+                                                            letterSpacing: 0.0,
+                                                          ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Align(
+                                                  alignment:
+                                                      AlignmentDirectional(
+                                                          -1.0, 0.0),
+                                                  child: Text(
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                      'vzbg78iz' /* Salaryy */,
+                                                    ),
                                                     style: FlutterFlowTheme.of(
                                                             context)
                                                         .bodyMedium
                                                         .override(
                                                           fontFamily: 'Inter',
+                                                          fontSize: 20.0,
+                                                          letterSpacing: 0.0,
+                                                        ),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  width: double.infinity,
+                                                  height: 60.0,
+                                                  decoration: BoxDecoration(
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .secondaryBackground,
+                                                  ),
+                                                  child: Padding(
+                                                    padding:
+                                                        EdgeInsets.all(8.0),
+                                                    child: Text(
+                                                      valueOrDefault<String>(
+                                                        formatNumber(
+                                                          widget!
+                                                              .jobPost?.salary,
+                                                          formatType: FormatType
+                                                              .decimal,
+                                                          decimalType:
+                                                              DecimalType
+                                                                  .periodDecimal,
+                                                          currency: 'P',
+                                                        ),
+                                                        'N/A',
+                                                      ),
+                                                      maxLines: 1,
+                                                      style: FlutterFlowTheme
+                                                              .of(context)
+                                                          .bodyMedium
+                                                          .override(
+                                                            fontFamily: 'Inter',
                                                           letterSpacing: 0.0,
                                                         ),
                                                   ),
                                                 ),
                                               ),
                                               Align(
-                                                alignment: AlignmentDirectional(
+                                                  alignment:
+                                                      AlignmentDirectional(
                                                     -1.0, 0.0),
                                                 child: Text(
                                                   FFLocalizations.of(context)
@@ -562,15 +642,16 @@ class _JobPostPreviewPageWidgetState extends State<JobPostPreviewPageWidget> {
                                                           8.0),
                                                 ),
                                                 child: Padding(
-                                                  padding: EdgeInsets.all(8.0),
+                                                    padding:
+                                                        EdgeInsets.all(8.0),
                                                   child: Text(
                                                     valueOrDefault<String>(
                                                       widget!.jobPost?.region,
                                                       'N/A',
                                                     ),
                                                     maxLines: 2,
-                                                    style: FlutterFlowTheme.of(
-                                                            context)
+                                                      style: FlutterFlowTheme
+                                                              .of(context)
                                                         .bodyMedium
                                                         .override(
                                                           fontFamily: 'Inter',
@@ -580,7 +661,8 @@ class _JobPostPreviewPageWidgetState extends State<JobPostPreviewPageWidget> {
                                                 ),
                                               ),
                                               Align(
-                                                alignment: AlignmentDirectional(
+                                                  alignment:
+                                                      AlignmentDirectional(
                                                     -1.0, 0.0),
                                                 child: Text(
                                                   FFLocalizations.of(context)
@@ -606,14 +688,15 @@ class _JobPostPreviewPageWidgetState extends State<JobPostPreviewPageWidget> {
                                                       .secondaryBackground,
                                                 ),
                                                 child: Padding(
-                                                  padding: EdgeInsets.all(8.0),
+                                                    padding:
+                                                        EdgeInsets.all(8.0),
                                                   child: Text(
                                                     valueOrDefault<String>(
                                                       widget!.jobPost?.skils,
                                                       'N/A',
                                                     ),
-                                                    style: FlutterFlowTheme.of(
-                                                            context)
+                                                      style: FlutterFlowTheme
+                                                              .of(context)
                                                         .bodyMedium
                                                         .override(
                                                           fontFamily: 'Inter',
@@ -627,7 +710,8 @@ class _JobPostPreviewPageWidgetState extends State<JobPostPreviewPageWidget> {
                                                       AppllicantProfileRecord>>(
                                                 stream:
                                                     queryAppllicantProfileRecord(
-                                                  parent: currentUserReference,
+                                                    parent:
+                                                        currentUserReference,
                                                   singleRecord: true,
                                                 ),
                                                 builder: (context, snapshot) {
@@ -654,7 +738,8 @@ class _JobPostPreviewPageWidgetState extends State<JobPostPreviewPageWidget> {
                                                       columnAppllicantProfileRecordList =
                                                       snapshot.data!;
                                                   // Return an empty Container when the item does not exist.
-                                                  if (snapshot.data!.isEmpty) {
+                                                    if (snapshot
+                                                        .data!.isEmpty) {
                                                     return Container();
                                                   }
                                                   final columnAppllicantProfileRecord =
@@ -718,46 +803,24 @@ class _JobPostPreviewPageWidgetState extends State<JobPostPreviewPageWidget> {
                                                             child: Builder(
                                                               builder:
                                                                   (context) {
-                                                                if (containerJobApplicationRecordList
-                                                                    .isNotEmpty) {
-                                                                  return Text(
-                                                                    FFLocalizations.of(
-                                                                            context)
-                                                                        .getText(
-                                                                      'pej6qx6h' /* You already applied for this J... */,
-                                                                    ),
-                                                                    textAlign:
-                                                                        TextAlign
-                                                                            .center,
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .titleLarge
-                                                                        .override(
-                                                                          fontFamily:
-                                                                              'Inter',
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                        ),
-                                                                  );
-                                                                } else {
-                                                                  return Visibility(
-                                                                    visible: (columnAppllicantProfileRecord != null) &&
-                                                                        (columnAppllicantProfileRecord?.currentCompany ==
+                                                                  if ((columnAppllicantProfileRecord != null) &&
+                                                                      (columnAppllicantProfileRecord
+                                                                              ?.currentCompany ==
                                                                             null) &&
-                                                                        (valueOrDefault<bool>(currentUserDocument?.accountactivation,
+                                                                      (valueOrDefault<bool>(
+                                                                              currentUserDocument
+                                                                                  ?.accountactivation,
                                                                                 false) !=
-                                                                            false),
-                                                                    child:
-                                                                        Padding(
+                                                                          false) &&
+                                                                      !(containerJobApplicationRecordList
+                                                                          .isNotEmpty)) {
+                                                                    return Padding(
                                                                       padding: EdgeInsetsDirectional.fromSTEB(
                                                                           0.0,
                                                                           12.0,
                                                                           0.0,
                                                                           0.0),
                                                                       child:
-                                                                          AuthUserStreamWidget(
-                                                                        builder:
-                                                                            (context) =>
                                                                                 FFButtonWidget(
                                                                           onPressed:
                                                                               () async {
@@ -830,7 +893,8 @@ class _JobPostPreviewPageWidgetState extends State<JobPostPreviewPageWidget> {
                                                                               : 'Apply now',
                                                                           icon:
                                                                               Icon(
-                                                                            Icons.card_travel_rounded,
+                                                                          Icons
+                                                                              .card_travel_rounded,
                                                                             size:
                                                                                 24.0,
                                                                           ),
@@ -850,7 +914,9 @@ class _JobPostPreviewPageWidgetState extends State<JobPostPreviewPageWidget> {
                                                                                 0.0),
                                                                             color:
                                                                                 FlutterFlowTheme.of(context).primary,
-                                                                            textStyle: FlutterFlowTheme.of(context).titleSmall.override(
+                                                                          textStyle: FlutterFlowTheme.of(context)
+                                                                              .titleSmall
+                                                                              .override(
                                                                                   fontFamily: 'Inter',
                                                                                   color: Colors.white,
                                                                                   letterSpacing: 0.0,
@@ -859,14 +925,36 @@ class _JobPostPreviewPageWidgetState extends State<JobPostPreviewPageWidget> {
                                                                                 3.0,
                                                                             borderSide:
                                                                                 BorderSide(
-                                                                              color: Colors.transparent,
-                                                                              width: 1.0,
+                                                                            color:
+                                                                                Colors.transparent,
+                                                                            width:
+                                                                                1.0,
                                                                             ),
                                                                             borderRadius:
                                                                                 BorderRadius.circular(12.0),
                                                                           ),
                                                                         ),
+                                                                    );
+                                                                  } else {
+                                                                    return Text(
+                                                                      FFLocalizations.of(
+                                                                              context)
+                                                                          .getText(
+                                                                        'sj6tktmr' /* You can't apply for this job,
+... */
+                                                                        ,
                                                                       ),
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                      style: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .titleLarge
+                                                                          .override(
+                                                                            fontFamily:
+                                                                                'Inter',
+                                                                            letterSpacing:
+                                                                                0.0,
                                                                     ),
                                                                   );
                                                                 }
@@ -880,6 +968,7 @@ class _JobPostPreviewPageWidgetState extends State<JobPostPreviewPageWidget> {
                                                 },
                                               ),
                                             ],
+                                            ),
                                           ),
                                         ),
                                       ),

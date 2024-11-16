@@ -422,6 +422,41 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           path: '/notificationAdmin',
           requireAuth: true,
           builder: (context, params) => NotificationAdminWidget(),
+        ),
+        FFRoute(
+          name: 'PostFullPage',
+          path: '/postFullPage',
+          requireAuth: true,
+          builder: (context, params) => PostFullPageWidget(
+            postRef: params.getParam(
+              'postRef',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['users', 'post'],
+            ),
+            userDocRef: params.getParam(
+              'userDocRef',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['users'],
+            ),
+            toShare: params.getParam(
+              'toShare',
+              ParamType.bool,
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'blank_404',
+          path: '/blank404',
+          requireAuth: true,
+          builder: (context, params) => Blank404Widget(),
+        ),
+        FFRoute(
+          name: 'adminAgencyVideos',
+          path: '/adminAgencyVideoApprovalList',
+          requireAuth: true,
+          builder: (context, params) => AdminAgencyVideosWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
       observers: [routeObserver],

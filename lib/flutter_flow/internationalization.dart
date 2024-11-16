@@ -501,7 +501,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': '\$2,100.00',
       'tl': '',
     },
-    '7iqzfk7a': {
+    'y6vvepy5': {
       'en': 'Accepted',
       'tl': '',
     },
@@ -554,6 +554,14 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     },
     '64ppz1j0': {
       'en': 'Enter salary',
+      'tl': '',
+    },
+    'o97aky09': {
+      'en': 'Upload Video',
+      'tl': '',
+    },
+    '2wn8adfk': {
+      'en': 'Uploaded video will be reviewed by admin first',
       'tl': '',
     },
     'b1jydmn8': {
@@ -961,11 +969,11 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'Save Changes',
       'tl': '',
     },
-    'z12src28': {
+    'e885rb58': {
       'en': 'Field is required',
       'tl': '',
     },
-    '8rb94j4g': {
+    'zdslay2a': {
       'en': 'Please choose an option from the dropdown',
       'tl': '',
     },
@@ -993,11 +1001,11 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'Please choose an option from the dropdown',
       'tl': '',
     },
-    'yuemslxn': {
+    'z12src28': {
       'en': 'Field is required',
       'tl': '',
     },
-    'l7218hxl': {
+    '8rb94j4g': {
       'en': 'Please choose an option from the dropdown',
       'tl': '',
     },
@@ -1036,6 +1044,10 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'Job type',
       'tl': '',
     },
+    'vzbg78iz': {
+      'en': 'Salaryy',
+      'tl': '',
+    },
     'flxms526': {
       'en': 'Location',
       'tl': '',
@@ -1044,9 +1056,9 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'Skill requirements',
       'tl': '',
     },
-    'pej6qx6h': {
+    'sj6tktmr': {
       'en':
-          'You already applied for this Job,\nplease wait for the agency to contact you',
+          'You can\'t apply for this job,\n either your account is not activated yet or you are already employed',
       'tl': '',
     },
     '9vf33f3f': {
@@ -1101,19 +1113,19 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'Put Description Here...',
       'tl': '',
     },
-    '5uhacpyg': {
+    'fl2uaihj': {
       'en': 'Field is required',
       'tl': '',
     },
-    'vj89su0n': {
+    'rdhma2t0': {
       'en': 'Please choose an option from the dropdown',
       'tl': '',
     },
-    'bgfpq8ha': {
+    'gqcu1w2m': {
       'en': 'Field is required',
       'tl': '',
     },
-    'aq2msl90': {
+    '0r4zo5az': {
       'en': 'Please choose an option from the dropdown',
       'tl': '',
     },
@@ -1227,6 +1239,10 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'Enter salary',
       'tl': '',
     },
+    'r6oki7ze': {
+      'en': 'Upload Video',
+      'tl': '',
+    },
     'v8lo1qjx': {
       'en': 'Visible',
       'tl': '',
@@ -1275,11 +1291,11 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'Boost Post',
       'tl': '',
     },
-    'q3kwszs0': {
+    'da34klk7': {
       'en': 'Field is required',
       'tl': '',
     },
-    'fwhjyaul': {
+    '64o034g8': {
       'en': 'Please choose an option from the dropdown',
       'tl': '',
     },
@@ -1399,7 +1415,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'Work ID',
       'tl': '',
     },
-    'wthb5sld': {
+    'k0x6njsh': {
       'en': 'Status',
       'tl': '',
     },
@@ -1677,11 +1693,11 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'delete video',
       'tl': '',
     },
-    'urfp7xis': {
+    '0wmmndax': {
       'en': 'Upload Video',
       'tl': '',
     },
-    'icn06f1c': {
+    'rjntzbo4': {
       'en': 'Post',
       'tl': '',
     },
@@ -1948,6 +1964,123 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'tl': '',
     },
   },
+  // PostFullPage
+  {
+    'p6a1mbnr': {
+      'en': 'New comment',
+      'tl': '',
+    },
+    'm1t8y077': {
+      'en': 'Home',
+      'tl': '',
+    },
+  },
+  // blank_404
+  {
+    '6gbce9bx': {
+      'en': 'Oops! The page you\'re looking for doesn\'t exist.',
+      'tl': '',
+    },
+    'v60dnqjr': {
+      'en': 'It might have been moved or deleted.',
+      'tl': '',
+    },
+    '8m6jvatw': {
+      'en': 'Go Back Home',
+      'tl': '',
+    },
+  },
+  // adminAgencyVideos
+  {
+    'qppd4lfw': {
+      'en': 'Videos to reviewed',
+      'tl': '',
+    },
+    'nh77lnib': {
+      'en': 'List of videos uploaded by agencies',
+      'tl': '',
+    },
+    '6lziwq3s': {
+      'en': 'Agency',
+      'tl': '',
+    },
+    'k2hto1lp': {
+      'en': 'Job title',
+      'tl': '',
+    },
+    't8zbobo1': {
+      'en': 'Date Uploaded',
+      'tl': '',
+    },
+    'uk5q1tzw': {
+      'en': 'Video',
+      'tl': '',
+    },
+    'e328g5mh': {
+      'en': 'Actions',
+      'tl': '',
+    },
+    '3t0tie0o': {
+      'en': 'Play  video',
+      'tl': '',
+    },
+    '56xcab5z': {
+      'en': 'Approve',
+      'tl': '',
+    },
+    'zu1ejv8n': {
+      'en': '#2424',
+      'tl': '',
+    },
+    'so8sg200': {
+      'en': 'Randy Peterson',
+      'tl': '',
+    },
+    'pfxi98f4': {
+      'en': 'randy.p@domainname.com',
+      'tl': '',
+    },
+    '0uoudyax': {
+      'en': 'Jan. 20th, 2023',
+      'tl': '',
+    },
+    'vjvj0sao': {
+      'en': 'A few moments ago',
+      'tl': '',
+    },
+    'qj5vk1v5': {
+      'en': 'Active',
+      'tl': '',
+    },
+    't6r739ef': {
+      'en': '#2427',
+      'tl': '',
+    },
+    'w8ose4bu': {
+      'en': 'Randy Peterson',
+      'tl': '',
+    },
+    '20gtrrvf': {
+      'en': 'randy.p@domainname.com',
+      'tl': '',
+    },
+    '550hp4hy': {
+      'en': 'Jan. 20th, 2023',
+      'tl': '',
+    },
+    'q0qn50ai': {
+      'en': 'A few moments ago',
+      'tl': '',
+    },
+    '4ssulswy': {
+      'en': 'Active',
+      'tl': '',
+    },
+    'woq06u4h': {
+      'en': 'Home',
+      'tl': '',
+    },
+  },
   // sideNavApplicants
   {
     'coerudza': {
@@ -2193,6 +2326,10 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'Videos',
       'tl': '',
     },
+    'pbl1te3a': {
+      'en': 'Agency Videos',
+      'tl': '',
+    },
     '8rtor3wj': {
       'en': 'Payments ',
       'tl': '',
@@ -2228,7 +2365,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'You must enter a message...',
       'tl': '',
     },
-    '625k15jt': {
+    'nfwqk2k0': {
       'en': 'Please choose an option from the dropdown',
       'tl': '',
     },
@@ -2320,7 +2457,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'Pay w/Paypal',
       'tl': '',
     },
-    'toguksy9': {
+    '7gkev4cb': {
       'en': 'Field is required',
       'tl': '',
     },
@@ -2336,11 +2473,11 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'Field is required',
       'tl': '',
     },
-    'rjmv8ra0': {
+    'gclrmteh': {
       'en': 'Please choose an option from the dropdown',
       'tl': '',
     },
-    'hq21to3l': {
+    '3ev4hqsy': {
       'en': 'Field is required',
       'tl': '',
     },
@@ -2776,6 +2913,25 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     },
     'osmte9ok': {
       'en': 'A',
+      'tl': '',
+    },
+  },
+  // commentDialog
+  {
+    '1nuokgxr': {
+      'en': 'Write something...',
+      'tl': '',
+    },
+    'yuemslxn': {
+      'en': 'Field is required',
+      'tl': '',
+    },
+    'l7218hxl': {
+      'en': 'Please choose an option from the dropdown',
+      'tl': '',
+    },
+    'icn06f1c': {
+      'en': 'Post',
       'tl': '',
     },
   },

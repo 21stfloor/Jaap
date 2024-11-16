@@ -4,6 +4,7 @@ import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_video_player.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/web_app_template/agency/agency_profile_view_component/agency_profile_view_component_widget.dart';
 import '/web_app_template/applicant/side_nav_applicants/side_nav_applicants_widget.dart';

@@ -706,7 +706,7 @@ class _AdminAgenciesWidgetState extends State<AdminAgenciesWidget> {
                                                                                 builder: (alertDialogContext) {
                                                                                   return AlertDialog(
                                                                                     title: Text('Confirm'),
-                                                                                    content: Text('Are you sure you want to activated this user?'),
+                                                                                    content: Text('Are you sure you want to activate this agency?'),
                                                                                     actions: [
                                                                                       TextButton(
                                                                                         onPressed: () => Navigator.pop(alertDialogContext, false),
@@ -728,7 +728,7 @@ class _AdminAgenciesWidgetState extends State<AdminAgenciesWidget> {
                                                                             ScaffoldMessenger.of(context).showSnackBar(
                                                                               SnackBar(
                                                                                 content: Text(
-                                                                                  'activated successfully',
+                                                                                  'Deactivated Agency Successfully!',
                                                                                   style: TextStyle(
                                                                                     color: FlutterFlowTheme.of(context).primaryText,
                                                                                   ),
@@ -790,7 +790,7 @@ class _AdminAgenciesWidgetState extends State<AdminAgenciesWidget> {
                                                                                 builder: (alertDialogContext) {
                                                                                   return AlertDialog(
                                                                                     title: Text('Confirm'),
-                                                                                    content: Text('Are you sure you want to activated this user?'),
+                                                                                    content: Text('Are you sure you want to deactivate this agency?'),
                                                                                     actions: [
                                                                                       TextButton(
                                                                                         onPressed: () => Navigator.pop(alertDialogContext, false),
@@ -812,7 +812,7 @@ class _AdminAgenciesWidgetState extends State<AdminAgenciesWidget> {
                                                                             ScaffoldMessenger.of(context).showSnackBar(
                                                                               SnackBar(
                                                                                 content: Text(
-                                                                                  'activated successfully',
+                                                                                  'Deactivated Agency Successfully!',
                                                                                   style: TextStyle(
                                                                                     color: FlutterFlowTheme.of(context).primaryText,
                                                                                   ),

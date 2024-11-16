@@ -40,7 +40,7 @@ class PaymentDialogApplicantModel
       BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
       return FFLocalizations.of(context).getText(
-        'hzmfx47s' /* Field is required */,
+        '7gkev4cb' /* Field is required */,
       );
     }
 
@@ -70,7 +70,7 @@ class PaymentDialogApplicantModel
   String? _cardCVVTextControllerValidator(BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
       return FFLocalizations.of(context).getText(
-        'hqxpt1h6' /* Field is required */,
+        '3ev4hqsy' /* Field is required */,
       );
     }
 

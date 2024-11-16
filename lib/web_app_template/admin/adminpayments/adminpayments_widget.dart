@@ -1275,7 +1275,7 @@ class _AdminpaymentsWidgetState extends State<AdminpaymentsWidget> {
                                                             FFLocalizations.of(
                                                                     context)
                                                                 .getText(
-                                                              '548b6ewv' /* Accepted */,
+                                                              'y6vvepy5' /* Accepted */,
                                                             ),
                                                             style: FlutterFlowTheme
                                                                     .of(context)

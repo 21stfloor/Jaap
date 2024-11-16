@@ -252,7 +252,7 @@ class _AdminApplicantsWidgetState extends State<AdminApplicantsWidget> {
                                             child: Text(
                                               FFLocalizations.of(context)
                                                   .getText(
-                                                '9j9segex' /* Status */,
+                                                'k0x6njsh' /* Status */,
                                               ),
                                               style: FlutterFlowTheme.of(
                                                       context)
@@ -753,7 +753,7 @@ class _AdminApplicantsWidgetState extends State<AdminApplicantsWidget> {
                                                                                     builder: (alertDialogContext) {
                                                                                       return AlertDialog(
                                                                                         title: Text('Confirm'),
-                                                                                        content: Text('Are you sure you want to activated this user?'),
+                                                                                        content: Text('Are you sure you want to activate this user?'),
                                                                                         actions: [
                                                                                           TextButton(
                                                                                             onPressed: () => Navigator.pop(alertDialogContext, false),
@@ -775,7 +775,7 @@ class _AdminApplicantsWidgetState extends State<AdminApplicantsWidget> {
                                                                                 ScaffoldMessenger.of(context).showSnackBar(
                                                                                   SnackBar(
                                                                                     content: Text(
-                                                                                      'activated successfully',
+                                                                                      'Activated User Successfully!',
                                                                                       style: TextStyle(
                                                                                         color: FlutterFlowTheme.of(context).primaryText,
                                                                                       ),

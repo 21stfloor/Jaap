@@ -66,6 +66,16 @@ class JobRecord extends FirestoreRecord {
   DateTime? get datePosted => _datePosted;
   bool hasDatePosted() => _datePosted != null;
 
+  // "video" field.
+  String? _video;
+  String get video => _video ?? '';
+  bool hasVideo() => _video != null;
+
+  // "videoApproved" field.
+  bool? _videoApproved;
+  bool get videoApproved => _videoApproved ?? false;
+  bool hasVideoApproved() => _videoApproved != null;
+
   void _initializeFields() {
     _title = snapshotData['title'] as String?;
     _description = snapshotData['description'] as String?;
@@ -77,6 +87,8 @@ class JobRecord extends FirestoreRecord {
     _region = snapshotData['region'] as String?;
     _type = snapshotData['type'] as String?;
     _datePosted = snapshotData['datePosted'] as DateTime?;
+    _video = snapshotData['video'] as String?;
+    _videoApproved = snapshotData['videoApproved'] as bool?;
   }
 
   static CollectionReference get collection =>
@@ -123,6 +135,8 @@ Map<String, dynamic> createJobRecordData({
   String? region,
   String? type,
   DateTime? datePosted,
+  String? video,
+  bool? videoApproved,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -136,6 +150,8 @@ Map<String, dynamic> createJobRecordData({
       'region': region,
       'type': type,
       'datePosted': datePosted,
+      'video': video,
+      'videoApproved': videoApproved,
     }.withoutNulls,
   );
 
@@ -156,7 +172,9 @@ class JobRecordDocumentEquality implements Equality<JobRecord> {
         e1?.visible == e2?.visible &&
         e1?.region == e2?.region &&
         e1?.type == e2?.type &&
-        e1?.datePosted == e2?.datePosted;
+        e1?.datePosted == e2?.datePosted &&
+        e1?.video == e2?.video &&
+        e1?.videoApproved == e2?.videoApproved;
   }
 
   @override
@@ -170,7 +188,9 @@ class JobRecordDocumentEquality implements Equality<JobRecord> {
         e?.visible,
         e?.region,
         e?.type,
-        e?.datePosted
+        e?.datePosted,
+        e?.video,
+        e?.videoApproved
       ]);
 
   @override
