@@ -34,7 +34,7 @@ export '/web_app_template/pages/video_page/video_page_widget.dart'
     show VideoPageWidget;
 export '/web_app_template/pages/pending_page/pending_page_widget.dart'
     show PendingPageWidget;
-export '/web_app_template/pages/community_page/community_page_widget.dart'
+export '/web_app_template/community_page/community_page_widget.dart'
     show CommunityPageWidget;
 export '/web_app_template/applicant/create_post/create_post_widget.dart'
     show CreatePostWidget;
@@ -87,3 +87,5 @@ export '/web_app_template/post_full_page/post_full_page_widget.dart'
 export '/blank_404/blank404_widget.dart' show Blank404Widget;
 export '/web_app_template/admin/admin_agency_videos/admin_agency_videos_widget.dart'
     show AdminAgencyVideosWidget;
+export '/web_app_template/agency/agency_videos/agency_videos_widget.dart'
+    show AgencyVideosWidget;

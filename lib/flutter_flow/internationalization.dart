@@ -406,23 +406,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
   // adminpayments
   {
     'rc3fhrqs': {
-      'en': 'Payments History',
-      'tl': '',
-    },
-    '55dwo7gx': {
-      'en': 'Card Header',
-      'tl': '',
-    },
-    'spk3e7dx': {
-      'en': '12',
-      'tl': '',
-    },
-    '08dk1yph': {
-      'en': 'Filter',
-      'tl': '',
-    },
-    'cyqjozbe': {
-      'en': 'Search users...',
+      'en': 'Payment History of Agency',
       'tl': '',
     },
     'qilkfy0c': {
@@ -445,64 +429,20 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'Status',
       'tl': '',
     },
-    'kdgv0ksq': {
-      'en': 'Randy Peterson',
+    'wvzxq88k': {
+      'en': 'Action',
       'tl': '',
     },
-    'jltd78vt': {
-      'en': 'Jan. 30th, 2023',
-      'tl': '',
-    },
-    '6id3h572': {
-      'en': '#4292',
-      'tl': '',
-    },
-    'dr8duj7d': {
-      'en': '\$2,100.00',
-      'tl': '',
-    },
-    '548b6ewv': {
+    'fxeprhe7': {
       'en': 'Accepted',
       'tl': '',
     },
-    'ogl60xoc': {
-      'en': 'Randy Peterson',
+    'jut40tgy': {
+      'en': 'Pending',
       'tl': '',
     },
-    'pbewjh7k': {
-      'en': 'Jan. 30th, 2023',
-      'tl': '',
-    },
-    'sla403i3': {
-      'en': '#4292',
-      'tl': '',
-    },
-    'q4anwypx': {
-      'en': '\$2,100.00',
-      'tl': '',
-    },
-    'uw3g9hc1': {
-      'en': 'Accepted',
-      'tl': '',
-    },
-    '94tdkpd5': {
-      'en': 'Randy Peterson',
-      'tl': '',
-    },
-    'jeu4e83i': {
-      'en': 'Jan. 30th, 2023',
-      'tl': '',
-    },
-    'uhz83its': {
-      'en': '#4292',
-      'tl': '',
-    },
-    'o01wh3a3': {
-      'en': '\$2,100.00',
-      'tl': '',
-    },
-    'y6vvepy5': {
-      'en': 'Accepted',
+    'ojnt1wle': {
+      'en': 'Accept',
       'tl': '',
     },
     'wu8kdc9k': {
@@ -1059,6 +999,10 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     'sj6tktmr': {
       'en':
           'You can\'t apply for this job,\n either your account is not activated yet or you are already employed',
+      'tl': '',
+    },
+    'c8nr6sit': {
+      'en': 'Login to apply',
       'tl': '',
     },
     '9vf33f3f': {
@@ -2081,6 +2025,41 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'tl': '',
     },
   },
+  // agencyVideos
+  {
+    'k3omdd6d': {
+      'en': 'Videos',
+      'tl': '',
+    },
+    '9jjqxipi': {
+      'en': 'Below is a list of your uploaded videos',
+      'tl': '',
+    },
+    '9sfdwgc9': {
+      'en': 'Upload',
+      'tl': '',
+    },
+    '2tu528xr': {
+      'en': 'Thumbnail',
+      'tl': '',
+    },
+    '8m3nq98d': {
+      'en': 'Title',
+      'tl': '',
+    },
+    'hq2790h2': {
+      'en': 'Updated',
+      'tl': '',
+    },
+    'z6are679': {
+      'en': 'Actions',
+      'tl': '',
+    },
+    'u6ti8agk': {
+      'en': 'Home',
+      'tl': '',
+    },
+  },
   // sideNavApplicants
   {
     'coerudza': {
@@ -2219,6 +2198,10 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     },
     'mj68maiu': {
       'en': 'Employing History',
+      'tl': '',
+    },
+    'gtzfruw8': {
+      'en': 'Videos',
       'tl': '',
     },
     'c4k76lgz': {

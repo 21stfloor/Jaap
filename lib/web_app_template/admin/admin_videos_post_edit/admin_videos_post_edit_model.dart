@@ -7,6 +7,7 @@ import '/flutter_flow/flutter_flow_video_player.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/upload_data.dart';
 import '/web_app_template/admin/sidebar_admin/sidebar_admin_widget.dart';
+import '/web_app_template/agency/side_nav_agency/side_nav_agency_widget.dart';
 import 'admin_videos_post_edit_widget.dart' show AdminVideosPostEditWidget;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -28,6 +29,8 @@ class AdminVideosPostEditModel
   final formKey = GlobalKey<FormState>();
   // Model for sidebarAdmin component.
   late SidebarAdminModel sidebarAdminModel1;
+  // Model for sideNavAgency component.
+  late SideNavAgencyModel sideNavAgencyModel1;
   // State field(s) for title widget.
   FocusNode? titleFocusNode;
   TextEditingController? titleTextController;
@@ -69,18 +72,23 @@ class AdminVideosPostEditModel
 
   // Model for sidebarAdmin component.
   late SidebarAdminModel sidebarAdminModel2;
+  // Model for sideNavAgency component.
+  late SideNavAgencyModel sideNavAgencyModel2;
 
   @override
   void initState(BuildContext context) {
     sidebarAdminModel1 = createModel(context, () => SidebarAdminModel());
+    sideNavAgencyModel1 = createModel(context, () => SideNavAgencyModel());
     titleTextControllerValidator = _titleTextControllerValidator;
     descriptionTextControllerValidator = _descriptionTextControllerValidator;
     sidebarAdminModel2 = createModel(context, () => SidebarAdminModel());
+    sideNavAgencyModel2 = createModel(context, () => SideNavAgencyModel());
   }
 
   @override
   void dispose() {
     sidebarAdminModel1.dispose();
+    sideNavAgencyModel1.dispose();
     titleFocusNode?.dispose();
     titleTextController?.dispose();
 
@@ -88,5 +96,6 @@ class AdminVideosPostEditModel
     descriptionTextController?.dispose();
 
     sidebarAdminModel2.dispose();
+    sideNavAgencyModel2.dispose();
   }
 }

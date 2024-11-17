@@ -457,6 +457,12 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           path: '/adminAgencyVideoApprovalList',
           requireAuth: true,
           builder: (context, params) => AdminAgencyVideosWidget(),
+        ),
+        FFRoute(
+          name: 'agencyVideos',
+          path: '/agencyVideos',
+          requireAuth: true,
+          builder: (context, params) => AgencyVideosWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
       observers: [routeObserver],

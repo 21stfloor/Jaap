@@ -51,6 +51,11 @@ class VideoPostRecord extends FirestoreRecord {
   String get postImage => _postImage ?? '';
   bool hasPostImage() => _postImage != null;
 
+  // "owner" field.
+  DocumentReference? _owner;
+  DocumentReference? get owner => _owner;
+  bool hasOwner() => _owner != null;
+
   void _initializeFields() {
     _video = snapshotData['video'] as String?;
     _postTitle = snapshotData['post_title'] as String?;
@@ -59,6 +64,7 @@ class VideoPostRecord extends FirestoreRecord {
     _likes = getDataList(snapshotData['likes']);
     _numComments = castToType<int>(snapshotData['num_comments']);
     _postImage = snapshotData['post_image'] as String?;
+    _owner = snapshotData['owner'] as DocumentReference?;
   }
 
   static CollectionReference get collection =>
@@ -102,6 +108,7 @@ Map<String, dynamic> createVideoPostRecordData({
   DateTime? timePosted,
   int? numComments,
   String? postImage,
+  DocumentReference? owner,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -111,6 +118,7 @@ Map<String, dynamic> createVideoPostRecordData({
       'time_posted': timePosted,
       'num_comments': numComments,
       'post_image': postImage,
+      'owner': owner,
     }.withoutNulls,
   );
 
@@ -129,7 +137,8 @@ class VideoPostRecordDocumentEquality implements Equality<VideoPostRecord> {
         e1?.timePosted == e2?.timePosted &&
         listEquality.equals(e1?.likes, e2?.likes) &&
         e1?.numComments == e2?.numComments &&
-        e1?.postImage == e2?.postImage;
+        e1?.postImage == e2?.postImage &&
+        e1?.owner == e2?.owner;
   }
 
   @override
@@ -140,7 +149,8 @@ class VideoPostRecordDocumentEquality implements Equality<VideoPostRecord> {
         e?.timePosted,
         e?.likes,
         e?.numComments,
-        e?.postImage
+        e?.postImage,
+        e?.owner
       ]);
 
   @override

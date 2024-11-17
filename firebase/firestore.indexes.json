@@ -127,6 +127,20 @@
       ]
     },
     {
+      "collectionGroup": "Job",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "videoApproved",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "video",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
       "collectionGroup": "payments",
       "queryScope": "COLLECTION",
       "fields": [

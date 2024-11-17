@@ -7,6 +7,7 @@ import '/flutter_flow/flutter_flow_video_player.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/upload_data.dart';
 import '/web_app_template/admin/sidebar_admin/sidebar_admin_widget.dart';
+import '/web_app_template/agency/side_nav_agency/side_nav_agency_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -59,10 +60,23 @@ class _AdminVideoPostCreateWidgetState
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
         drawer: Drawer(
           elevation: 16.0,
-          child: wrapWithModel(
+          child: Builder(
+            builder: (context) {
+              if (valueOrDefault(currentUserDocument?.role, '') ==
+                  FFAppConstants.userTypeAdmin) {
+                return wrapWithModel(
             model: _model.sidebarAdminModel2,
             updateCallback: () => safeSetState(() {}),
             child: SidebarAdminWidget(),
+                );
+              } else {
+                return wrapWithModel(
+                  model: _model.sideNavAgencyModel2,
+                  updateCallback: () => safeSetState(() {}),
+                  child: SideNavAgencyWidget(),
+                );
+              }
+            },
           ),
         ),
         body: SafeArea(
@@ -79,10 +93,23 @@ class _AdminVideoPostCreateWidgetState
                   flex: 4,
                   child: Container(
                     decoration: BoxDecoration(),
-                    child: wrapWithModel(
+                    child: Builder(
+                      builder: (context) {
+                        if (valueOrDefault(currentUserDocument?.role, '') ==
+                            FFAppConstants.userTypeAdmin) {
+                          return wrapWithModel(
                       model: _model.sidebarAdminModel1,
                       updateCallback: () => safeSetState(() {}),
                       child: SidebarAdminWidget(),
+                          );
+                        } else {
+                          return wrapWithModel(
+                            model: _model.sideNavAgencyModel1,
+                            updateCallback: () => safeSetState(() {}),
+                            child: SideNavAgencyWidget(),
+                          );
+                        }
+                      },
                     ),
                   ),
                 ),
@@ -763,6 +790,7 @@ class _AdminVideoPostCreateWidgetState
                                             postDescription: _model
                                                 .descriptionTextController.text,
                                             postImage: _model.uploadedThumbnail,
+                                            owner: currentUserReference,
                                           ),
                                           ...mapToFirestore(
                                             {
@@ -789,8 +817,14 @@ class _AdminVideoPostCreateWidgetState
                                                     .secondary,
                                           ),
                                         );
-
+                                        if (valueOrDefault(
+                                                currentUserDocument?.role,
+                                                '') ==
+                                            FFAppConstants.userTypeAdmin) {
                                         context.goNamed('adminVideos');
+                                        } else {
+                                          context.goNamed('agencyVideos');
+                                        }
                                       },
                                       text: FFLocalizations.of(context).getText(
                                         '3li1rc0k' /* Post */,

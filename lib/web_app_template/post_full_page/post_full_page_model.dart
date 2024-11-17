@@ -41,6 +41,8 @@ class PostFullPageModel extends FlutterFlowModel<PostFullPageWidget> {
   late SideNavAgencyModel sideNavAgencyModel1;
   // Model for sideNavGeust component.
   late SideNavGeustModel sideNavGeustModel1;
+  // Stores action output result for [Custom Action - getCurrentUrl] action in IconButton widget.
+  String? postLink;
   // Model for sideNavApplicants component.
   late SideNavApplicantsModel sideNavApplicantsModel2;
   // Model for sideNavAgency component.

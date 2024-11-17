@@ -383,15 +383,39 @@ class _PostComponentWidgetState extends State<PostComponentWidget> {
                         );
                       },
                     ),
-                    Text(
-                      valueOrDefault<String>(
-                        widget!.postDoc?.numComments?.toString(),
-                        '0',
+                    FutureBuilder<int>(
+                      future: queryCommentsRecordCount(
+                        queryBuilder: (commentsRecord) => commentsRecord.where(
+                          'postRef',
+                          isEqualTo: widget!.postDoc?.reference,
+                        ),
                       ),
-                      style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            fontFamily: 'Inter',
-                            letterSpacing: 0.0,
-                          ),
+                      builder: (context, snapshot) {
+                        // Customize what your widget looks like when it's loading.
+                        if (!snapshot.hasData) {
+                          return Center(
+                            child: SizedBox(
+                              width: 50.0,
+                              height: 50.0,
+                              child: CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  FlutterFlowTheme.of(context).primary,
+                                ),
+                              ),
+                            ),
+                          );
+                        }
+                        int textCount = snapshot.data!;
+
+                        return Text(
+                          textCount.toString(),
+                          style:
+                              FlutterFlowTheme.of(context).bodyMedium.override(
+                                    fontFamily: 'Inter',
+                                    letterSpacing: 0.0,
+                                  ),
+                        );
+                      },
                     ),
                     Padding(
                       padding:

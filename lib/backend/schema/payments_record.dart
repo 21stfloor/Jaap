@@ -56,6 +56,11 @@ class PaymentsRecord extends FirestoreRecord {
   bool get expired => _expired ?? false;
   bool hasExpired() => _expired != null;
 
+  // "accepted" field.
+  bool? _accepted;
+  bool get accepted => _accepted ?? false;
+  bool hasAccepted() => _accepted != null;
+
   void _initializeFields() {
     _amount = castToType<double>(snapshotData['amount']);
     _currency = snapshotData['currency'] as String?;
@@ -65,6 +70,7 @@ class PaymentsRecord extends FirestoreRecord {
     _jobPost = snapshotData['jobPost'] as DocumentReference?;
     _expiry = snapshotData['expiry'] as DateTime?;
     _expired = snapshotData['expired'] as bool?;
+    _accepted = snapshotData['accepted'] as bool?;
   }
 
   static CollectionReference get collection =>
@@ -110,6 +116,7 @@ Map<String, dynamic> createPaymentsRecordData({
   DocumentReference? jobPost,
   DateTime? expiry,
   bool? expired,
+  bool? accepted,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -121,6 +128,7 @@ Map<String, dynamic> createPaymentsRecordData({
       'jobPost': jobPost,
       'expiry': expiry,
       'expired': expired,
+      'accepted': accepted,
     }.withoutNulls,
   );
 
@@ -139,7 +147,8 @@ class PaymentsRecordDocumentEquality implements Equality<PaymentsRecord> {
         e1?.sender == e2?.sender &&
         e1?.jobPost == e2?.jobPost &&
         e1?.expiry == e2?.expiry &&
-        e1?.expired == e2?.expired;
+        e1?.expired == e2?.expired &&
+        e1?.accepted == e2?.accepted;
   }
 
   @override
@@ -151,7 +160,8 @@ class PaymentsRecordDocumentEquality implements Equality<PaymentsRecord> {
         e?.sender,
         e?.jobPost,
         e?.expiry,
-        e?.expired
+        e?.expired,
+        e?.accepted
       ]);
 
   @override

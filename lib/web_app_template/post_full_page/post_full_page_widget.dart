@@ -558,14 +558,45 @@ class _PostFullPageWidgetState extends State<PostFullPageWidget> {
                                           print('IconButton pressed ...');
                                         },
                                       ),
-                                      Text(
-                                        _model.numComments.toString(),
+                                      FutureBuilder<int>(
+                                        future: queryCommentsRecordCount(
+                                          queryBuilder: (commentsRecord) =>
+                                              commentsRecord.where(
+                                            'postRef',
+                                            isEqualTo: widget!.postRef,
+                                          ),
+                                        ),
+                                        builder: (context, snapshot) {
+                                          // Customize what your widget looks like when it's loading.
+                                          if (!snapshot.hasData) {
+                                            return Center(
+                                              child: SizedBox(
+                                                width: 50.0,
+                                                height: 50.0,
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  valueColor:
+                                                      AlwaysStoppedAnimation<
+                                                          Color>(
+                                                    FlutterFlowTheme.of(context)
+                                                        .primary,
+                                                  ),
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                          int textCount = snapshot.data!;
+
+                                          return Text(
+                                            textCount.toString(),
                                         style: FlutterFlowTheme.of(context)
                                             .bodyMedium
                                             .override(
                                               fontFamily: 'Inter',
                                               letterSpacing: 0.0,
                                             ),
+                                          );
+                                        },
                                       ),
                                       Builder(
                                         builder: (context) => Padding(
@@ -588,10 +619,12 @@ class _PostFullPageWidgetState extends State<PostFullPageWidget> {
                                             ),
                                             onPressed: () async {
                                               if (isWeb) {
+                                                _model.postLink = await actions
+                                                    .getCurrentUrl();
                                                 await Clipboard.setData(
                                                     ClipboardData(
-                                                        text: _model
-                                                            .currentPageLink!));
+                                                        text:
+                                                            _model.postLink!));
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(
                                                   SnackBar(
@@ -620,6 +653,8 @@ class _PostFullPageWidgetState extends State<PostFullPageWidget> {
                                                           context),
                                                 );
                                               }
+
+                                              safeSetState(() {});
                                             },
                                           ),
                                         ),

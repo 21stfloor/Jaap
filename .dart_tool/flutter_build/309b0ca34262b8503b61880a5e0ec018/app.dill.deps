@@ -2777,6 +2777,8 @@ file:///D:/mygitrepros/Jaap/lib/web_app_template/admin/sidebar_admin/sidebar_adm
 file:///D:/mygitrepros/Jaap/lib/web_app_template/admin/sidebar_admin/sidebar_admin_widget.dart
 file:///D:/mygitrepros/Jaap/lib/web_app_template/agency/agency_profile_view_component/agency_profile_view_component_model.dart
 file:///D:/mygitrepros/Jaap/lib/web_app_template/agency/agency_profile_view_component/agency_profile_view_component_widget.dart
+file:///D:/mygitrepros/Jaap/lib/web_app_template/agency/agency_videos/agency_videos_model.dart
+file:///D:/mygitrepros/Jaap/lib/web_app_template/agency/agency_videos/agency_videos_widget.dart
 file:///D:/mygitrepros/Jaap/lib/web_app_template/agency/applicant_profile_view_component/applicant_profile_view_component_model.dart
 file:///D:/mygitrepros/Jaap/lib/web_app_template/agency/applicant_profile_view_component/applicant_profile_view_component_widget.dart
 file:///D:/mygitrepros/Jaap/lib/web_app_template/agency/deployedlist_by_agency/deployedlist_by_agency_model.dart
@@ -2821,12 +2823,12 @@ file:///D:/mygitrepros/Jaap/lib/web_app_template/applicant/side_nav_applicants/s
 file:///D:/mygitrepros/Jaap/lib/web_app_template/applicant/side_nav_applicants/side_nav_applicants_widget.dart
 file:///D:/mygitrepros/Jaap/lib/web_app_template/applicant/side_nav_geust/side_nav_geust_model.dart
 file:///D:/mygitrepros/Jaap/lib/web_app_template/applicant/side_nav_geust/side_nav_geust_widget.dart
+file:///D:/mygitrepros/Jaap/lib/web_app_template/community_page/community_page_model.dart
+file:///D:/mygitrepros/Jaap/lib/web_app_template/community_page/community_page_widget.dart
 file:///D:/mygitrepros/Jaap/lib/web_app_template/job_list/job_list_model.dart
 file:///D:/mygitrepros/Jaap/lib/web_app_template/job_list/job_list_widget.dart
 file:///D:/mygitrepros/Jaap/lib/web_app_template/job_post_edit/job_post_edit_model.dart
 file:///D:/mygitrepros/Jaap/lib/web_app_template/job_post_edit/job_post_edit_widget.dart
-file:///D:/mygitrepros/Jaap/lib/web_app_template/pages/community_page/community_page_model.dart
-file:///D:/mygitrepros/Jaap/lib/web_app_template/pages/community_page/community_page_widget.dart
 file:///D:/mygitrepros/Jaap/lib/web_app_template/pages/community_page_agency/community_page_agency_model.dart
 file:///D:/mygitrepros/Jaap/lib/web_app_template/pages/community_page_agency/community_page_agency_widget.dart
 file:///D:/mygitrepros/Jaap/lib/web_app_template/pages/pending_page/pending_page_model.dart

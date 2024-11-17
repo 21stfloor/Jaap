@@ -705,7 +705,10 @@ class _JobPostPreviewPageWidgetState extends State<JobPostPreviewPageWidget> {
                                                   ),
                                                 ),
                                               ),
-                                              StreamBuilder<
+                                                Builder(
+                                                  builder: (context) {
+                                                    if (loggedIn) {
+                                                      return StreamBuilder<
                                                   List<
                                                       AppllicantProfileRecord>>(
                                                 stream:
@@ -714,9 +717,11 @@ class _JobPostPreviewPageWidgetState extends State<JobPostPreviewPageWidget> {
                                                         currentUserReference,
                                                   singleRecord: true,
                                                 ),
-                                                builder: (context, snapshot) {
+                                                        builder: (context,
+                                                            snapshot) {
                                                   // Customize what your widget looks like when it's loading.
-                                                  if (!snapshot.hasData) {
+                                                          if (!snapshot
+                                                              .hasData) {
                                                     return Center(
                                                       child: SizedBox(
                                                         width: 50.0,
@@ -751,7 +756,8 @@ class _JobPostPreviewPageWidgetState extends State<JobPostPreviewPageWidget> {
 
                                                   return Column(
                                                     mainAxisSize:
-                                                        MainAxisSize.max,
+                                                                MainAxisSize
+                                                                    .max,
                                                     children: [
                                                       StreamBuilder<
                                                           List<
@@ -777,17 +783,17 @@ class _JobPostPreviewPageWidgetState extends State<JobPostPreviewPageWidget> {
                                                           if (!snapshot
                                                               .hasData) {
                                                             return Center(
-                                                              child: SizedBox(
-                                                                width: 50.0,
-                                                                height: 50.0,
+                                                                      child:
+                                                                          SizedBox(
+                                                                        width:
+                                                                            50.0,
+                                                                        height:
+                                                                            50.0,
                                                                 child:
                                                                     CircularProgressIndicator(
                                                                   valueColor:
-                                                                      AlwaysStoppedAnimation<
-                                                                          Color>(
-                                                                    FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .primary,
+                                                                              AlwaysStoppedAnimation<Color>(
+                                                                            FlutterFlowTheme.of(context).primary,
                                                                   ),
                                                                 ),
                                                               ),
@@ -795,25 +801,22 @@ class _JobPostPreviewPageWidgetState extends State<JobPostPreviewPageWidget> {
                                                           }
                                                           List<JobApplicationRecord>
                                                               containerJobApplicationRecordList =
-                                                              snapshot.data!;
+                                                                      snapshot
+                                                                          .data!;
 
                                                           return Container(
                                                             decoration:
                                                                 BoxDecoration(),
-                                                            child: Builder(
+                                                                    child:
+                                                                        Builder(
                                                               builder:
                                                                   (context) {
                                                                   if ((columnAppllicantProfileRecord != null) &&
-                                                                      (columnAppllicantProfileRecord
-                                                                              ?.currentCompany ==
+                                                                            (columnAppllicantProfileRecord?.currentCompany ==
                                                                             null) &&
-                                                                      (valueOrDefault<bool>(
-                                                                              currentUserDocument
-                                                                                  ?.accountactivation,
-                                                                                false) !=
+                                                                            (valueOrDefault<bool>(currentUserDocument?.accountactivation, false) !=
                                                                           false) &&
-                                                                      !(containerJobApplicationRecordList
-                                                                          .isNotEmpty)) {
+                                                                            !(containerJobApplicationRecordList.isNotEmpty)) {
                                                                     return Padding(
                                                                       padding: EdgeInsetsDirectional.fromSTEB(
                                                                           0.0,
@@ -822,10 +825,8 @@ class _JobPostPreviewPageWidgetState extends State<JobPostPreviewPageWidget> {
                                                                           0.0),
                                                                       child:
                                                                                 FFButtonWidget(
-                                                                          onPressed:
-                                                                              () async {
-                                                                            if (loggedIn ==
-                                                                                false) {
+                                                                              onPressed: () async {
+                                                                                if (loggedIn == false) {
                                                                               context.pushNamed('auth_CreateApplicant');
 
                                                                               return;
@@ -888,73 +889,42 @@ class _JobPostPreviewPageWidgetState extends State<JobPostPreviewPageWidget> {
                                                                               }
                                                                             }
                                                                           },
-                                                                          text: !loggedIn
-                                                                              ? 'Register now'
-                                                                              : 'Apply now',
-                                                                          icon:
-                                                                              Icon(
-                                                                          Icons
-                                                                              .card_travel_rounded,
-                                                                            size:
-                                                                                24.0,
+                                                                              text: !loggedIn ? 'Register now' : 'Apply now',
+                                                                              icon: Icon(
+                                                                                Icons.card_travel_rounded,
+                                                                                size: 24.0,
                                                                           ),
-                                                                          options:
-                                                                              FFButtonOptions(
-                                                                            height:
-                                                                                60.0,
-                                                                            padding: EdgeInsetsDirectional.fromSTEB(
-                                                                                24.0,
-                                                                                0.0,
-                                                                                24.0,
-                                                                                0.0),
-                                                                            iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                                                                0.0,
-                                                                                0.0,
-                                                                                0.0,
-                                                                                0.0),
-                                                                            color:
-                                                                                FlutterFlowTheme.of(context).primary,
-                                                                          textStyle: FlutterFlowTheme.of(context)
-                                                                              .titleSmall
-                                                                              .override(
+                                                                              options: FFButtonOptions(
+                                                                                height: 60.0,
+                                                                                padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
+                                                                                iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                                                                                color: FlutterFlowTheme.of(context).primary,
+                                                                                textStyle: FlutterFlowTheme.of(context).titleSmall.override(
                                                                                   fontFamily: 'Inter',
                                                                                   color: Colors.white,
                                                                                   letterSpacing: 0.0,
                                                                                 ),
-                                                                            elevation:
-                                                                                3.0,
-                                                                            borderSide:
-                                                                                BorderSide(
-                                                                            color:
-                                                                                Colors.transparent,
-                                                                            width:
-                                                                                1.0,
+                                                                                elevation: 3.0,
+                                                                                borderSide: BorderSide(
+                                                                                  color: Colors.transparent,
+                                                                                  width: 1.0,
                                                                             ),
-                                                                            borderRadius:
-                                                                                BorderRadius.circular(12.0),
+                                                                                borderRadius: BorderRadius.circular(12.0),
                                                                           ),
                                                                         ),
                                                                     );
                                                                   } else {
                                                                     return Text(
-                                                                      FFLocalizations.of(
-                                                                              context)
-                                                                          .getText(
+                                                                            FFLocalizations.of(context).getText(
                                                                         'sj6tktmr' /* You can't apply for this job,
 ... */
                                                                         ,
                                                                       ),
                                                                       textAlign:
-                                                                          TextAlign
-                                                                              .center,
-                                                                      style: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .titleLarge
-                                                                          .override(
-                                                                            fontFamily:
-                                                                                'Inter',
-                                                                            letterSpacing:
-                                                                                0.0,
+                                                                                TextAlign.center,
+                                                                            style: FlutterFlowTheme.of(context).titleLarge.override(
+                                                                                  fontFamily: 'Inter',
+                                                                                  letterSpacing: 0.0,
                                                                     ),
                                                                   );
                                                                 }
@@ -966,6 +936,70 @@ class _JobPostPreviewPageWidgetState extends State<JobPostPreviewPageWidget> {
                                                     ],
                                                   );
                                                 },
+                                                      );
+                                                    } else {
+                                                      return FFButtonWidget(
+                                                        onPressed: () async {
+                                                          context.goNamed(
+                                                            'auth_CreateApplicant',
+                                                            queryParameters: {
+                                                              'role':
+                                                                  serializeParam(
+                                                                FFAppConstants
+                                                                    .userTypeApplicant,
+                                                                ParamType
+                                                                    .String,
+                                                              ),
+                                                            }.withoutNulls,
+                                                          );
+                                                        },
+                                                        text:
+                                                            FFLocalizations.of(
+                                                                    context)
+                                                                .getText(
+                                                          'c8nr6sit' /* Login to apply */,
+                                                        ),
+                                                        options:
+                                                            FFButtonOptions(
+                                                          height: 40.0,
+                                                          padding:
+                                                              EdgeInsetsDirectional
+                                                                  .fromSTEB(
+                                                                      16.0,
+                                                                      0.0,
+                                                                      16.0,
+                                                                      0.0),
+                                                          iconPadding:
+                                                              EdgeInsetsDirectional
+                                                                  .fromSTEB(
+                                                                      0.0,
+                                                                      0.0,
+                                                                      0.0,
+                                                                      0.0),
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .primary,
+                                                          textStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .titleSmall
+                                                                  .override(
+                                                                    fontFamily:
+                                                                        'Inter',
+                                                                    color: Colors
+                                                                        .white,
+                                                                    letterSpacing:
+                                                                        0.0,
+                                                                  ),
+                                                          elevation: 0.0,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      8.0),
+                                                        ),
+                                                      );
+                                                    }
+                                                  },
                                               ),
                                             ],
                                             ),
